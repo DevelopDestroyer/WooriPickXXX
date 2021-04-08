@@ -1,16 +1,20 @@
 import React from "react";
 import Counter from "./component/Counter";
 import { useRecoilValue } from "recoil";
-import { CountState } from "./recoil/CounterState";
+import { CounterLabelState } from "./recoil/CounterState";
+
+import { BrowserRouter,Route, Link,Switch } from "react-router-dom";
+import Signin from "./page/Signin";
 
 function App() {
-  const count = useRecoilValue(CountState);
+  const countLabel = useRecoilValue(CounterLabelState);
 
   return (
-    <div className="App">
-      <div>Counter Test {count}</div>
-      <Counter />
-    </div>
+      <BrowserRouter>
+        <Switch>   
+          <Route exact path="/" component={Signin}/>
+        </Switch>
+      </BrowserRouter>
   );
 }
 

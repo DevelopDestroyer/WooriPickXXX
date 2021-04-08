@@ -1,26 +1,34 @@
 import React from "react";
-import { useRecoilState } from "recoil";
-import { CountState } from "../recoil/CounterState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { CounterState, CounterTypeState, CounterLabelState } from "../recoil/CounterState";
 
 const Counter = () => {
-    const [count, setCount] = useRecoilState(CountState);
+    const [count, setCount] = useRecoilState(CounterState);
+    const [, setCountType] = useRecoilState(CounterTypeState);
+    const countLabel = useRecoilValue(CounterLabelState);
     return (
       <div>
-        <p>Counter Component State : {count}</p>
+        <p>Counter Component State : {countLabel}</p>
         <button
           type="button"
-          onClick={() => setCount((prevState) => prevState + 1)}
+          onClick={() => {
+            setCountType("increment");
+            setCount(count + 1);
+          }}
         >
           +
         </button>
         <button
           type="button"
-          onClick={() => setCount((prevState) => prevState - 1)}
+          onClick={() => {
+            setCountType("decrement");
+            setCount(count - 1);
+          }}
         >
           -
         </button>
       </div>
     );
-}
+};
 
 export default Counter
