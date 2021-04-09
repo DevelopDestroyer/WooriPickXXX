@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   h2:
     console:
@@ -11,12 +10,13 @@ spring:
       username: sa
       password:
       driver-class-name: org.h2.Driver
-      generate-unique-name: false
     jpa:
       database-platform: H2
       show-sql: true
+      generate-ddl: true
       hibernate:
         ddl-auto: update
       properties:
         hibernate:
           dialect: org.hibernate.dialect.H2Dialect
+          format_sql: true

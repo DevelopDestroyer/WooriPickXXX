@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InitService {
+/*
     @Autowired
     private UserRepository userRepository;
 
@@ -24,6 +25,7 @@ public class InitService {
 
     private List<User> initUserList() {
         List<User> list = new ArrayList<>();
+
 
         list.add(User.builder()
                 .name("이태호")
@@ -37,4 +39,6 @@ public class InitService {
 
         return list;
     }
+
+ */
 }

@@ -2,25 +2,29 @@ package com.pickxxx.woori.wooripickxxx.domain;
 
 import lombok.*;
 
-import javax.annotation.Resource;
 import javax.persistence.*;
 
 @Entity
-@Data
-@Table(name = "USERS")
+@Table(name = "USER_MST")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    //private Long userId;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long userId;
 
+    @Setter
     @Column(name = "name")
-    private String name;
+    public String name;
 
+    @Setter
     @Column(name = "phone_number")
-    private String phoneNumber;
+    public String phoneNumber;
 
 }
