@@ -1,5 +1,7 @@
 package com.pickxxx.woori.wooripickxxx.test;
 
+import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
+import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
 import org.junit.Assert;
@@ -22,16 +24,16 @@ public class MemberServiceTests {
     public void saveMemberTest() {
 
         //given
-        Member member = new Member();
-        member.setName("andrew");
-        member.setAge(32);
-        memberRepository.save(member);
+        SignUpDTO signUpDTO = new SignUpDTO();
+        signUpDTO.setName("고은지");
+        signUpDTO.setPhoneNumber("010-9999-8888");
+        memberRepository.save(signUpDTO.toEntity());
 
-        // when
-        Member retrivedMember = memberRepository.findById(member.getId()).get();
+        // whenfindBy
+        Member retrivedMember = memberRepository.findByPhoneNumber(signUpDTO.getPhoneNumber());
 
         // then
-        Assert.assertEquals(retrivedMember.getName(), "andrew");
-        Assert.assertEquals(retrivedMember.getAge(), Integer.valueOf(32));
+        Assert.assertEquals(retrivedMember.getName(), "고은지");
+        Assert.assertEquals(retrivedMember.getPhoneNumber(), "010-9999-8888");
     }
 }

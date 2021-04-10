@@ -1,23 +1,29 @@
 package com.pickxxx.woori.wooripickxxx.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Table(name = "MEMBER")
-@Data
+@Getter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "AGE")
-    private Integer age;
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
 
 }
