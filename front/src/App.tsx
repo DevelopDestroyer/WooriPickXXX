@@ -11,7 +11,7 @@ import AuthRoute from './component/AuthRoute';
 import AuthRouteGuard from './component/AuthRouteGuard';
 import HomePage from './page/HomePage';
 
-function App() {
+const App: React.FC = () => {
   const countLabel = useRecoilValue(CounterLabelState);
 
   return (
@@ -24,6 +24,6 @@ function App() {
       </GuardProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
