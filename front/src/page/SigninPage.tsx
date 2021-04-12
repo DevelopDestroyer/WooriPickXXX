@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import Counter from '../component/Counter';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { IsLoginState } from '../recoil/Session';
@@ -23,25 +23,16 @@ const SigninPage: React.FC = (props) => {
 
   return (
     <>
-      <form noValidate autoComplete="off" className={classes.root}>
-        <TextField id="standard-basic" label="Standard" />
-        <TextField id="filled-basic" label="Filled" variant="filled" />
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={async () => {
-            await setIsLogin(true);
-            history.push('/');
-          }}
-        >
-          로그인
-        </Button>
-        <Button variant="contained" color="primary">
-          회원 가입
-        </Button>
-      </form>
-      <Counter />
+      <Typography>환영합니다!</Typography>
+      <Button>혜택통 만들기</Button>
+      <Button
+        onClick={async () => {
+          await setIsLogin(true);
+          history.push('/');
+        }}
+      >
+        기존 사용자 로그인
+      </Button>
     </>
   );
 };
