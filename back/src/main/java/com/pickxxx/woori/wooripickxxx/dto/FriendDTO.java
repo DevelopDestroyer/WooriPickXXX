@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Comparator;
 
 @Builder
 @Getter
@@ -20,6 +21,7 @@ public class FriendDTO {
     private String friendNickname;
     private String friendName;
     private String friendPhoneNuber;
+    private Integer friendPoint;
 
     public Friend toEntity() {
         return Friend.builder()

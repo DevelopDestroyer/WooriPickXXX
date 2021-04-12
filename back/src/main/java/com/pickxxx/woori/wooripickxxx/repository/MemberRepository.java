@@ -18,4 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findByPhoneNumber(String phoneNumber);
 
     ArrayList<Member> findByPhoneNumberIn(ArrayList<String> phoneNumbers);
+
+    Member findByNickname(String nick);
 }

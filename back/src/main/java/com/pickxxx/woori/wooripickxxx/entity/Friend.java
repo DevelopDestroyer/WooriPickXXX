@@ -24,11 +24,4 @@ public class Friend {
 
     @Column(name = "FRIEND_NICKNAME")
     private String friendNickname;
-
-    /*
-    @ManyToOne
-    @JoinColumn(name = "FRIEND_NICKNAME", insertable = false, updatable = false)
-    @JsonIgnore
-    private Member member;
-     */
 }

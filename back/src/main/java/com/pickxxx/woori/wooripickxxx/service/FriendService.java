@@ -1,8 +1,10 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
+import com.pickxxx.woori.wooripickxxx.common.FriendComparator;
 import com.pickxxx.woori.wooripickxxx.dto.FriendDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
 import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
+import com.pickxxx.woori.wooripickxxx.entity.Friend;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.FriendRepository;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @Slf4j
 @Service
@@ -64,5 +67,28 @@ public class FriendService {
         }
         friendRepository.save(friendDTO.toEntity());
         return true;
+    }
+
+    public ArrayList<FriendDTO> pointRank(String userNickname){
+        //친구리스트 가져오기
+        ArrayList<Friend> userFriendList = friendRepository.findByUserNickname(userNickname);
+        ArrayList<FriendDTO> pointList = new ArrayList<>();
+        //친구닉네임 및 친구포인트 가져오기
+        for(int i = 0; i < userFriendList.size(); i++){
+            pointList.add(FriendDTO.builder()
+                    .friendNickname(userFriendList.get(i).getFriendNickname())
+                    .friendPoint(memberRepository.findByNickname(userFriendList.get(i).getFriendNickname()).getPoint())
+                    .build());
+        }
+        //내 포인트 추가하기
+        pointList.add(FriendDTO.builder()
+                .friendNickname(userNickname)
+                .friendPoint(memberRepository.findByNickname(userNickname).getPoint())
+                .build());
+
+        //높은 순서로 정렬
+        Collections.sort(pointList, new FriendComparator());
+
+        return null;
     }
 }
