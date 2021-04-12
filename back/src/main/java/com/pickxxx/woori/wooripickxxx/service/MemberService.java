@@ -16,14 +16,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberDTO createMember(SignUpDTO signUpDTO) {
-        if (isExistUserByPhoneNumber(signUpDTO.getPhoneNumber())) {
-            throw new CustomException(ErrorCode.PHONENUMBER_DUPLICATION);
+        if (isExistUserByNickname(signUpDTO.getNickname())) {
+            throw new CustomException(ErrorCode.NICKNAME_DUPLICATION);
         }
+        signUpDTO.setPoint(0);
         return MemberDTO.of(memberRepository.save(signUpDTO.toEntity()));
     }
 
-    private boolean isExistUserByPhoneNumber(String phoneNumber) {
-        return memberRepository.existsByPhoneNumber(phoneNumber);
+    private boolean isExistUserByNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
     }
 
 }

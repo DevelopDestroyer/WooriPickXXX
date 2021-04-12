@@ -20,8 +20,17 @@ public class Member {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "NICKNAME")
+    private String nickname;
+
     @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "POINT")
+    private Integer point;
+
+    @Column(name = "ACCOUNT_NUMBER")
+    private String accountNumber;
 
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;

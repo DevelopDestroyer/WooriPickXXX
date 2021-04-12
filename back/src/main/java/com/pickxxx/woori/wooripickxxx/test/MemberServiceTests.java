@@ -27,6 +27,10 @@ public class MemberServiceTests {
         SignUpDTO signUpDTO = new SignUpDTO();
         signUpDTO.setName("고은지");
         signUpDTO.setPhoneNumber("010-9999-8888");
+        signUpDTO.setNickname("나이키");
+        signUpDTO.setPoint(0);
+        signUpDTO.setAccountNumber("9999101029293838");
+
         memberRepository.save(signUpDTO.toEntity());
 
         // whenfindBy

@@ -15,7 +15,12 @@ public enum ErrorCode {
     // USER
     USER_NONE("U001", "존재하지 않는 사용자입니다."),
     LOGIN_INPUT_INVALID("U002", "전화번호, 성함, 비밀번호를 확인해주세요."),
-    PHONENUMBER_DUPLICATION("U003", "동일한 전화번호의 사용자가 존재합니다."),
+    NICKNAME_DUPLICATION("U003", "동일한 닉네임의 사용자가 존재합니다."),
+
+    // FRIEND
+    ALREADY_FRIEND("F001", "이미 친구입니다."),
+    DO_NOT_FRIEND_MYSELF("F002", "스스로와 친구는 할 수 없습니다."),
+
 
     // PRODUCT
     NOT_EXIST_PRODUCT("P001", "해당 상품은 존재하지 않습니다."),
