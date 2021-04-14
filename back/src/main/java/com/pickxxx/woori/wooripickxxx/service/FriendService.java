@@ -69,7 +69,7 @@ public class FriendService {
         return true;
     }
 
-    public ArrayList<FriendDTO> pointRank(String userNickname){
+    public ArrayList<FriendDTO> getPointRank(String userNickname){
         //친구리스트 가져오기
         ArrayList<Friend> userFriendList = friendRepository.findByUserNickname(userNickname);
         ArrayList<FriendDTO> pointList = new ArrayList<>();
@@ -89,6 +89,6 @@ public class FriendService {
         //높은 순서로 정렬
         Collections.sort(pointList, new FriendComparator());
 
-        return null;
+        return pointList;
     }
 }

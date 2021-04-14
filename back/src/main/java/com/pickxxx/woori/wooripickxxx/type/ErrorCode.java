@@ -21,6 +21,10 @@ public enum ErrorCode {
     ALREADY_FRIEND("F001", "이미 친구입니다."),
     DO_NOT_FRIEND_MYSELF("F002", "스스로와 친구는 할 수 없습니다."),
 
+    // BENEFIT CATEGORY
+    IS_NOT_2_CATOTEGORIES("BC001", "두개의 카테고리를 지정해야 합니다."),
+    IS_NOT_SAME_NICKNAME("BC002", "요청한 카테고리 2개에 대해 가입하고자하는 사용자의 닉네임이 다릅니다."),
+    NOT_EXIST_CATEGORY("BC003", "존재하지 않는 카테고리가 있습니다."),
 
     // PRODUCT
     NOT_EXIST_PRODUCT("P001", "해당 상품은 존재하지 않습니다."),

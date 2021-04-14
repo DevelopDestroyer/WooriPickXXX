@@ -26,10 +26,16 @@ public class FriendController {
         return Response.ok(friendService.selectFriendsInfo(friendList));
     }
 
+    //친구 추가
     @PostMapping("/friend")
     public Response<Boolean> createUser(@RequestBody FriendDTO friendDTO) {
         return Response.ok(friendService.createFriend(friendDTO));
     }
 
+    //나의 친구들 랭킹
+    @GetMapping("/rank/friends/{nickname}")
+    public Response<ArrayList<FriendDTO>> getPointRank(@PathVariable("nickname") String nickname) {
+        return Response.ok(friendService.getPointRank(nickname));
+    }
 
 }

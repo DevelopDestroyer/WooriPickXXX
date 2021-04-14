@@ -12,6 +12,7 @@ public class SignUpDTO {
     private String phoneNumber;
     private Integer point;
     private String accountNumber;
+    private Integer accountMoney;
     private String nickname;
 
     public Member toEntity() {
@@ -21,6 +22,7 @@ public class SignUpDTO {
                 .phoneNumber(phoneNumber)
                 .point(point)
                 .accountNumber(accountNumber)
+                .accountMoney(accountMoney)
                 .nickname(nickname)
                 .build();
     }

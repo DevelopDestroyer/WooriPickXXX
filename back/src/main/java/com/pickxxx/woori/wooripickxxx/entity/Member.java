@@ -32,6 +32,9 @@ public class Member {
     @Column(name = "ACCOUNT_NUMBER")
     private String accountNumber;
 
+    @Column(name = "ACCOUNT_MONEY")
+    private Integer accountMoney;
+
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 

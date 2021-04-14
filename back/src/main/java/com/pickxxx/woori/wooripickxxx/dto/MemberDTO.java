@@ -19,6 +19,7 @@ public class MemberDTO implements Serializable {
     private final Long id;
     private final String phoneNumber;
     private final String accountNumber;
+    private final Integer accountMoney;
     private final Integer point;
     private final List<MemberDTO> list;
 
@@ -28,6 +29,7 @@ public class MemberDTO implements Serializable {
                 .name(member.getName())
                 .phoneNumber(member.getPhoneNumber())
                 .accountNumber(member.getAccountNumber())
+                .accountMoney(member.getAccountMoney())
                 .point(member.getPoint())
                 .build();
     }
