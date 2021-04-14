@@ -38,10 +38,10 @@ public enum BenefitCategoryType {
         }
     }
 
-    public static BenefitCategoryType constantOf(String categoryName) {
-        BenefitCategoryType benefitCategoryType = map.get(categoryName);
+    public static BenefitCategoryType constantOf(Integer categoryId) {
+        BenefitCategoryType benefitCategoryType = idMap.get(categoryId);
         if (benefitCategoryType == null) {
-            throw new IllegalArgumentException("일치하는 Enum 상수가 없습니다 : " + categoryName);
+            throw new IllegalArgumentException("일치하는 Enum 상수가 없습니다 : " + categoryId);
         }
         return benefitCategoryType;
     }
@@ -66,30 +66,65 @@ public enum BenefitCategoryType {
 
         switch(type){
             case LOW_PLASTIC:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("우유").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(5).build());
                 break;
             case LOW_CARBON:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노2").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(5).build());
                 break;
             case OPPOSITION_TO_ANIMAL_TESTING:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노3").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("육류").salePercentage(5).build());
                 break;
             case SAVE_CHILDRUN:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노4").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시").salePercentage(5).build());
                 break;
             case SAVE_ELDER:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노5").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("노트북").salePercentage(5).build());
                 break;
             case WELFARE_FOR_THE_DISABLED:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노6").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("휘발유").salePercentage(5).build());
                 break;
             case PRODUCTS_MADE_BY_DISABILITIES:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노7").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("경유").salePercentage(5).build());
                 break;
             case RELIEF_GOODS:
-                saleProductsList.add(SaleProduct.builder().productName("아메리카노8").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("유아용품").salePercentage(5).build());
                 break;
         }
-        return null;
+        return saleProductsList;
     }
+
+    public static ArrayList<SaleCompany> getSaleCompanies(BenefitCategoryType type){
+        ArrayList<SaleCompany> saleCompaniesList = new ArrayList<>();
+
+        switch(type){
+            case LOW_PLASTIC:
+                saleCompaniesList.add(SaleCompany.builder().companyName("안랩").salePercentage(10).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("우리마트").salePercentage(5).build());
+                break;
+            case LOW_CARBON:
+                saleCompaniesList.add(SaleCompany.builder().companyName("삼성전자").salePercentage(5).build());
+                break;
+            case OPPOSITION_TO_ANIMAL_TESTING:
+                saleCompaniesList.add(SaleCompany.builder().companyName("야놀자").salePercentage(5).build());
+                break;
+            case SAVE_CHILDRUN:
+                saleCompaniesList.add(SaleCompany.builder().companyName("카카오").salePercentage(5).build());
+                break;
+            case SAVE_ELDER:
+                saleCompaniesList.add(SaleCompany.builder().companyName("네이버").salePercentage(5).build());
+                break;
+            case WELFARE_FOR_THE_DISABLED:
+                saleCompaniesList.add(SaleCompany.builder().companyName("쿠팡").salePercentage(5).build());
+                break;
+            case PRODUCTS_MADE_BY_DISABILITIES:
+                saleCompaniesList.add(SaleCompany.builder().companyName("당근마켓").salePercentage(5).build());
+                break;
+            case RELIEF_GOODS:
+                saleCompaniesList.add(SaleCompany.builder().companyName("배달의민족").salePercentage(5).build());
+                break;
+        }
+        return saleCompaniesList;
+    }
+
 }

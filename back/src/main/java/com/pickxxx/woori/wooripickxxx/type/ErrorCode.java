@@ -26,6 +26,9 @@ public enum ErrorCode {
     IS_NOT_SAME_NICKNAME("BC002", "요청한 카테고리 2개에 대해 가입하고자하는 사용자의 닉네임이 다릅니다."),
     NOT_EXIST_CATEGORY("BC003", "존재하지 않는 카테고리가 있습니다."),
 
+    // TRADING
+    NOT_ENOUGH_ACCOUNT_MONEY("T001", "계좌 잔고가 부족합니다."),
+
     // PRODUCT
     NOT_EXIST_PRODUCT("P001", "해당 상품은 존재하지 않습니다."),
 

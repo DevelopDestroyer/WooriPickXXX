@@ -7,8 +7,8 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class SaleProduct {
-    private String productName;
+public class SaleCompany {
+    private String companyName;
     private Integer salePercentage;
     private Integer maximumTotalSalePrice;
 }
