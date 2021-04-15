@@ -26,4 +26,8 @@ public class TradingLedger {
 
     @Column(name = "POINT")
     private Integer point; //차감 포인트
+
+    @Column(name = "DATE")
+    private String date; //날짜
+
 }

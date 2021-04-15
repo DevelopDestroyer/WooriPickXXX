@@ -15,12 +15,14 @@ public class TradingLedgerDTO {
     private String userNickname;
     private String tradingType;
     private Integer point;
+    private String date;
 
     public TradingLedger toEntity() {
         return TradingLedger.builder()
                 .userNickname(userNickname)
                 .tradingType(tradingType)
                 .point(point)
+                .date(date)
                 .build();
     }
 

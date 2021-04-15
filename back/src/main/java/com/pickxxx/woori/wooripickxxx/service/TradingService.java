@@ -1,6 +1,8 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
+import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.BuyDTO;
+import com.pickxxx.woori.wooripickxxx.dto.DonationDTO;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
@@ -21,6 +23,7 @@ public class TradingService {
     private final TradingLedgerRepository tradingLedgerRepository;
     private final BenefitCategoryRepository benefitCategoryRepository;
     private final MemberRepository memberRepository;
+    TimeCalcul time = new TimeCalcul();
 
     public boolean createBuy(BuyDTO buyDTO){
         Integer userAccountMoney = memberRepository.findByNickname(buyDTO.getUserNickname()).getAccountMoney();
@@ -65,13 +68,31 @@ public class TradingService {
             }
         }
 
-        Integer dddd = (int)Math.round(userSalePrice);
-
         //사용자 포인트 적립 및 계좌잔액 변동
         memberRepository.updateAccountMoneyAndPoint(buyDTO.getUserNickname(), userAccountMoney - buyDTO.totalPrice(), userPoint + (int)Math.round(userSalePrice));
 
         //거래장부 기록
-        TradingLedger tradingLedger = TradingLedger.builder().userNickname(buyDTO.getUserNickname()).tradingType(TradingLedgerType.BENEFIT.getTradingLedgerTypeName()).point((int)Math.round(userSalePrice)).build();
+        TradingLedger tradingLedger = TradingLedger.builder().userNickname(buyDTO.getUserNickname()).tradingType(TradingLedgerType.BENEFIT.getTradingLedgerTypeName()).point((int)Math.round(userSalePrice)).date(time.getNowTime()).build();
+        tradingLedgerRepository.save(tradingLedger);
+
+        return true;
+    }
+
+    //기부하기
+    public boolean createDonation(DonationDTO donationDTO){
+        Integer userAccountMoney = memberRepository.findByNickname(donationDTO.getUserNickname()).getAccountMoney();
+        Integer userPoint = memberRepository.findByNickname(donationDTO.getUserNickname()).getPoint();
+
+        //포인트 잔액 확인
+        if(userPoint < donationDTO.getDonationPoint()){
+            throw new CustomException(ErrorCode.NOT_ENOUGH_POINT);
+        }
+
+        //사용자 포인트 적립 및 계좌잔액 변동
+        memberRepository.updateAccountMoneyAndPoint(donationDTO.getUserNickname(), userAccountMoney, userPoint - donationDTO.getDonationPoint());
+
+        //거래장부 기록
+        TradingLedger tradingLedger = TradingLedger.builder().userNickname(donationDTO.getUserNickname()).tradingType(TradingLedgerType.DONATION.getTradingLedgerTypeName()).point(donationDTO.getDonationPoint() * -1).date(time.getNowTime()).build();
         tradingLedgerRepository.save(tradingLedger);
 
         return true;

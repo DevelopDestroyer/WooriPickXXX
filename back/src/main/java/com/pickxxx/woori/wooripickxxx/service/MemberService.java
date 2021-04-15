@@ -4,6 +4,7 @@ import com.pickxxx.woori.wooripickxxx.dto.BenefitCategoryDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
 import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
+import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.BenefitCategoryRepository;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
@@ -28,6 +29,23 @@ public class MemberService {
         }
         signUpDTO.setPoint(0);
         return MemberDTO.of(memberRepository.save(signUpDTO.toEntity()));
+    }
+
+    public MemberDTO getMyInfo(String nickname){
+        //존재하는 사용자 인지 확인(본인)
+        if (false == memberRepository.existsByNickname(nickname)){
+            throw new CustomException(ErrorCode.USER_NONE);
+        }
+
+        Member member = memberRepository.findByNickname(nickname);
+        return MemberDTO.builder()
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .phoneNumber(member.getPhoneNumber())
+                .accountNumber(member.getAccountNumber())
+                .accountMoney(member.getAccountMoney())
+                .point(member.getPoint())
+                .build();
     }
 
     public boolean createBenefitCategories(BenefitCategoryDTO benefitCategoryDTO){

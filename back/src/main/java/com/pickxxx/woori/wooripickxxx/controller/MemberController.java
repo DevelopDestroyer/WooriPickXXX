@@ -22,6 +22,12 @@ public class MemberController {
         return Response.ok(memberService.createMember(signUpDTO));
     }
 
+    //내 정보 가져오기
+    @GetMapping("/members/{nickname}")
+    public Response<MemberDTO> getMyInfo(@PathVariable("nickname") String nickname) {
+        return Response.ok(memberService.getMyInfo(nickname));
+    }
+
     //닉네임 존재유무 체크
     @GetMapping("/members/nicknameCheck/{nickname}")
     public Response<Boolean> existNicknameCheck(@PathVariable("nickname") String nickname) {
