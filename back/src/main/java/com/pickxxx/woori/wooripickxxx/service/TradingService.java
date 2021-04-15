@@ -1,9 +1,14 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
+import com.pickxxx.woori.wooripickxxx.common.FriendComparator;
+import com.pickxxx.woori.wooripickxxx.common.MemberDTOComparator;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.BuyDTO;
 import com.pickxxx.woori.wooripickxxx.dto.DonationDTO;
+import com.pickxxx.woori.wooripickxxx.dto.DonationStatisticsDTO;
+import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
+import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.BenefitCategoryRepository;
@@ -15,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @Slf4j
 @Service
@@ -33,6 +39,7 @@ public class TradingService {
         ArrayList<SaleProduct> saleProductsList = new ArrayList<>();
         boolean isCompanySale = false;
         Double userSalePrice = 0.0;
+        Integer categoryIndex = -1;
 
         //해당 사용자의 구독 카테고리에 따른 혜택 회사 및 할인품목 정보 가져오기
         for(int i = 0; i < userBenefitCategoryList.size(); i++){
@@ -49,6 +56,7 @@ public class TradingService {
         for(int i = 0; i < saleCompaniesList.size(); i++) {
             if (buyDTO.getCompanyName().equals(saleCompaniesList.get(i).getCompanyName())) {
                 isCompanySale = true;
+                categoryIndex = userBenefitCategoryList.get(i).getCategoryId();
                 log.info("회사할인 대상 입니다. : " + buyDTO.getCompanyName());
                 userSalePrice = (double) buyDTO.totalPrice() * ((double) saleCompaniesList.get(i).getSalePercentage() / 100);
                 break;
@@ -60,6 +68,7 @@ public class TradingService {
             for(int i = 0; i < buyDTO.getBuyProductList().size(); i++){
                 for(int j = 0; j < saleProductsList.size(); j++){
                     if (buyDTO.getBuyProductList().get(i).getName().contains(saleProductsList.get(j).getProductName())) {
+                        categoryIndex = userBenefitCategoryList.get(i).getCategoryId();
                         log.info("제품할인 대상 입니다. : " + buyDTO.getBuyProductList().get(i).getName());
                         userSalePrice += (double)buyDTO.getBuyProductList().get(i).getPrice() * ((double) saleProductsList.get(i).getSalePercentage() / 100);
                         break;
@@ -72,7 +81,14 @@ public class TradingService {
         memberRepository.updateAccountMoneyAndPoint(buyDTO.getUserNickname(), userAccountMoney - buyDTO.totalPrice(), userPoint + (int)Math.round(userSalePrice));
 
         //거래장부 기록
-        TradingLedger tradingLedger = TradingLedger.builder().userNickname(buyDTO.getUserNickname()).tradingType(TradingLedgerType.BENEFIT.getTradingLedgerTypeName()).point((int)Math.round(userSalePrice)).date(time.getNowTime()).build();
+        TradingLedger tradingLedger = TradingLedger.builder()
+                .userNickname(buyDTO.getUserNickname())
+                .tradingType(TradingLedgerType.BENEFIT.getTradingLedgerTypeName())
+                .totalAccountMoney(userAccountMoney - buyDTO.totalPrice())
+                .categoryId(categoryIndex)
+                .point((int)Math.round(userSalePrice))
+                .date(time.getNowTime())
+                .build();
         tradingLedgerRepository.save(tradingLedger);
 
         return true;
@@ -92,9 +108,94 @@ public class TradingService {
         memberRepository.updateAccountMoneyAndPoint(donationDTO.getUserNickname(), userAccountMoney, userPoint - donationDTO.getDonationPoint());
 
         //거래장부 기록
-        TradingLedger tradingLedger = TradingLedger.builder().userNickname(donationDTO.getUserNickname()).tradingType(TradingLedgerType.DONATION.getTradingLedgerTypeName()).point(donationDTO.getDonationPoint() * -1).date(time.getNowTime()).build();
+        TradingLedger tradingLedger = TradingLedger.builder()
+                .userNickname(donationDTO.getUserNickname())
+                .tradingType(TradingLedgerType.DONATION.getTradingLedgerTypeName())
+                .totalAccountMoney(userAccountMoney)
+                .categoryId(donationDTO.getDonationId())
+                .point(donationDTO.getDonationPoint() * -1)
+                .date(time.getNowTime()).build();
         tradingLedgerRepository.save(tradingLedger);
 
         return true;
+    }
+
+    //기부 통계
+    public DonationStatisticsDTO donationStatistic(){
+        DonationStatisticsDTO donationStatisticsDTO = null;
+
+        //1. for 이번달 기부 총금액 계산
+        Integer donaTocalPoint = 0;
+
+        //2. for 총 기부 현황 통계
+        ArrayList<DonationDTO> doneRatioCal = new ArrayList<>();
+        Integer ECO = 0;
+        Integer SAVE_ANIMAL = 0;
+        Integer SAVE_CHILDRUN_AND_ELDER = 0;
+        Integer DISABILITIES = 0;
+        Integer RELIEF_GOODS = 0;
+
+        //1. 이번달 기부 총금액 계산
+        ArrayList<TradingLedger> thisMonthTradingLedger
+                = tradingLedgerRepository.findAllByDateGreaterThanEqualAndDateLessThanEqualAndTradingTypeEquals(time.thisMonthStart(), time.thisMonthEnd(), TradingLedgerType.DONATION.getTradingLedgerTypeName());
+        for(int i = 0; i < thisMonthTradingLedger.size(); i++){
+            donaTocalPoint = thisMonthTradingLedger.get(i).getPoint();
+        }
+        donaTocalPoint = donaTocalPoint * -1;
+
+        //2. 총 기부 현황 통계
+        ArrayList<TradingLedger> totalDonationCategoryTradingLedger
+                = tradingLedgerRepository.findAllByTradingTypeEquals(TradingLedgerType.DONATION.getTradingLedgerTypeName());
+        for(int i = 0; i < totalDonationCategoryTradingLedger.size(); i++){
+            if(DonationCategoryType.ECO.getCategoryId().toString().equals(totalDonationCategoryTradingLedger.get(i).getCategoryId().toString())){
+                ECO++;
+            }
+
+            else if(DonationCategoryType.SAVE_ANIMAL.getCategoryId().toString().equals(totalDonationCategoryTradingLedger.get(i).getCategoryId().toString())){
+                SAVE_ANIMAL++;
+            }
+
+            else if(DonationCategoryType.SAVE_CHILDRUN_AND_ELDER.getCategoryId().toString().equals(totalDonationCategoryTradingLedger.get(i).getCategoryId().toString())){
+                SAVE_CHILDRUN_AND_ELDER++;
+            }
+
+            else if(DonationCategoryType.DISABILITIES.getCategoryId().toString().equals(totalDonationCategoryTradingLedger.get(i).getCategoryId().toString())){
+                DISABILITIES++;
+            }
+
+            else if(DonationCategoryType.RELIEF_GOODS.getCategoryId().toString().equals(totalDonationCategoryTradingLedger.get(i).getCategoryId().toString())){
+                RELIEF_GOODS++;
+            }
+
+        }
+        doneRatioCal.add(DonationDTO.builder().donationId(DonationCategoryType.ECO.getCategoryId()).totalDonationCount(ECO).build());
+        doneRatioCal.add(DonationDTO.builder().donationId(DonationCategoryType.SAVE_ANIMAL.getCategoryId()).totalDonationCount(SAVE_ANIMAL).build());
+        doneRatioCal.add(DonationDTO.builder().donationId(DonationCategoryType.SAVE_CHILDRUN_AND_ELDER.getCategoryId()).totalDonationCount(SAVE_CHILDRUN_AND_ELDER).build());
+        doneRatioCal.add(DonationDTO.builder().donationId(DonationCategoryType.DISABILITIES.getCategoryId()).totalDonationCount(DISABILITIES).build());
+        doneRatioCal.add(DonationDTO.builder().donationId(DonationCategoryType.RELIEF_GOODS.getCategoryId()).totalDonationCount(RELIEF_GOODS).build());
+
+        //3. 지난달 기부왕
+        ArrayList<Member> donaKing = new ArrayList<>();
+        ArrayList<MemberDTO> donaKingDTO = new ArrayList<>();
+
+        donaKing = memberRepository.findAll();
+        for(int i = 0; i < donaKing.size(); i++){
+            donaKing.get(i).setPoint(0);
+            ArrayList<TradingLedger> allUserDonationTrading = new ArrayList<>();
+            allUserDonationTrading = tradingLedgerRepository.findAllByUserNicknameEqualsAndTradingTypeEquals(donaKing.get(i).getNickname(), TradingLedgerType.DONATION.getTradingLedgerTypeName());
+            for(int j = 0; j < allUserDonationTrading.size(); j++){
+                donaKing.get(i).setPoint(donaKing.get(i).getPoint() + allUserDonationTrading.get(j).getPoint());
+            }
+            donaKing.get(i).setPoint(donaKing.get(i).getPoint() * -1);
+            donaKingDTO.add(MemberDTO.builder().nickname(donaKing.get(i).getNickname()).point(donaKing.get(i).getPoint()).build());
+        }
+        //높은 순서로 정렬
+        Collections.sort(donaKingDTO, new MemberDTOComparator());
+
+        return DonationStatisticsDTO.builder()
+                .totalDonationMoney(donaTocalPoint)
+                .donationRatioStatus(doneRatioCal)
+                .memberDTOs(donaKingDTO)
+                .build();
     }
 }

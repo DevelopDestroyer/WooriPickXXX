@@ -48,10 +48,10 @@ public class TimeCalcul {
         return dTime+"-31";
     }
 
-    public String ago3MonthStart(){
+    public String agoMonthStart(Integer n){
         //3달 전
         Calendar mon = Calendar.getInstance();
-        mon.add(Calendar.MONTH , -3);
+        mon.add(Calendar.MONTH , n);//3달 범위 : -3
         String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd").format(mon.getTime());
         log.info("Time : " + beforeMonth);
 
@@ -59,10 +59,10 @@ public class TimeCalcul {
         return ago3MonthStartStrArray[0]+"-"+ago3MonthStartStrArray[1]+"-01";
     }
 
-    public String ago3MonthEnd(){
+    public String agoMonthEnd(Integer n){
         //한달 전
         Calendar mon = Calendar.getInstance();
-        mon.add(Calendar.MONTH , -1);
+        mon.add(Calendar.MONTH , n);//3달 범위 : -1
         String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd").format(mon.getTime());
         log.info("Time : " + beforeMonth);
 

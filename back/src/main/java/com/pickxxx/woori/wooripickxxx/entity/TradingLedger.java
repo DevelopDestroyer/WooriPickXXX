@@ -24,8 +24,14 @@ public class TradingLedger {
     @Column(name = "TRADING_TYPE")
     private String tradingType; //BENEFIT : 혜택으로 인한 포인트 생성, DONATION : 기부, WITHDRAW : 계좌로 인출
 
+    @Column(name = "CATEGORY_ID")
+    private Integer categoryId; //BENEFIT : 혜택으로 인한 포인트 생성, DONATION : 기부, WITHDRAW : 계좌로 인출
+
+    @Column(name = "TOTAL_ACCOUNT_MONEY")
+    private Integer totalAccountMoney; //BENEFIT : 혜택으로 인한 포인트 생성, DONATION : 기부, WITHDRAW : 계좌로 인출
+
     @Column(name = "POINT")
-    private Integer point; //차감 포인트
+    private Integer point; //증감된 포인트
 
     @Column(name = "DATE")
     private String date; //날짜

@@ -1,7 +1,6 @@
 package com.pickxxx.woori.wooripickxxx.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pickxxx.woori.wooripickxxx.common.BuyProduct;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +11,8 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DonationDTO {
-    private String userNickname;
-    private Integer donationId;
-    private Integer donationPoint;
-    private Integer totalDonationCount;
+public class DonationStatisticsDTO {
+    private Integer totalDonationMoney;
+    private ArrayList<DonationDTO> donationRatioStatus;
+    private ArrayList<MemberDTO> memberDTOs;
 }

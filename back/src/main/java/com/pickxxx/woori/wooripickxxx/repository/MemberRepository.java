@@ -25,6 +25,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByNickname(String nick);
 
+    ArrayList<Member> findAll();
+
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Member m set m.accountMoney = ?2, m.point = ?3 where m.nickname = ?1")

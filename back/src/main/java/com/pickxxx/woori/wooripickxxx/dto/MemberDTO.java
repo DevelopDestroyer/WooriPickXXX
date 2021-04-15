@@ -14,14 +14,14 @@ import java.io.Serializable;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberDTO implements Serializable {
-    private final String name;
-    private final String nickname;
-    private final Long id;
-    private final String phoneNumber;
-    private final String accountNumber;
-    private final Integer accountMoney;
-    private final Integer point;
-    private final List<MemberDTO> list;
+    private String name;
+    private String nickname;
+    private Long id;
+    private String phoneNumber;
+    private String accountNumber;
+    private Integer accountMoney;
+    private Integer point;
+    private List<MemberDTO> list;
 
     public static MemberDTO of(Member member) {
         return MemberDTO.builder()

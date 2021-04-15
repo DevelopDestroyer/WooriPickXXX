@@ -48,4 +48,10 @@ public class TradingController {
     public Response<Boolean> createDonation(@RequestBody DonationDTO donationDTO) {
         return Response.ok(tradingService.createDonation(donationDTO));
     }
+
+    //기부하기 통계
+    @GetMapping("/trading/donation/statistics")
+    public Response<DonationStatisticsDTO> donationStatistics() {
+        return Response.ok(tradingService.donationStatistic());
+    }
 }
