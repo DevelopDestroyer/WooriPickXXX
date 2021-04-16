@@ -6,7 +6,6 @@ import AuthRoute from './AuthRoute';
 
 const AuthRouteGuard: React.FC<RouteProps> = (props: RouteProps) => {
     const isLogin = useRecoilValue(IsLoginState);
-    console.log('AuthGardu Called');
     return <AuthRoute isLogin={isLogin} {...props} />;
 };
 
