@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -41,5 +43,9 @@ public class MemberController {
     }
 
     //나의 카테고리 정보 조회
+    @GetMapping("/members/{nickname}/category")
+    public Response<ArrayList<BenefitCategoryDTO>> getUserBenefitCatefories(@PathVariable("nickname") String nickname) {
+        return Response.ok(memberService.getUserBenefitCatefories(nickname));
+    }
 
 }
