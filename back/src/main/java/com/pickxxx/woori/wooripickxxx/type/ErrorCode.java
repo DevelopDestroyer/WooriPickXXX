@@ -30,6 +30,9 @@ public enum ErrorCode {
     NOT_ENOUGH_ACCOUNT_MONEY("T001", "계좌 잔고가 부족합니다."),
     NOT_ENOUGH_POINT("T002", "포인트가 부족합니다."),
 
+    // COMPANY
+    ALREADY_LIKE("C001", "이미 좋아요를 눌렀습니다."),
+
     // PRODUCT
     NOT_EXIST_PRODUCT("P001", "해당 상품은 존재하지 않습니다."),
 
