@@ -4,6 +4,7 @@ import com.pickxxx.woori.wooripickxxx.common.Response;
 import com.pickxxx.woori.wooripickxxx.dto.BenefitCategoryDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
 import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
+import com.pickxxx.woori.wooripickxxx.dto.TogetherDTO;
 import com.pickxxx.woori.wooripickxxx.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,5 +48,13 @@ public class MemberController {
     public Response<ArrayList<BenefitCategoryDTO>> getUserBenefitCatefories(@PathVariable("nickname") String nickname) {
         return Response.ok(memberService.getUserBenefitCatefories(nickname));
     }
+
+    //나의 카테고리 정보 조회
+    @GetMapping("/members/{nickname}/together")
+    public Response<TogetherDTO> together(@PathVariable("nickname") String nickname) {
+        return Response.ok(memberService.together(nickname));
+    }
+
+
 
 }
