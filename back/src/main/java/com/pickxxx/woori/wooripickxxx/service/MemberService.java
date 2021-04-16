@@ -84,4 +84,16 @@ public class MemberService {
         return memberRepository.existsByNickname(nickname);
     }
 
+    public ArrayList<BenefitCategoryDTO> getUserBenefitCatefories(String userNickname){
+        ArrayList<BenefitCategory> cateInfo = new ArrayList<>();
+        ArrayList<BenefitCategoryDTO> result = new ArrayList<>();
+
+        cateInfo = benefitCategoryRepository.getBenefitCategoriesByUserNickname(userNickname);
+        for(int i = 0; i < cateInfo.size(); i++){
+            result.add(BenefitCategoryDTO.builder().categoryId(cateInfo.get(i).getCategoryId()).build());
+        }
+
+        return result;
+    }
+
 }
