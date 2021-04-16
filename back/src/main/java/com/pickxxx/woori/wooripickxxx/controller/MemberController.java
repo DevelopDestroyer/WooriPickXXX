@@ -40,4 +40,6 @@ public class MemberController {
         return Response.ok(memberService.createBenefitCategories(benefitCategoryDTO));
     }
 
+    //나의 카테고리 정보 조회
+
 }

@@ -139,7 +139,7 @@ public class TradingService {
         ArrayList<TradingLedger> thisMonthTradingLedger
                 = tradingLedgerRepository.findAllByDateGreaterThanEqualAndDateLessThanEqualAndTradingTypeEquals(time.thisMonthStart(), time.thisMonthEnd(), TradingLedgerType.DONATION.getTradingLedgerTypeName());
         for(int i = 0; i < thisMonthTradingLedger.size(); i++){
-            donaTocalPoint = thisMonthTradingLedger.get(i).getPoint();
+            donaTocalPoint += thisMonthTradingLedger.get(i).getPoint();
         }
         donaTocalPoint = donaTocalPoint * -1;
 
@@ -182,7 +182,7 @@ public class TradingService {
         for(int i = 0; i < donaKing.size(); i++){
             donaKing.get(i).setPoint(0);
             ArrayList<TradingLedger> allUserDonationTrading = new ArrayList<>();
-            allUserDonationTrading = tradingLedgerRepository.findAllByUserNicknameEqualsAndTradingTypeEquals(donaKing.get(i).getNickname(), TradingLedgerType.DONATION.getTradingLedgerTypeName());
+            allUserDonationTrading = tradingLedgerRepository.findAllByUserNicknameEqualsAndTradingTypeEqualsAndDateGreaterThanEqualAndDateLessThanEqual(donaKing.get(i).getNickname(), TradingLedgerType.DONATION.getTradingLedgerTypeName(), time.agoMonthStart(-1), time.agoMonthEnd(-1));
             for(int j = 0; j < allUserDonationTrading.size(); j++){
                 donaKing.get(i).setPoint(donaKing.get(i).getPoint() + allUserDonationTrading.get(j).getPoint());
             }

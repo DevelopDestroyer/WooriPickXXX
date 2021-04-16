@@ -10,5 +10,5 @@ import java.util.ArrayList;
 public interface TradingLedgerRepository extends JpaRepository<TradingLedger, Long> {
     ArrayList<TradingLedger> findAllByDateGreaterThanEqualAndDateLessThanEqualAndTradingTypeEquals(String ago3month, String ago1month, String type);
     ArrayList<TradingLedger> findAllByTradingTypeEquals(String type);
-    ArrayList<TradingLedger> findAllByUserNicknameEqualsAndTradingTypeEquals(String userNickname, String type);
+    ArrayList<TradingLedger> findAllByUserNicknameEqualsAndTradingTypeEqualsAndDateGreaterThanEqualAndDateLessThanEqual(String userNickname, String type, String ago3month, String ago1month);
 }
