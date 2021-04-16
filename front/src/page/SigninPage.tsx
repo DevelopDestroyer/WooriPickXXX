@@ -1,8 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
-import { IsLoginState } from '../recoil/Session';
 
 const useStyles = makeStyles(() => ({
     imgContainer: {
@@ -19,7 +17,9 @@ const useStyles = makeStyles(() => ({
 const SigninPage: React.FC = (props) => {
     const classes = useStyles();
     const history = useHistory();
-    const setIsLogin = useSetRecoilState(IsLoginState);
+    const onClickSignup = () => {
+        history.push('/signup');
+    };
 
     return (
         <>
@@ -37,15 +37,15 @@ const SigninPage: React.FC = (props) => {
                 </div>
 
                 <div className="login_btn">
-                    <a href="0.2_join_1.html">
-                        <div
-                            style={{ backgroundColor: 'white', height: '55px' }}
-                        >
-                            <p className="txt_primaryBlue txt_center pd_t16 txt_b">
-                                혜택통 첫달 무료 체험하기
-                            </p>
-                        </div>
-                    </a>
+                    <div
+                        onClick={onClickSignup}
+                        style={{ backgroundColor: 'white', height: '55px' }}
+                    >
+                        <p className="txt_primaryBlue txt_center pd_t16 txt_b">
+                            혜택통 첫달 무료 체험하기
+                        </p>
+                    </div>
+
                     <div
                         className="mg_t10"
                         style={{ border: '1px solid white', height: '55px' }}

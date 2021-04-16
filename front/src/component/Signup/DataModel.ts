@@ -3,6 +3,13 @@ interface SignupProfileInterface {
     description: string;
 }
 
+export interface SignupDataInterface {
+    realName: string;
+    nickName: string;
+    cellNumber: string;
+    accNumber: string;
+}
+
 export const rendingData: Array<SignupProfileInterface> = [
     {
         title: '이름을 알려주세요.',

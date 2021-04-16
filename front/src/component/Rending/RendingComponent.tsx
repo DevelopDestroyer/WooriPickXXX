@@ -59,9 +59,9 @@ const RendingComponent: React.FC<RenderingPageProps> = (
                     />
                 </p>
             </div>
-            <button className="btn_bottom bg_primaryblue" onClick={onNextClick}>
+            <div className="btn_bottom bg_primaryblue" onClick={onNextClick}>
                 <p className="p_btn_bottom txt_wh txt_b">다음</p>
-            </button>
+            </div>
         </div>
     );
 };
