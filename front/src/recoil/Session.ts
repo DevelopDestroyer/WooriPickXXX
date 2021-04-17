@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { SignupDataInterface } from '../component/Signup/DataModel';
+import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
 
 export const IsLoginState = atom<boolean>({
@@ -14,8 +14,8 @@ export const IsSplashSkip = atom<boolean>({
     effects_UNSTABLE: [persistAtom],
 });
 
-export const SignUpInfro = atom<SignupDataInterface>({
-    key: 'SignUpInfro',
+export const SignUpProfileState = atom<SignupProfileInfo>({
+    key: 'SignUpProfileState',
     default: {
         accNumber: '',
         cellNumber: '',

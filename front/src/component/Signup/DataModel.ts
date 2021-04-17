@@ -1,15 +1,21 @@
+export enum SIGNUP_TYPE {
+    PROFILE,
+    ACCOUNT,
+    ADD_CATEGORY,
+    BILL_INFO,
+    PASSWORD,
+}
+
 export interface SignupProfileInterface {
     title: string;
     description: string;
 }
 
 export interface SignupComponentProps {
-    defaultValue: string;
     onMoveButtonClick: (move: number) => void;
-    onInpuChange: (data: string) => void;
 }
 
-export interface SignupDataInterface {
+export interface SignupProfileInfo {
     realName: string;
     nickName: string;
     cellNumber: string;

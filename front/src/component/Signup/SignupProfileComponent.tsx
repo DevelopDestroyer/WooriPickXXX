@@ -1,18 +1,60 @@
 import { Button, IconButton, TextField } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import React from 'react';
-import { SignupComponentProps, SignupProfileInterface } from './DataModel';
+import { useRecoilState } from 'recoil';
+import { useDebouncedCallback } from 'use-debounce';
+import { SignUpProfileState } from '../../recoil/Session';
+import {
+    SignupComponentProps,
+    SignupProfileInfo,
+    SignupProfileInterface,
+} from './DataModel';
 
 type SignupProfileProps = SignupComponentProps & {
     data: SignupProfileInterface;
+    index: number;
+};
+
+const parseData = (data: SignupProfileInfo, index: number): string => {
+    switch (index) {
+        case 0:
+            return data.realName;
+        case 1:
+            return data.nickName;
+        case 2:
+            return data.cellNumber;
+    }
+    return '';
 };
 
 const SignupProfileComponent: React.FC<SignupProfileProps> = (
     props: SignupProfileProps
 ) => {
-    console.log(`SignupProfile Called ${props.defaultValue}`);
+    const [profile, setProfile] = useRecoilState(SignUpProfileState);
+    const value = parseData(profile, props.index);
+    const buttonDisable = value === '';
 
-    const buttonDisable = props.defaultValue === '';
+    const deboundCB = useDebouncedCallback(
+        (value: string) => {
+            onChange(props.index, value);
+        },
+        // delay in ms
+        1000
+    );
+
+    const onChange = (index: number, data: string) => {
+        switch (index) {
+            case 0:
+                setProfile({ ...profile, realName: data });
+                break;
+            case 1:
+                setProfile({ ...profile, nickName: data });
+                break;
+            case 2:
+                setProfile({ ...profile, cellNumber: data });
+                break;
+        }
+    };
     return (
         <div
             className="bg_gray5"
@@ -37,10 +79,8 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                     <div className="pd_t16 mg_l16"></div>
                     <div className="pd_t4 mg_l16 pd_b16">
                         <TextField
-                            value={props.defaultValue}
-                            onChange={(event) =>
-                                props.onInpuChange(event.target.value)
-                            }
+                            value={value}
+                            onChange={(event) => deboundCB(event.target.value)}
                             id="outlined-basic"
                             label={props.data.description}
                             variant="outlined"
