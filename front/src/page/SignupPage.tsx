@@ -3,18 +3,13 @@ import { useHistory } from 'react-router';
 import Slider from 'react-slick';
 import { useResetRecoilState } from 'recoil';
 import { commonSlickSettings } from '../component/Common';
-import {
-    rendingData,
-    SignupProfileInterface,
-} from '../component/Signup/DataModel';
-import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
-import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
-import { SignUpInfro } from '../recoil/Session';
+import { rendingData } from '../component/Signup/DataModel';
+import { SignUpProfileState } from '../recoil/Session';
 
 const SignupPage: React.FC = () => {
     const history = useHistory();
 
-    const restRecoil = useResetRecoilState(SignUpInfro);
+    const restRecoil = useResetRecoilState(SignUpProfileState);
     const sliderRef = useRef<Slider>(null);
 
     const onMove = (index: number, move: number) => {
@@ -33,7 +28,7 @@ const SignupPage: React.FC = () => {
     };
 
     const items: Array<JSX.Element> = [];
-
+    /*
     rendingData.forEach((eachData: SignupProfileInterface, index: number) => {
         items.push(
             <SignupProfileComponent
@@ -58,7 +53,7 @@ const SignupPage: React.FC = () => {
         />
     );
     console.log(items);
-
+*/
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}
