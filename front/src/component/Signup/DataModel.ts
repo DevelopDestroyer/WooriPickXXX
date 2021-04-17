@@ -19,7 +19,6 @@ export interface SignupProfileInfo {
     realName: string;
     nickName: string;
     cellNumber: string;
-    accNumber: string;
 }
 
 export const rendingData: Array<SignupProfileInterface> = [

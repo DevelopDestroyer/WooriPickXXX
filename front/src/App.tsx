@@ -19,5 +19,5 @@ const App: React.FC = () => {
         </BrowserRouter>
     );
 };
-// <!--<AuthRouteGuard exact path="/" component={HomePage} /> -->
+
 export default App;

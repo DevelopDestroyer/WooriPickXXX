@@ -1,18 +1,75 @@
-import { Button, IconButton } from '@material-ui/core';
+import {
+    Box,
+    Button,
+    Dialog,
+    IconButton,
+    TextField,
+    Typography,
+} from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { SignUpAccNumState } from '../../recoil/Session';
 import { SignupComponentProps } from './DataModel';
+
+interface ACDialogProps {
+    open: boolean;
+    onClose: () => void;
+}
+
+const ACDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
+    const { onClose, open } = props;
+
+    const handleOk = () => {
+        onClose();
+    };
+
+    return (
+        <Dialog onClose={handleOk} open={open}>
+            <Box mt="15px" mx="15px">
+                <Typography>계좌 인증이 확인 되었습니다.</Typography>
+            </Box>
+            <Box>
+                <Button onClick={handleOk} className="p_btn_bottom txt_b">
+                    확인
+                </Button>
+            </Box>
+        </Dialog>
+    );
+};
 
 const SignupAccountComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
+    const [account, setAccount] = useRecoilState<string>(SignUpAccNumState);
+    const [isCert, setIsCert] = useState<boolean>(false);
+    const [tokenStr, setTokenStr] = useState<string>('');
+
+    const [dialog, setDialog] = useState<boolean>(false);
+    const [complete, setComplete] = useState<boolean>(false);
+
+    const completeClick = () => {
+        setComplete(true);
+        setDialog(true);
+    };
+
+    const onCertClick = () => {
+        setIsCert(!isCert);
+    };
+
     return (
         <div
             className="bg_gray5"
             style={{ position: 'relative', width: '100%', height: '100%' }}
         >
+            <ACDialog
+                open={dialog}
+                onClose={() => {
+                    setDialog(false);
+                }}
+            />
             <div className="toptitle_div bg_wh">
-                <div className="container pd_t10">
+                <div className="container">
                     <IconButton
                         className="back_div"
                         onClick={() => props.onMoveButtonClick(-1)}
@@ -35,20 +92,33 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                                 <tr>
                                     <td>
                                         <div className="pd_t16 mg_l16">
-                                            <p className="txt_14 txt_gray1">
-                                                계좌번호
-                                            </p>
+                                            <TextField
+                                                disabled={isCert || complete}
+                                                value={account}
+                                                defaultValue={account}
+                                                onChange={(event) => {
+                                                    setAccount(
+                                                        event.target.value
+                                                    );
+                                                }}
+                                                label="계좌번호"
+                                                variant="outlined"
+                                            />
                                         </div>
                                         <div className="pd_t4 mg_l16 pd_b16"></div>
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
                                         <div className="">
-                                            <button
+                                            <Button
+                                                disabled={
+                                                    account === '' || complete
+                                                }
                                                 className="btn_blueBorder"
                                                 style={{ marginRight: '16px' }}
+                                                onClick={onCertClick}
                                             >
-                                                1원 인증
-                                            </button>
+                                                {isCert ? '취소' : '1원 인증'}
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>
@@ -68,20 +138,37 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                                 <tr>
                                     <td>
                                         <div className="pd_t16 mg_l16">
-                                            <p className="txt_14 txt_gray1">
-                                                입금명을 입력해주세요
-                                            </p>
+                                            <TextField
+                                                disabled={!isCert || complete}
+                                                onChange={(event) => {
+                                                    setTokenStr(
+                                                        event.target.value
+                                                    );
+                                                }}
+                                                placeholder="혜택통 +"
+                                                label="입금명을 입력해주세요"
+                                                variant="outlined"
+                                            />
                                         </div>
                                         <div className="pd_t4 mg_l16 pd_b16"></div>
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
                                         <div className="">
-                                            <button
-                                                className="btn_blueBorder"
-                                                style={{ marginRight: '16px' }}
-                                            >
-                                                입력
-                                            </button>
+                                            {isCert && (
+                                                <Button
+                                                    disabled={
+                                                        tokenStr === '' ||
+                                                        complete
+                                                    }
+                                                    className="btn_blueBorder"
+                                                    style={{
+                                                        marginRight: '16px',
+                                                    }}
+                                                    onClick={completeClick}
+                                                >
+                                                    입력
+                                                </Button>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>
@@ -89,7 +176,11 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                         </table>
                     </div>
 
-                    <Button className="btn_bottom bg_gray3">
+                    <Button
+                        className={`btn_bottom ${
+                            complete ? 'bg_primaryblue' : 'bg_gray3'
+                        }`}
+                    >
                         <p className="p_btn_bottom txt_wh txt_b">다음</p>
                     </Button>
                 </div>

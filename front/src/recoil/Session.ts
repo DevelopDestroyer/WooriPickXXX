@@ -17,9 +17,13 @@ export const IsSplashSkip = atom<boolean>({
 export const SignUpProfileState = atom<SignupProfileInfo>({
     key: 'SignUpProfileState',
     default: {
-        accNumber: '',
         cellNumber: '',
         nickName: '',
         realName: '',
     },
+});
+
+export const SignUpAccNumState = atom<string>({
+    key: 'SignUpAccNumState',
+    default: '',
 });

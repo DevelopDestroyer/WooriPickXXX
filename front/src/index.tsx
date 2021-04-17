@@ -1,15 +1,23 @@
-import { StylesProvider } from '@material-ui/core/styles';
+import {
+    StylesProvider,
+    ThemeProvider,
+    unstable_createMuiStrictModeTheme,
+} from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+const theme = unstable_createMuiStrictModeTheme();
+
 ReactDOM.render(
     <React.StrictMode>
         <RecoilRoot>
-            <StylesProvider injectFirst>
-                <App />
-            </StylesProvider>
+            <ThemeProvider theme={theme}>
+                <StylesProvider injectFirst>
+                    <App />
+                </StylesProvider>
+            </ThemeProvider>
         </RecoilRoot>
     </React.StrictMode>,
     document.getElementById('root')

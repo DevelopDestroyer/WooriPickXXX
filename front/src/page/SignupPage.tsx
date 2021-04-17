@@ -3,7 +3,12 @@ import { useHistory } from 'react-router';
 import Slider from 'react-slick';
 import { useResetRecoilState } from 'recoil';
 import { commonSlickSettings } from '../component/Common';
-import { rendingData } from '../component/Signup/DataModel';
+import {
+    rendingData,
+    SignupProfileInterface,
+} from '../component/Signup/DataModel';
+import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
+import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
 import { SignUpProfileState } from '../recoil/Session';
 
 const SignupPage: React.FC = () => {
@@ -28,32 +33,29 @@ const SignupPage: React.FC = () => {
     };
 
     const items: Array<JSX.Element> = [];
-    /*
+    let totalIndex = 0;
     rendingData.forEach((eachData: SignupProfileInterface, index: number) => {
         items.push(
             <SignupProfileComponent
-                key={index}
+                key={eachData.title}
                 index={index}
                 data={eachData}
-                defaultValue={parseData(signupData, index)}
                 onMoveButtonClick={(move: number) => onMove(index, move)}
-                onInpuChange={(data: string) => onChange(index, data)}
             />
         );
+        totalIndex++;
     });
 
     items.push(
         <SignupAccountComponent
             key={rendingData.length}
-            defaultValue={parseData(signupData, rendingData.length)}
             onMoveButtonClick={(move: number) => {
                 onMove(rendingData.length, move);
             }}
-            onInpuChange={(data: string) => onChange(rendingData.length, data)}
         />
     );
-    console.log(items);
-*/
+    totalIndex++;
+
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}

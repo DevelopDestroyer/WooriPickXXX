@@ -1,8 +1,8 @@
 import { Button, IconButton, TextField } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useDebouncedCallback } from 'use-debounce';
+import http from '../../http';
 import { SignUpProfileState } from '../../recoil/Session';
 import {
     SignupComponentProps,
@@ -33,14 +33,12 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
     const [profile, setProfile] = useRecoilState(SignUpProfileState);
     const value = parseData(profile, props.index);
     const buttonDisable = value === '';
+    const [inValid, setInValid] = useState<boolean>(false);
 
-    const deboundCB = useDebouncedCallback(
-        (value: string) => {
-            onChange(props.index, value);
-        },
-        // delay in ms
-        1000
-    );
+    console.log(profile);
+    console.log(buttonDisable);
+    console.log(inValid);
+    console.log(value);
 
     const onChange = (index: number, data: string) => {
         switch (index) {
@@ -49,12 +47,19 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                 break;
             case 1:
                 setProfile({ ...profile, nickName: data });
+                http.get(`/api/members/nicknameCheck/${data}`).then((res) => {
+                    const alreadyExist: boolean = res.data.data;
+                    if (alreadyExist !== inValid) {
+                        setInValid(alreadyExist);
+                    }
+                });
                 break;
             case 2:
                 setProfile({ ...profile, cellNumber: data });
                 break;
         }
     };
+
     return (
         <div
             className="bg_gray5"
@@ -79,9 +84,14 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                     <div className="pd_t16 mg_l16"></div>
                     <div className="pd_t4 mg_l16 pd_b16">
                         <TextField
+                            error={inValid}
+                            helperText={
+                                inValid && '이미 존재하는 닉네임입니다.'
+                            }
                             value={value}
-                            onChange={(event) => deboundCB(event.target.value)}
-                            id="outlined-basic"
+                            onChange={(event) => {
+                                onChange(props.index, event.target.value);
+                            }}
                             label={props.data.description}
                             variant="outlined"
                         />
@@ -90,13 +100,13 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
             </div>
 
             <Button
-                disableRipple={buttonDisable}
-                disabled={buttonDisable}
+                disableRipple={buttonDisable || inValid}
+                disabled={buttonDisable || inValid}
                 onClick={() => {
                     props.onMoveButtonClick(1);
                 }}
                 className={`btn_bottom ${
-                    buttonDisable ? 'bg_gray3' : 'bg_primaryblue'
+                    buttonDisable || inValid ? 'bg_gray3' : 'bg_primaryblue'
                 }`}
             >
                 <p className="p_btn_bottom txt_wh txt_b">다음</p>
