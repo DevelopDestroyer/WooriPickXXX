@@ -55,6 +55,13 @@ public class MemberController {
         return Response.ok(memberService.together(nickname));
     }
 
+    //나의 카테고리 추천
+    @GetMapping("/members/category/recommend")
+    public Response<Boolean> recommend() {
+        memberService.recommend();
+        return Response.ok(true);
+    }
+
 
 
 }

@@ -1,5 +1,7 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
+import com.pickxxx.woori.wooripickxxx.common.CosineSimilarity;
+import com.pickxxx.woori.wooripickxxx.common.Response;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.BenefitCategoryDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -30,6 +33,7 @@ public class MemberService {
     private final TradingLedgerRepository tradingLedgerRepository;
 
     TimeCalcul time = new TimeCalcul();
+    CosineSimilarity cosineSimilarity = new CosineSimilarity();
 
     public MemberDTO createMember(SignUpDTO signUpDTO) {
         if (isExistUserByNickname(signUpDTO.getNickname())) {
@@ -160,6 +164,51 @@ public class MemberService {
                 .thisMonthBenefitPoint(thisMonthBenefit)
                 .ago3MonthBenefitPoint(ago3MonthBenefit)
                 .build();
+    }
+
+    public Response<Boolean> recommend() {
+        HashMap<CharSequence, Integer> newUser = new HashMap<>();
+        HashMap<CharSequence, Integer> user1 = new HashMap<>();
+        HashMap<CharSequence, Integer> user2 = new HashMap<>();
+        HashMap<CharSequence, Integer> user3 = new HashMap<>();
+        HashMap<CharSequence, Integer> user4 = new HashMap<>();
+
+        newUser.put("A", 10);
+        newUser.put("B", 20);
+        newUser.put("C", 0);
+        newUser.put("D", 30);
+
+        //수치는 낮은데 비율이 일치
+        user1.put("A", 1);
+        user1.put("B", 2);
+        user1.put("C", 0);
+        user1.put("D", 3);
+
+        //수치는 유사한데 정반대 성향 예측
+        user2.put("A", 30);
+        user2.put("B", 20);
+        user2.put("C", 50);
+        user2.put("D", 10);
+
+        //수치는 유사, 비율도 유사
+        user3.put("A", 11);
+        user3.put("B", 25);
+        user3.put("C", 2);
+        user3.put("D", 27);
+
+        //0이 많음
+        user4.put("A", 0);
+        user4.put("B", 0);
+        user4.put("C", 3);
+        user4.put("D", 0);
+
+
+        log.info("유사도 분석 [수치는 낮은데 비율이 일치] : " + cosineSimilarity.cosineSimilarity(newUser, user1).toString());
+        log.info("유사도 분석 [수치는 유사한데 정반대 성향 예측] : " + cosineSimilarity.cosineSimilarity(newUser, user2).toString());
+        log.info("유사도 분석 [수치는 유사한테 난수] : " + cosineSimilarity.cosineSimilarity(newUser, user3).toString());
+        log.info("유사도 분석 [0이 많음] : " + cosineSimilarity.cosineSimilarity(newUser, user4).toString());
+
+        return Response.ok(true);
     }
 
 }
