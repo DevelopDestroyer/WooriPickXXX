@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
-import Slider, { Settings } from 'react-slick';
+import Slider from 'react-slick';
 import { useRecoilState } from 'recoil';
+import { commonSlickSettings } from '../component/Common';
 import {
     rendingData as MainRendingData,
     rendingData,
@@ -8,12 +9,6 @@ import {
 import RendingPage from '../component/Rending/RendingComponent';
 import { IsSplashSkip } from '../recoil/Session';
 import SigninPage from './SigninPage';
-
-const setting: Settings = {
-    touchMove: false,
-    dots: false,
-    arrows: false,
-};
 
 const MainPage: React.FC = () => {
     const [isSplashSkip, setIsSplashSkip] = useRecoilState(IsSplashSkip);
@@ -35,7 +30,7 @@ const MainPage: React.FC = () => {
             {isSplashSkip ? (
                 <SigninPage />
             ) : (
-                <Slider {...setting} ref={sliderRef}>
+                <Slider {...commonSlickSettings} ref={sliderRef}>
                     {rendingData.map((eachData, index) => {
                         return (
                             <RendingPage

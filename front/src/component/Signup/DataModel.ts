@@ -1,6 +1,12 @@
-interface SignupProfileInterface {
+export interface SignupProfileInterface {
     title: string;
     description: string;
+}
+
+export interface SignupComponentProps {
+    defaultValue: string;
+    onMoveButtonClick: (move: number) => void;
+    onInpuChange: (data: string) => void;
 }
 
 export interface SignupDataInterface {

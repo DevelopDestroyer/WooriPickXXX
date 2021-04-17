@@ -1,7 +1,19 @@
-import { Box, Button, IconButton, Typography } from '@material-ui/core';
+import {
+    Box,
+    Button,
+    IconButton,
+    makeStyles,
+    Typography,
+} from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import React from 'react';
 import { RenderComponentInterface } from './DataModel';
+
+const useStyles = makeStyles(() => ({
+    buttonOverride: {
+        position: 'absolute !important' as 'absolute',
+    },
+}));
 
 interface RenderingPageProps {
     data: RenderComponentInterface;
@@ -14,6 +26,8 @@ const RendingComponent: React.FC<PropsType> = ({
     data,
     ...props
 }: PropsType) => {
+    const classes = useStyles();
+
     const onNextClick = () => {
         props.onMoveButtonClick(1);
     };
@@ -47,13 +61,16 @@ const RendingComponent: React.FC<PropsType> = ({
                 />
                 <p className="rd_posi_4 txt_18 txt_b">{data.highLight}</p>
             </div>
-            <div className="pd_b30 rd_posi_img">
+            <div className="pd_b30 rd_posi_img" style={{ left: '5%' }}>
                 <p className="txt_center">
                     <img className="img_rending" src={data.imgPath} />
                 </p>
             </div>
-            <Button className="btn_bottom bg_primaryblue" onClick={onNextClick}>
-                <Typography className="p_btn_bottom txt_wh txt_b">
+            <Button
+                className={`btn_bottom bg_primaryblue ${classes.buttonOverride}`}
+                onClick={onNextClick}
+            >
+                <Typography className={`p_btn_bottom txt_wh txt_b`}>
                     다음
                 </Typography>
             </Button>

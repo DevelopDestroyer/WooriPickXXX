@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router';
+import Slider from 'react-slick';
 import { useRecoilState, useResetRecoilState } from 'recoil';
+import { commonSlickSettings } from '../component/Common';
 import {
     rendingData,
     SignupDataInterface,
+    SignupProfileInterface,
 } from '../component/Signup/DataModel';
 import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
@@ -23,73 +26,74 @@ const parseData = (data: SignupDataInterface, index: number): string => {
     return '';
 };
 
-const SignupPage: React.FC = (props) => {
+const SignupPage: React.FC = () => {
     const history = useHistory();
     const [signupData, setSignupData] = useRecoilState(SignUpInfro);
     const restRecoil = useResetRecoilState(SignUpInfro);
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const [isAccSeq, setIsAccSeq] = useState<boolean>(false);
-
-    const inputText = parseData(signupData, currentIndex);
+    const sliderRef = useRef<Slider>(null);
 
     const onChange = (index: number, data: string) => {
-        if (isAccSeq) {
-            setSignupData({ ...signupData, accNumber: data });
-        } else {
-            switch (index) {
-                case 0:
-                    setSignupData({ ...signupData, realName: data });
-                    break;
-                case 1:
-                    setSignupData({ ...signupData, nickName: data });
-                    break;
-                case 2:
-                    setSignupData({ ...signupData, cellNumber: data });
-                    break;
-            }
+        switch (index) {
+            case 0:
+                setSignupData({ ...signupData, realName: data });
+                break;
+            case 1:
+                setSignupData({ ...signupData, nickName: data });
+                break;
+            case 2:
+                setSignupData({ ...signupData, cellNumber: data });
+                break;
+            case 2:
+                setSignupData({ ...signupData, accNumber: data });
+                break;
         }
     };
 
-    const accMoveBack = () => {
-        setIsAccSeq(false);
-    };
-
-    const accMoveNext = () => {
-        // signupSeq
-        // setIsAccSeq(false);
-        // setCurrentIndex(rendingData.length - 1);
-    };
-
-    const profileMove = (index: number, move: number) => {
+    const onMove = (index: number, move: number) => {
         if (index + move < 0) {
             restRecoil();
             history.replace('/mainpage');
             return;
         }
 
-        if (index + move >= rendingData.length) {
-            setIsAccSeq(true);
+        if (index + move > rendingData.length) {
+            // 맨마지막 페이지
+            // setIsAccSeq(true); real Signup
         } else {
-            setCurrentIndex(index + move);
+            sliderRef.current && sliderRef.current.slickGoTo(index + move);
         }
     };
 
+    const items: Array<JSX.Element> = [];
+
+    rendingData.forEach((eachData: SignupProfileInterface, index: number) => {
+        items.push(
+            <SignupProfileComponent
+                key={index}
+                data={eachData}
+                defaultValue={parseData(signupData, index)}
+                onMoveButtonClick={(move: number) => onMove(index, move)}
+                onInpuChange={(data: string) => onChange(index, data)}
+            />
+        );
+    });
+
+    items.push(
+        <SignupAccountComponent
+            key={rendingData.length}
+            defaultValue={parseData(signupData, rendingData.length)}
+            onMoveButtonClick={(move: number) => {
+                onMove(rendingData.length, move);
+            }}
+            onInpuChange={(data: string) => onChange(rendingData.length, data)}
+        />
+    );
+    console.log(items);
+
     return (
-        <>
-            {isAccSeq ? (
-                <SignupAccountComponent
-                    onBackClick={accMoveBack}
-                    onNextClick={accMoveNext}
-                />
-            ) : (
-                <SignupProfileComponent
-                    defaultValue={inputText}
-                    index={currentIndex}
-                    onMoveButtonClick={profileMove}
-                    onInpuChange={onChange}
-                />
-            )}
-        </>
+        <Slider {...commonSlickSettings} ref={sliderRef}>
+            {items}
+        </Slider>
     );
 };
 

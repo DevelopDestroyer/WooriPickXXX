@@ -1,32 +1,28 @@
 import { Button, IconButton, TextField } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import React from 'react';
-import { rendingData } from './DataModel';
+import { SignupComponentProps, SignupProfileInterface } from './DataModel';
 
-export interface RenderingPageProps {
-    index: number;
-    defaultValue: string;
-    onMoveButtonClick: (index: number, move: number) => void;
-    onInpuChange: (index: number, data: string) => void;
-}
+type SignupProfileProps = SignupComponentProps & {
+    data: SignupProfileInterface;
+};
 
-const SignupProfileComponent: React.FC<RenderingPageProps> = (
-    props: RenderingPageProps
+const SignupProfileComponent: React.FC<SignupProfileProps> = (
+    props: SignupProfileProps
 ) => {
-    //rendingData[id];
-    if (props.index >= rendingData.length) {
-        return <></>;
-    }
     console.log(`SignupProfile Called ${props.defaultValue}`);
 
     const buttonDisable = props.defaultValue === '';
     return (
-        <div className="bg_gray5">
+        <div
+            className="bg_gray5"
+            style={{ position: 'relative', width: '100%', height: '100%' }}
+        >
             <div className="toptitle_div bg_wh">
-                <div className="container pd_t10">
+                <div className="container">
                     <IconButton
                         className="back_div"
-                        onClick={() => props.onMoveButtonClick(props.index, -1)}
+                        onClick={() => props.onMoveButtonClick(-1)}
                     >
                         <KeyboardArrowLeft />
                     </IconButton>
@@ -34,44 +30,37 @@ const SignupProfileComponent: React.FC<RenderingPageProps> = (
                 </div>
             </div>
 
-            <div>
-                <div style={{ height: '700px' }} className="container mg_t30">
-                    <p className="txt_20 txt_b">
-                        {rendingData[props.index].title}
-                    </p>
+            <div className="container mg_t30" style={{ overflow: 'hidden' }}>
+                <p className="txt_20 txt_b">{props.data.title}</p>
 
-                    <div className="box_div mg_t20 bg_wh">
-                        <div className="pd_t16 mg_l16"></div>
-                        <div className="pd_t4 mg_l16 pd_b16">
-                            <TextField
-                                value={props.defaultValue}
-                                onChange={(event) =>
-                                    props.onInpuChange(
-                                        props.index,
-                                        event.target.value
-                                    )
-                                }
-                                id="outlined-basic"
-                                label={rendingData[props.index].description}
-                                variant="outlined"
-                            />
-                        </div>
+                <div className="box_div mg_t20 bg_wh">
+                    <div className="pd_t16 mg_l16"></div>
+                    <div className="pd_t4 mg_l16 pd_b16">
+                        <TextField
+                            value={props.defaultValue}
+                            onChange={(event) =>
+                                props.onInpuChange(event.target.value)
+                            }
+                            id="outlined-basic"
+                            label={props.data.description}
+                            variant="outlined"
+                        />
                     </div>
-
-                    <Button
-                        disableRipple={buttonDisable}
-                        disabled={buttonDisable}
-                        onClick={() => {
-                            props.onMoveButtonClick(props.index, 1);
-                        }}
-                        className={`btn_bottom ${
-                            buttonDisable ? 'bg_gray3' : 'bg_primaryblue'
-                        }`}
-                    >
-                        <p className="p_btn_bottom txt_wh txt_b">다음</p>
-                    </Button>
                 </div>
             </div>
+
+            <Button
+                disableRipple={buttonDisable}
+                disabled={buttonDisable}
+                onClick={() => {
+                    props.onMoveButtonClick(1);
+                }}
+                className={`btn_bottom ${
+                    buttonDisable ? 'bg_gray3' : 'bg_primaryblue'
+                }`}
+            >
+                <p className="p_btn_bottom txt_wh txt_b">다음</p>
+            </Button>
         </div>
     );
 };

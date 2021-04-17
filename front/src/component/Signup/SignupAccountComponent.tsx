@@ -1,21 +1,24 @@
+import { Button, IconButton } from '@material-ui/core';
+import { KeyboardArrowLeft } from '@material-ui/icons';
 import React from 'react';
+import { SignupComponentProps } from './DataModel';
 
-export interface RenderingPageProps {
-    onBackClick: () => void;
-    onNextClick: () => void;
-}
-
-const SignupAccountComponent: React.FC<RenderingPageProps> = (
-    props: RenderingPageProps
+const SignupAccountComponent: React.FC<SignupComponentProps> = (
+    props: SignupComponentProps
 ) => {
     return (
-        <div className="bg_gray5">
+        <div
+            className="bg_gray5"
+            style={{ position: 'relative', width: '100%', height: '100%' }}
+        >
             <div className="toptitle_div bg_wh">
                 <div className="container pd_t10">
-                    <div className="back_div" onClick={props.onBackClick}>
-                        <img src="/images/ICON_back.png" />
-                    </div>
-
+                    <IconButton
+                        className="back_div"
+                        onClick={() => props.onMoveButtonClick(-1)}
+                    >
+                        <KeyboardArrowLeft />
+                    </IconButton>
                     <p className="txt_24 txt_b mg_t10">혜택통 만들기</p>
                 </div>
             </div>
@@ -36,13 +39,7 @@ const SignupAccountComponent: React.FC<RenderingPageProps> = (
                                                 계좌번호
                                             </p>
                                         </div>
-                                        <div className="pd_t4 mg_l16 pd_b16">
-                                            <input
-                                                type="tel"
-                                                ref={(input) => input?.focus()}
-                                                className="txt_18"
-                                            />
-                                        </div>
+                                        <div className="pd_t4 mg_l16 pd_b16"></div>
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
                                         <div className="">
@@ -75,13 +72,7 @@ const SignupAccountComponent: React.FC<RenderingPageProps> = (
                                                 입금명을 입력해주세요
                                             </p>
                                         </div>
-                                        <div className="pd_t4 mg_l16 pd_b16">
-                                            <input
-                                                type="tel"
-                                                ref={(input) => input?.focus()}
-                                                className="txt_18"
-                                            />
-                                        </div>
+                                        <div className="pd_t4 mg_l16 pd_b16"></div>
                                     </td>
                                     <td style={{ textAlign: 'right' }}>
                                         <div className="">
@@ -98,11 +89,9 @@ const SignupAccountComponent: React.FC<RenderingPageProps> = (
                         </table>
                     </div>
 
-                    <a href="0.2_join_5.html">
-                        <div className="btn_bottom bg_gray3">
-                            <p className="p_btn_bottom txt_wh txt_b">다음</p>
-                        </div>
-                    </a>
+                    <Button className="btn_bottom bg_gray3">
+                        <p className="p_btn_bottom txt_wh txt_b">다음</p>
+                    </Button>
                 </div>
             </div>
         </div>

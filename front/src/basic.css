@@ -70,6 +70,7 @@
             format('opentype');
 }
 
+/*기본 스타일*/
 body,
 h1,
 h2,
@@ -83,34 +84,18 @@ select,
 p {
     font-family: 'Noto Sans KR', sans-serif;
     color: #344144;
+    margin: 0;
 }
-
 body {
     margin: 0;
     padding: 0;
 }
-
-.container {
-    margin-left: 5%;
-    margin-bottom: 5%;
-    width: 90%;
-    margin-top: 0;
-    margin-bottom: 0;
-    overflow-x: hidden;
-}
-
-p {
-    margin: 0;
-}
-
 img {
     width: 100%;
 }
-
 a {
     text-decoration: none;
 }
-
 input {
     border: none;
 }
@@ -124,7 +109,7 @@ input {
     font-weight: 600;
 }
 
-/*폰트 크기*/
+/*폰트 크기 (txt_폰트크기숫자)*/
 .txt_14 {
     font-size: 14px;
     line-height: 20px;
@@ -157,9 +142,10 @@ input {
     font-size: 20px;
     line-height: 29px;
     text-align: center;
+    margin-top: 18px;
 }
 
-/*폰트 컬러*/
+/*폰트 컬러 (txt_컬러)*/
 .txt_wh {
     color: white;
 }
@@ -214,7 +200,12 @@ input {
 .pd_t16per {
     padding-top: 16%;
 }
-
+.pd_t20 {
+    padding-top: 20px;
+}
+.pd_t26 {
+    padding-top: 26px;
+}
 .pd_t30 {
     padding-top: 30px;
 }
@@ -231,7 +222,11 @@ input {
     padding-top: 130px;
 }
 
-.pd_b30 {
+.pd_l20 {
+    padding-left: 20px;
+}
+
+.pd_b80 {
     padding-bottom: 80px;
 }
 
@@ -271,7 +266,6 @@ input {
 .rd_posi_img {
     position: absolute;
     width: 90%;
-    left: 5%;
     top: 50%;
     bottom: 14.53%;
 }
@@ -285,9 +279,10 @@ input {
     top: 38.55%;
     bottom: 60.22%;
 }
+/*여기까지가 랜딩*/
 
 .btn_bottom {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 64px;
     left: 0;
@@ -295,7 +290,7 @@ input {
 }
 
 .back_div {
-    width: 40px;
+    width: 11px;
     height: 40px;
 }
 
@@ -325,9 +320,32 @@ input {
     border-radius: 10px;
 }
 
+.container {
+    margin-left: 5%;
+    margin-bottom: 5%;
+    width: 90%;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow-x: hidden;
+}
+
+/*하단 네비게이션*/
+.bottom_navi {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    left: 0;
+    bottom: 0;
+}
+
 /*숨김*/
 .hide {
     visibility: hidden;
+}
+
+/*높이*/
+.height_80 {
+    height: 80px;
 }
 
 /*img*/
@@ -357,7 +375,7 @@ input {
     background: #62c3eb;
 }
 
-/*버튼*/
+/*버튼 - ex.1원 인증*/
 .btn_blueBorder {
     padding-left: 14px;
     padding-right: 14px;
@@ -366,4 +384,54 @@ input {
     border: 1px solid #62c3eb;
     box-sizing: border-box;
     border-radius: 15px;
+}
+
+/*체크박스 커스텀*/
+.checkbox__label {
+    font-size: 18px;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+}
+.checkbox__input[type='checkbox'] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    bottom: 2px;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    margin: 0 8px 0 0;
+    position: relative;
+    vertical-align: middle;
+    width: 24px;
+    border-radius: 12px;
+    background-color: #dfe2e8;
+}
+.checkbox__input[type='checkbox']::before {
+    border: none;
+    border-radius: 12px;
+    content: '';
+    display: block;
+    height: 24px;
+    position: absolute;
+    width: 24px;
+}
+.checkbox__input[type='checkbox']:checked::after {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    content: '';
+    display: block;
+    height: 8px;
+    left: 7px;
+    position: absolute;
+    top: 5px;
+    transform: rotate(45deg);
+    width: 8px;
+}
+.checkbox__input[type='checkbox']select::-ms-expand {
+    display: none;
+}
+.checkbox__input[type='checkbox']:checked {
+    background-color: #62c3eb;
 }
