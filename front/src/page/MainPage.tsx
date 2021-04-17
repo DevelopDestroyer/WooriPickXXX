@@ -1,21 +1,32 @@
-import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { rendingData as MainRendingData } from '../component/Rending/DataModel';
+import React, { useRef } from 'react';
+import Slider, { Settings } from 'react-slick';
+import { useRecoilState } from 'recoil';
+import {
+    rendingData as MainRendingData,
+    rendingData,
+} from '../component/Rending/DataModel';
 import RendingPage from '../component/Rending/RendingComponent';
-import { IsSplashIndex, IsSplashSkipSelector } from '../recoil/Session';
+import { IsSplashSkip } from '../recoil/Session';
 import SigninPage from './SigninPage';
 
+const setting: Settings = {
+    touchMove: false,
+    dots: false,
+    arrows: false,
+};
+
 const MainPage: React.FC = () => {
-    const [splashIndex, setSplashIndex] = useRecoilState(IsSplashIndex);
-    const isSplashSkip = useRecoilValue(IsSplashSkipSelector);
+    const [isSplashSkip, setIsSplashSkip] = useRecoilState(IsSplashSkip);
+
+    const sliderRef = useRef<Slider>(null);
 
     const onMoveButtonClick = (index: number, move: number) => {
         if (index + move >= MainRendingData.length) {
-            setSplashIndex(-1);
+            setIsSplashSkip(true);
         } else if (index + move === -1) {
             return;
         } else {
-            setSplashIndex(index + move);
+            sliderRef.current && sliderRef.current.slickGoTo(index + move);
         }
     };
 
@@ -24,10 +35,20 @@ const MainPage: React.FC = () => {
             {isSplashSkip ? (
                 <SigninPage />
             ) : (
-                <RendingPage
-                    index={splashIndex}
-                    onMoveButtonClick={onMoveButtonClick}
-                />
+                <Slider {...setting} ref={sliderRef}>
+                    {rendingData.map((eachData, index) => {
+                        return (
+                            <RendingPage
+                                key={eachData.title.first}
+                                data={eachData}
+                                isFirst={index === 0}
+                                onMoveButtonClick={(move) =>
+                                    onMoveButtonClick(index, move)
+                                }
+                            />
+                        );
+                    })}
+                </Slider>
             )}
         </>
     );

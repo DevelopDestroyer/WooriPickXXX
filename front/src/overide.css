@@ -1,0 +1,28 @@
+.MuiButton-root:hover {
+    text-decoration: none;
+    background-color: rgba(98, 195, 235, 0.6);
+}
+
+.MuiIconButton-root {
+    padding: 0;
+}
+
+.MuiSvgIcon-root {
+    font-size: 2rem;
+}
+
+.slick-slider,
+.slick-list,
+.slick-track {
+    height: 100%;
+}
+
+.slick-slide > div {
+    height: 100%;
+    display: flex;
+}
+
+.slick-slide img {
+    display: flex;
+    margin: auto;
+}

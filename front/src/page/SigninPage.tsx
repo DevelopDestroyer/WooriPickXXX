@@ -1,10 +1,14 @@
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(() => ({
     imgContainer: {
         width: '100px',
+    },
+    button: {
+        display: 'block',
+        width: '100%',
     },
     bodyReplace: {
         zIndex: -1,
@@ -37,23 +41,22 @@ const SigninPage: React.FC = (props) => {
                 </div>
 
                 <div className="login_btn">
-                    <div
+                    <Button
                         onClick={onClickSignup}
+                        className={classes.button}
                         style={{ backgroundColor: 'white', height: '55px' }}
                     >
-                        <p className="txt_primaryBlue txt_center pd_t16 txt_b">
+                        <p className="txt_primaryBlue txt_center txt_b">
                             혜택통 첫달 무료 체험하기
                         </p>
-                    </div>
+                    </Button>
 
-                    <div
-                        className="mg_t10"
+                    <Button
+                        className={`mg_t10 ${classes.button}`}
                         style={{ border: '1px solid white', height: '55px' }}
                     >
-                        <p className="txt_wh txt_center pd_t16">
-                            기존 사용자 로그인
-                        </p>
-                    </div>
+                        <p className="txt_wh txt_center">기존 사용자 로그인</p>
+                    </Button>
                 </div>
             </div>
         </>
