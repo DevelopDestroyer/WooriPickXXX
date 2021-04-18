@@ -1,16 +1,9 @@
-import {
-    Box,
-    Button,
-    Dialog,
-    IconButton,
-    TextField,
-    Typography,
-} from '@material-ui/core';
-import { KeyboardArrowLeft } from '@material-ui/icons';
+import { Box, Button, Dialog, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { SignUpAccNumState } from '../../recoil/Session';
 import { SignupComponentProps } from './DataModel';
+import SignupCommonComponent from './SignupCommon';
 
 interface ACDialogProps {
     open: boolean;
@@ -65,125 +58,101 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                     setDialog(false);
                 }}
             />
-            <div className="toptitle_div bg_wh">
-                <div className="container">
-                    <IconButton
-                        className="back_div"
-                        onClick={() => props.onMoveButtonClick(-1)}
-                    >
-                        <KeyboardArrowLeft />
-                    </IconButton>
-                    <p className="txt_24 txt_b mg_t10">혜택통 만들기</p>
+            <SignupCommonComponent
+                buttonDisable={!complete}
+                onMoveButtonClick={props.onMoveButtonClick}
+            >
+                <p className="txt_20 txt_b">
+                    본인의 우리은행 계좌번호를 알려주세요.
+                </p>
+
+                <div className="box_div mg_t20 bg_wh">
+                    <table style={{ width: '100%' }}>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className="pd_t16 mg_l16">
+                                        <TextField
+                                            disabled={isCert || complete}
+                                            value={account}
+                                            defaultValue={account}
+                                            onChange={(event) => {
+                                                setAccount(event.target.value);
+                                            }}
+                                            label="계좌번호"
+                                            variant="outlined"
+                                        />
+                                    </div>
+                                    <div className="pd_t4 mg_l16 pd_b16"></div>
+                                </td>
+                                <td style={{ textAlign: 'right' }}>
+                                    <div className="">
+                                        <Button
+                                            disabled={
+                                                account === '' || complete
+                                            }
+                                            className="btn_blueBorder"
+                                            style={{
+                                                marginRight: '16px',
+                                            }}
+                                            onClick={onCertClick}
+                                        >
+                                            {isCert ? '취소' : '1원 인증'}
+                                        </Button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
 
-            <div className="glow_body">
-                <div className="container mg_t30">
-                    <p className="txt_20 txt_b">
-                        본인의 우리은행 계좌번호를 알려주세요.
-                    </p>
+                <p className="mg_t30 txt_14 txt_center">
+                    계좌 확인을 위해 계좌번호로 1원을 보낼게요
+                    <br />
+                    입금명을 확인해 주세요
+                </p>
 
-                    <div className="box_div mg_t20 bg_wh">
-                        <table style={{ width: '100%' }}>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="pd_t16 mg_l16">
-                                            <TextField
-                                                disabled={isCert || complete}
-                                                value={account}
-                                                defaultValue={account}
-                                                onChange={(event) => {
-                                                    setAccount(
-                                                        event.target.value
-                                                    );
-                                                }}
-                                                label="계좌번호"
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        <div className="pd_t4 mg_l16 pd_b16"></div>
-                                    </td>
-                                    <td style={{ textAlign: 'right' }}>
-                                        <div className="">
+                <div className="box_div mg_t30 bg_wh">
+                    <table style={{ width: '100%' }}>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className="pd_t16 mg_l16">
+                                        <TextField
+                                            disabled={!isCert || complete}
+                                            onChange={(event) => {
+                                                setTokenStr(event.target.value);
+                                            }}
+                                            placeholder="혜택통 +"
+                                            label="입금명을 입력해주세요"
+                                            variant="outlined"
+                                        />
+                                    </div>
+                                    <div className="pd_t4 mg_l16 pd_b16"></div>
+                                </td>
+                                <td style={{ textAlign: 'right' }}>
+                                    <div className="">
+                                        {isCert && (
                                             <Button
                                                 disabled={
-                                                    account === '' || complete
+                                                    tokenStr === '' || complete
                                                 }
                                                 className="btn_blueBorder"
-                                                style={{ marginRight: '16px' }}
-                                                onClick={onCertClick}
-                                            >
-                                                {isCert ? '취소' : '1원 인증'}
-                                            </Button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <p className="mg_t30 txt_14 txt_center">
-                        계좌 확인을 위해 계좌번호로 1원을 보낼게요
-                        <br />
-                        입금명을 확인해 주세요
-                    </p>
-
-                    <div className="box_div mg_t30 bg_wh">
-                        <table style={{ width: '100%' }}>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="pd_t16 mg_l16">
-                                            <TextField
-                                                disabled={!isCert || complete}
-                                                onChange={(event) => {
-                                                    setTokenStr(
-                                                        event.target.value
-                                                    );
+                                                style={{
+                                                    marginRight: '16px',
                                                 }}
-                                                placeholder="혜택통 +"
-                                                label="입금명을 입력해주세요"
-                                                variant="outlined"
-                                            />
-                                        </div>
-                                        <div className="pd_t4 mg_l16 pd_b16"></div>
-                                    </td>
-                                    <td style={{ textAlign: 'right' }}>
-                                        <div className="">
-                                            {isCert && (
-                                                <Button
-                                                    disabled={
-                                                        tokenStr === '' ||
-                                                        complete
-                                                    }
-                                                    className="btn_blueBorder"
-                                                    style={{
-                                                        marginRight: '16px',
-                                                    }}
-                                                    onClick={completeClick}
-                                                >
-                                                    입력
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                                onClick={completeClick}
+                                            >
+                                                입력
+                                            </Button>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <Button
-                disabled={!complete}
-                disableRipple={!complete}
-                className={`btn_bottom ${
-                    complete ? 'bg_primaryblue' : 'bg_gray3'
-                }`}
-                onClick={() => props.onMoveButtonClick(1)}
-            >
-                <p className="p_btn_bottom txt_wh txt_b">다음</p>
-            </Button>
+            </SignupCommonComponent>
         </div>
     );
 };

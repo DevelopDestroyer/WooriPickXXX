@@ -64,3 +64,13 @@
 .MuiFormControlLabel-root {
     margin: 0;
 }
+
+.MuiCardContent-root:last-child {
+    padding: 16px;
+}
+
+.MuiTypography-body1,
+.MuiTypography-body2,
+.MuiTypography-body3 {
+    font-family: 'Noto Sans KR', sans-serif;
+}

@@ -1,5 +1,4 @@
-import { Button, IconButton, TextField } from '@material-ui/core';
-import { KeyboardArrowLeft } from '@material-ui/icons';
+import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import http from '../../http';
@@ -9,6 +8,7 @@ import {
     SignupProfileInfo,
     SignupProfileInterface,
 } from './DataModel';
+import SignupCommonComponent from './SignupCommon';
 
 type SignupProfileProps = SignupComponentProps & {
     data: SignupProfileInterface;
@@ -58,21 +58,11 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
 
     return (
         <div className="bg_gray5">
-            <div className="toptitle_div bg_wh">
-                <div className="container">
-                    <IconButton
-                        className="back_div"
-                        onClick={() => props.onMoveButtonClick(-1)}
-                    >
-                        <KeyboardArrowLeft />
-                    </IconButton>
-                    <p className="txt_24 txt_b mg_t10">혜택통 만들기</p>
-                </div>
-            </div>
-
-            <div className="container mg_t30 glow_body">
+            <SignupCommonComponent
+                buttonDisable={buttonDisable || inValid}
+                onMoveButtonClick={props.onMoveButtonClick}
+            >
                 <p className="txt_20 txt_b">{props.data.title}</p>
-
                 <div className="box_div mg_t20 bg_wh">
                     <div className="pd_t16 mg_l16"></div>
                     <div className="pd_t4 mg_l16 pd_b16">
@@ -90,19 +80,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                         />
                     </div>
                 </div>
-            </div>
-
-            <Button
-                disabled={buttonDisable || inValid}
-                onClick={() => {
-                    props.onMoveButtonClick(1);
-                }}
-                className={`btn_bottom ${
-                    buttonDisable || inValid ? 'bg_gray3' : 'bg_primaryblue'
-                }`}
-            >
-                <p className="p_btn_bottom txt_wh txt_b">다음</p>
-            </Button>
+            </SignupCommonComponent>
         </div>
     );
 };
