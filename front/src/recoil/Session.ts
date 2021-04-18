@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { CategoryDataSet } from '../component/Category/DataModel';
 import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
 
@@ -26,4 +27,9 @@ export const SignUpProfileState = atom<SignupProfileInfo>({
 export const SignUpAccNumState = atom<string>({
     key: 'SignUpAccNumState',
     default: '',
+});
+
+export const SignUpCategoryState = atom<CategoryDataSet[]>({
+    key: 'SignUpCategoryState',
+    default: [],
 });

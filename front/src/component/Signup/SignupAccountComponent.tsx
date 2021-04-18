@@ -58,10 +58,7 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
     };
 
     return (
-        <div
-            className="bg_gray5"
-            style={{ position: 'relative', width: '100%', height: '100%' }}
-        >
+        <div className="bg_gray5">
             <ACDialog
                 open={dialog}
                 onClose={() => {
@@ -80,8 +77,8 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                 </div>
             </div>
 
-            <div>
-                <div style={{ height: '700px' }} className="container mg_t30">
+            <div className="glow_body">
+                <div className="container mg_t30">
                     <p className="txt_20 txt_b">
                         본인의 우리은행 계좌번호를 알려주세요.
                     </p>
@@ -175,16 +172,18 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                             </tbody>
                         </table>
                     </div>
-
-                    <Button
-                        className={`btn_bottom ${
-                            complete ? 'bg_primaryblue' : 'bg_gray3'
-                        }`}
-                    >
-                        <p className="p_btn_bottom txt_wh txt_b">다음</p>
-                    </Button>
                 </div>
             </div>
+            <Button
+                disabled={!complete}
+                disableRipple={!complete}
+                className={`btn_bottom ${
+                    complete ? 'bg_primaryblue' : 'bg_gray3'
+                }`}
+                onClick={() => props.onMoveButtonClick(1)}
+            >
+                <p className="p_btn_bottom txt_wh txt_b">다음</p>
+            </Button>
         </div>
     );
 };

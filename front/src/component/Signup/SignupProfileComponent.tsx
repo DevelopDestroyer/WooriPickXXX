@@ -35,17 +35,13 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
     const buttonDisable = value === '';
     const [inValid, setInValid] = useState<boolean>(false);
 
-    console.log(profile);
-    console.log(buttonDisable);
-    console.log(inValid);
-    console.log(value);
-
     const onChange = (index: number, data: string) => {
         switch (index) {
             case 0:
                 setProfile({ ...profile, realName: data });
                 break;
             case 1:
+                console.log(`Onchange Called`);
                 setProfile({ ...profile, nickName: data });
                 http.get(`/api/members/nicknameCheck/${data}`).then((res) => {
                     const alreadyExist: boolean = res.data.data;
@@ -61,10 +57,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
     };
 
     return (
-        <div
-            className="bg_gray5"
-            style={{ position: 'relative', width: '100%', height: '100%' }}
-        >
+        <div className="bg_gray5">
             <div className="toptitle_div bg_wh">
                 <div className="container">
                     <IconButton
@@ -77,7 +70,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                 </div>
             </div>
 
-            <div className="container mg_t30" style={{ overflow: 'hidden' }}>
+            <div className="container mg_t30 glow_body">
                 <p className="txt_20 txt_b">{props.data.title}</p>
 
                 <div className="box_div mg_t20 bg_wh">
@@ -100,7 +93,6 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
             </div>
 
             <Button
-                disableRipple={buttonDisable || inValid}
                 disabled={buttonDisable || inValid}
                 onClick={() => {
                     props.onMoveButtonClick(1);
