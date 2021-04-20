@@ -11,6 +11,13 @@
     font-size: 2rem;
 }
 
+.bg_gray5 {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .slick-slider,
 .slick-list,
 .slick-track {
@@ -34,9 +41,36 @@
 }
 
 .btn_bottom {
-    position: absolute;
+    position: relative;
+    display: flex;
+    min-height: 64px;
+}
+
+.glow_body {
+    overflow-y: auto;
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+}
+
+.toptitle_div {
+    display: flex;
 }
 
 .p_btn_bottom {
     margin-top: 0 !important;
+}
+
+.MuiFormControlLabel-root {
+    margin: 0;
+}
+
+.MuiCardContent-root:last-child {
+    padding: 16px;
+}
+
+.MuiTypography-body1,
+.MuiTypography-body2,
+.MuiTypography-body3 {
+    font-family: 'Noto Sans KR', sans-serif;
 }

@@ -8,54 +8,99 @@ import {
     SignupProfileInterface,
 } from '../component/Signup/DataModel';
 import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
+import SignupBillingComponent from '../component/Signup/SignupBillingComponent';
+import SignupCategoryComponent from '../component/Signup/SignupCategoryComponent';
+import SignupFinishComponent from '../component/Signup/SignupFinishComponent';
+import SignupPasswordComponent from '../component/Signup/SignupPasswordComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
-import { SignUpProfileState } from '../recoil/Session';
+import {
+    SignUpAccNumState,
+    SignUpCategoryState,
+    SignUpProfileState,
+} from '../recoil/Session';
 
 const SignupPage: React.FC = () => {
     const history = useHistory();
 
-    const restRecoil = useResetRecoilState(SignUpProfileState);
+    const resetProfile = useResetRecoilState(SignUpProfileState);
+    const resetAccNum = useResetRecoilState(SignUpAccNumState);
+    const resetCategory = useResetRecoilState(SignUpCategoryState);
     const sliderRef = useRef<Slider>(null);
 
-    const onMove = (index: number, move: number) => {
-        if (index + move < 0) {
-            restRecoil();
-            history.replace('/mainpage');
-            return;
-        }
-
-        if (index + move > rendingData.length) {
-            // 맨마지막 페이지
-            // setIsAccSeq(true); real Signup
-        } else {
-            sliderRef.current && sliderRef.current.slickGoTo(index + move);
-        }
-    };
-
     const items: Array<JSX.Element> = [];
-    let totalIndex = 0;
     rendingData.forEach((eachData: SignupProfileInterface, index: number) => {
         items.push(
             <SignupProfileComponent
-                key={eachData.title}
+                key={index}
                 index={index}
                 data={eachData}
                 onMoveButtonClick={(move: number) => onMove(index, move)}
             />
         );
-        totalIndex++;
     });
 
     items.push(
         <SignupAccountComponent
-            key={rendingData.length}
+            key={3}
             onMoveButtonClick={(move: number) => {
-                onMove(rendingData.length, move);
+                onMove(3, move);
             }}
         />
     );
-    totalIndex++;
+    items.push(
+        <SignupCategoryComponent
+            key={4}
+            onMoveButtonClick={(move: number) => {
+                onMove(4, move);
+            }}
+        />
+    );
+    items.push(
+        <SignupBillingComponent
+            key={5}
+            onMoveButtonClick={(move: number) => {
+                onMove(5, move);
+            }}
+        />
+    );
 
+    items.push(
+        <SignupPasswordComponent
+            key={6}
+            onMoveButtonClick={(move: number) => {
+                onMove(6, move);
+            }}
+        />
+    );
+
+    items.push(
+        <SignupFinishComponent
+            key={7}
+            onMoveButtonClick={(move: number) => {
+                onMove(7, move);
+            }}
+        />
+    );
+
+    const onMove = (index: number, move: number) => {
+        if (index + move < 0) {
+            resetProfile();
+            resetAccNum();
+            resetCategory();
+            history.replace('/mainpage');
+            return;
+        }
+
+        if (index + move > 7) {
+            // 맨마지막 페이지
+            // setIsAccSeq(true); real Signup
+            console.log(`last page`);
+        } else {
+            console.log(`goto slide ${index + move}`);
+            sliderRef.current && sliderRef.current.slickGoTo(index + move);
+        }
+    };
+    console.log(items);
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}
