@@ -1,21 +1,81 @@
 import { Box, IconButton, InputAdornment, TextField } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useState } from 'react';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import http from '../../http';
+import {
+    SignUpAccNumState,
+    SignUpCategoryState,
+    SignUpProfileState,
+} from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
 import { SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
+
+interface SignupUserModel {
+    name: string;
+    nickname: string;
+    accountNumber: string;
+    accountMoney: string;
+    phoneNumber: string;
+    password: string;
+}
+
+interface SignupCategory {
+    benefitCategoryList: Array<{ userNickname: string; categoryId: number }>;
+}
 
 const SignupPasswordComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
+    const signupProfile = useRecoilValue(SignUpProfileState);
+    const accountNumber = useRecoilValue(SignUpAccNumState);
+    const currentCategory = useRecoilValue(SignUpCategoryState);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
+    const resetProfile = useResetRecoilState(SignUpProfileState);
+    const resetAccNum = useResetRecoilState(SignUpAccNumState);
+    const resetCategory = useResetRecoilState(SignUpCategoryState);
+
     const [fingerDialog, setFingerDialog] = useState<boolean>(false);
 
-    const onClose = () => {
+    const signupFunction = async () => {
+        const signupData: SignupUserModel = {
+            name: signupProfile.realName,
+            nickname: signupProfile.nickName,
+            phoneNumber: signupProfile.cellNumber,
+            accountNumber: accountNumber,
+            password: password,
+            accountMoney: '10000',
+        };
+        const signupCategory: SignupCategory = {
+            benefitCategoryList: [],
+        };
+        currentCategory.forEach((eachData) => {
+            signupCategory.benefitCategoryList.push({
+                userNickname: signupProfile.nickName,
+                categoryId: eachData.id,
+            });
+        });
+
+        const createRes = await http.post('/api/members', signupData); // user 먼저 만들어져야함
+        console.log(createRes);
+        const registRes = await http.post(
+            '/api/members/category',
+            signupCategory
+        ); // user 먼저 만들어져야함
+        console.log(registRes);
+    };
+
+    const onClose = async () => {
+        await signupFunction();
+        resetProfile();
+        resetAccNum();
+        resetCategory();
+
         setFingerDialog(false);
         props.onMoveButtonClick(1);
     };

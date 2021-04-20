@@ -1,17 +1,22 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
+import { useHistory } from 'react-router';
 import { SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
 
 const SignupFinishComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
+    const history = useHistory();
     return (
         <div className="bg_gray5">
             <SignupCommonComponent
                 isLast={true}
                 buttonDisable={false}
                 onMoveButtonClick={props.onMoveButtonClick}
+                onCustomizeNextClick={() => {
+                    history.replace('/');
+                }}
             >
                 <Box display="flex" flexDirection="column" height="100%">
                     <Box mt="25px" />

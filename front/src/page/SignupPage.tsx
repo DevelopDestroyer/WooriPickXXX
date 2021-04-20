@@ -13,12 +13,18 @@ import SignupCategoryComponent from '../component/Signup/SignupCategoryComponent
 import SignupFinishComponent from '../component/Signup/SignupFinishComponent';
 import SignupPasswordComponent from '../component/Signup/SignupPasswordComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
-import { SignUpProfileState } from '../recoil/Session';
+import {
+    SignUpAccNumState,
+    SignUpCategoryState,
+    SignUpProfileState,
+} from '../recoil/Session';
 
 const SignupPage: React.FC = () => {
     const history = useHistory();
 
-    const restRecoil = useResetRecoilState(SignUpProfileState);
+    const resetProfile = useResetRecoilState(SignUpProfileState);
+    const resetAccNum = useResetRecoilState(SignUpAccNumState);
+    const resetCategory = useResetRecoilState(SignUpCategoryState);
     const sliderRef = useRef<Slider>(null);
 
     const items: Array<JSX.Element> = [];
@@ -78,7 +84,9 @@ const SignupPage: React.FC = () => {
 
     const onMove = (index: number, move: number) => {
         if (index + move < 0) {
-            restRecoil();
+            resetProfile();
+            resetAccNum();
+            resetCategory();
             history.replace('/mainpage');
             return;
         }

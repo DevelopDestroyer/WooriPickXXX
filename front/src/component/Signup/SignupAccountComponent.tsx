@@ -75,7 +75,6 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                                         <TextField
                                             disabled={isCert || complete}
                                             value={account}
-                                            defaultValue={account}
                                             onChange={(event) => {
                                                 setAccount(event.target.value);
                                             }}

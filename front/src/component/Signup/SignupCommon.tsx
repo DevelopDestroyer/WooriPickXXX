@@ -19,11 +19,13 @@ const SignupCommonComponent: React.FC<PropsWithChildren<SignUpCommon>> = (
                     <IconButton
                         className="back_div"
                         disabled={props.isLast}
-                        onClick={() =>
-                            props.isLast || props.onMoveButtonClick(-1)
-                        }
+                        onClick={() => props.onMoveButtonClick(-1)}
                     >
-                        {props.isLast || <KeyboardArrowLeft />}
+                        <KeyboardArrowLeft
+                            style={{
+                                display: `${props.isLast ? 'none' : 'block'}`,
+                            }}
+                        />
                     </IconButton>
                     <p className="txt_24 txt_b mg_t10">혜택통 만들기</p>
                 </div>

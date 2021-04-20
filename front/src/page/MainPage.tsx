@@ -1,52 +1,19 @@
-import React, { useRef } from 'react';
-import Slider from 'react-slick';
-import { useRecoilState } from 'recoil';
-import { commonSlickSettings } from '../component/Common';
-import {
-    rendingData as MainRendingData,
-    rendingData,
-} from '../component/Rending/DataModel';
-import RendingPage from '../component/Rending/RendingComponent';
-import { IsSplashSkip } from '../recoil/Session';
-import SigninPage from './SigninPage';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import React from 'react';
 
-const MainPage: React.FC = () => {
-    const [isSplashSkip, setIsSplashSkip] = useRecoilState(IsSplashSkip);
-
-    const sliderRef = useRef<Slider>(null);
-
-    const onMoveButtonClick = (index: number, move: number) => {
-        if (index + move >= MainRendingData.length) {
-            setIsSplashSkip(true);
-        } else if (index + move === -1) {
-            return;
-        } else {
-            sliderRef.current && sliderRef.current.slickGoTo(index + move);
-        }
-    };
+const HomePage: React.FC = () => {
+    // const [currentPage, setCurrentPage] = useState<>()
 
     return (
         <>
-            {isSplashSkip ? (
-                <SigninPage />
-            ) : (
-                <Slider {...commonSlickSettings} ref={sliderRef}>
-                    {rendingData.map((eachData, index) => {
-                        return (
-                            <RendingPage
-                                key={eachData.title.first}
-                                data={eachData}
-                                isFirst={index === 0}
-                                onMoveButtonClick={(move) =>
-                                    onMoveButtonClick(index, move)
-                                }
-                            />
-                        );
-                    })}
-                </Slider>
-            )}
+            <BottomNavigation>
+                <BottomNavigationAction label="Recents" value="recents" />
+                <BottomNavigationAction label="Favorites" value="favorites" />
+                <BottomNavigationAction label="Nearby" value="nearby" />
+                <BottomNavigationAction label="Folder" value="folder" />
+            </BottomNavigation>
         </>
     );
 };
 
-export default MainPage;
+export default HomePage;
