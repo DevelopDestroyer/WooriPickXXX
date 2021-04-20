@@ -25,6 +25,7 @@ public class Block {
 
     public Block(String data,String previousHash ) {
         this.data = makeHashData(data);
+        this.data = data;
         this.previousHash = previousHash;
         this.timeStamp = new Date().getTime();
         mineNewBlock();

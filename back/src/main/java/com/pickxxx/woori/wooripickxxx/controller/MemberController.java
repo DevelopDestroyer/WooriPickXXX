@@ -55,11 +55,17 @@ public class MemberController {
         return Response.ok(memberService.together(nickname));
     }
 
-    //나의 카테고리 추천
-    @GetMapping("/members/category/recommend")
-    public Response<Boolean> recommend() {
-        memberService.recommend();
+    //카테고리 추천 테스트
+    @GetMapping("/members/category/recommend/test")
+    public Response<Boolean> recommendTest() {
+        memberService.recommendTest();
         return Response.ok(true);
+    }
+
+    //나의 카테고리 추천
+    @GetMapping("/members/{nickname}/category/recommend")
+    public Response<ArrayList<BenefitCategoryDTO>> recommendCategories(@PathVariable("nickname") String nickname) {
+        return Response.ok(memberService.recommendCategories(nickname));
     }
 
 

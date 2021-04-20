@@ -1,18 +1,15 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
-import com.pickxxx.woori.wooripickxxx.common.CosineSimilarity;
-import com.pickxxx.woori.wooripickxxx.common.Response;
-import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
-import com.pickxxx.woori.wooripickxxx.dto.BenefitCategoryDTO;
-import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
-import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
-import com.pickxxx.woori.wooripickxxx.dto.TogetherDTO;
+import com.pickxxx.woori.wooripickxxx.common.*;
+import com.pickxxx.woori.wooripickxxx.dto.*;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
+import com.pickxxx.woori.wooripickxxx.entity.TradingCounter;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.BenefitCategoryRepository;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
+import com.pickxxx.woori.wooripickxxx.repository.TradingCounterRepository;
 import com.pickxxx.woori.wooripickxxx.repository.TradingLedgerRepository;
 import com.pickxxx.woori.wooripickxxx.type.BenefitCategoryType;
 import com.pickxxx.woori.wooripickxxx.type.ErrorCode;
@@ -22,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 @Slf4j
@@ -31,6 +29,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BenefitCategoryRepository benefitCategoryRepository;
     private final TradingLedgerRepository tradingLedgerRepository;
+    private final TradingCounterRepository tradingCounterRepository;
 
     TimeCalcul time = new TimeCalcul();
     CosineSimilarity cosineSimilarity = new CosineSimilarity();
@@ -166,7 +165,7 @@ public class MemberService {
                 .build();
     }
 
-    public Response<Boolean> recommend() {
+    public Response<Boolean> recommendTest() {
         HashMap<CharSequence, Integer> newUser = new HashMap<>();
         HashMap<CharSequence, Integer> user1 = new HashMap<>();
         HashMap<CharSequence, Integer> user2 = new HashMap<>();
@@ -209,6 +208,61 @@ public class MemberService {
         log.info("유사도 분석 [0이 많음] : " + cosineSimilarity.cosineSimilarity(newUser, user4).toString());
 
         return Response.ok(true);
+    }
+
+    public ArrayList<BenefitCategoryDTO> recommendCategories(String userNickname) {
+        ArrayList<BenefitCategoryDTO> result = new ArrayList<>();
+        ArrayList<Member> memberList = new ArrayList<>();
+        ArrayList<TradingCounterDTO> sampleData = new ArrayList<>();
+
+        //우리은행API 사용전 샘플
+        HashMap<CharSequence, Integer> newUser = new HashMap<>();
+        newUser.put("CGV", 10);
+        newUser.put("이마트", 20);
+        newUser.put("S-OIL", 0);
+        newUser.put("스타벅스", 30);
+
+        /*
+        * 1. userTradingCounterInfo, newUser 변수에 요청유저의 거래내역정보를 우리은행 API로 받아와서 저장해야한다.
+        * 2. TRADING_COUNTER에 신규유저의 거래내역을 저장해야해야한다.
+        * 3. 1과 2의 내용은 우리은행API 사용가능범위에 따라 달라질 수 있다.
+        * 4. 연동 후에는 import.sql에 데이터를 맞추어주는 작업이 필요하다.
+        * 5. 기획자들과 어떤 거래내역(제휴회사)을 넣을 것인지 논의 필요
+        * */
+        TradingCounterDTO userTradingCounterInfo = TradingCounterDTO.builder()
+                .userNickname("태호")
+                .companyNameAndCnt(newUser)
+                .build();
+
+        memberList = memberRepository.findAll();
+        for(int i = 0; i < memberList.size(); i++){
+            if(false == memberList.get(i).getNickname().equals(userNickname)){
+                ArrayList<TradingCounter> tradingCounterList = new ArrayList<>();
+                tradingCounterList = tradingCounterRepository.findByUserNickname(memberList.get(i).getNickname());
+
+                HashMap<CharSequence, Integer> sampleDataAboutOneUserOneCompany = new HashMap<>();
+                for(int j = 0; j < tradingCounterList.size(); j++){
+                    sampleDataAboutOneUserOneCompany.put(tradingCounterList.get(j).getCompanyName(), tradingCounterList.get(j).getCnt());
+                }
+                if(sampleDataAboutOneUserOneCompany != null && sampleDataAboutOneUserOneCompany.size() > 0){
+                    sampleData.add(TradingCounterDTO.builder()
+                            .userNickname(memberList.get(i).getNickname())
+                            .companyNameAndCnt(sampleDataAboutOneUserOneCompany)
+                            .recommendResult(cosineSimilarity.cosineSimilarity(userTradingCounterInfo.getCompanyNameAndCnt(), sampleDataAboutOneUserOneCompany))
+                            .build());
+                }
+            }
+        }
+        //높은 순서로 정렬
+        Collections.sort(sampleData, new TradingCounterDTOComparator());
+
+        ArrayList<BenefitCategory> recommendCategory = new ArrayList<>();
+        recommendCategory = benefitCategoryRepository.getBenefitCategoriesByUserNickname(sampleData.get(0).getUserNickname());
+        for(int i = 0; i < recommendCategory.size(); i++){
+            result.add(BenefitCategoryDTO.builder().categoryId(recommendCategory.get(i).getCategoryId()).build());
+        }
+
+        return result;
     }
 
 }
