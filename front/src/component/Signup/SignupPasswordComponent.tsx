@@ -1,12 +1,15 @@
 import { Box, IconButton, InputAdornment, TextField } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
+    CurrentUserState,
+    IsLoginState,
     SignUpAccNumState,
     SignUpCategoryState,
     SignUpProfileState,
+    UserInfo,
 } from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
 import { SignupComponentProps } from './DataModel';
@@ -30,6 +33,10 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
 ) => {
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const setUserState = useSetRecoilState<UserInfo>(CurrentUserState);
+    const setLoginState = useSetRecoilState<boolean>(IsLoginState);
+
     const signupProfile = useRecoilValue(SignUpProfileState);
     const accountNumber = useRecoilValue(SignUpAccNumState);
     const currentCategory = useRecoilValue(SignUpCategoryState);
@@ -68,6 +75,14 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
             signupCategory
         ); // user 먼저 만들어져야함
         console.log(registRes);
+        const userRes = await http.get(
+            `/api/members/${encodeURI(signupProfile.nickName)}`
+        ); // user 먼저 만들어져야함
+        const currentUser: UserInfo = userRes.data.data as UserInfo;
+        console.log(currentUser);
+
+        setUserState(currentUser);
+        setLoginState(true);
     };
 
     const onClose = async () => {

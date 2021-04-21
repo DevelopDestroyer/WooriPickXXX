@@ -3,6 +3,15 @@ import { CategoryDataSet } from '../component/Category/DataModel';
 import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
 
+export interface UserInfo {
+    name: string;
+    nickname: string;
+    phoneNumber: string;
+    accountNumber: string;
+    accountMoney: number;
+    point: number;
+}
+
 export const IsLoginState = atom<boolean>({
     key: 'IsLoginState',
     default: false,
@@ -32,4 +41,17 @@ export const SignUpAccNumState = atom<string>({
 export const SignUpCategoryState = atom<CategoryDataSet[]>({
     key: 'SignUpCategoryState',
     default: [],
+});
+
+export const CurrentUserState = atom<UserInfo>({
+    key: 'CurrentUserState',
+    default: {
+        name: '',
+        nickname: '',
+        phoneNumber: '',
+        point: 0,
+        accountMoney: 0,
+        accountNumber: '',
+    },
+    effects_UNSTABLE: [persistAtom],
 });

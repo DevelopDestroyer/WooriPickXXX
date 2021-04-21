@@ -42,13 +42,18 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                 break;
             case 1:
                 console.log(`Onchange Called`);
+                if (data !== '') {
+                    http.get(`/api/members/nicknameCheck/${data}`).then(
+                        (res) => {
+                            const alreadyExist: boolean = res.data.data;
+                            if (alreadyExist !== inValid) {
+                                setInValid(alreadyExist);
+                            }
+                        }
+                    );
+                }
                 setProfile({ ...profile, nickName: data });
-                http.get(`/api/members/nicknameCheck/${data}`).then((res) => {
-                    const alreadyExist: boolean = res.data.data;
-                    if (alreadyExist !== inValid) {
-                        setInValid(alreadyExist);
-                    }
-                });
+
                 break;
             case 2:
                 setProfile({ ...profile, cellNumber: data });
