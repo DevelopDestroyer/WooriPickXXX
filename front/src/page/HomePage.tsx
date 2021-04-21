@@ -1,33 +1,21 @@
 import { Box } from '@material-ui/core';
 import React, { useState } from 'react';
-import BottomBarNav, { DISPLAY_TYPE } from '../component/Home/BottomBar';
+import BenefitComponent from '../component/Benefit/BenefitComponent';
+import BottomBarNav, { DISPLAY_TYPE } from '../component/Common/BottomBar';
+import HomeComponent from '../component/Home/HomeComponent';
+import SettingComponent from '../component/Setting/SettingComponent';
+import TogetherComponent from '../component/Together/TogetherComponent';
 
 const homeRendering = (type: DISPLAY_TYPE) => {
     switch (type) {
         case DISPLAY_TYPE.HOME:
-            return (
-                <>
-                    <p>thisis home</p>
-                </>
-            );
+            return <HomeComponent />;
         case DISPLAY_TYPE.BENEFIT:
-            return (
-                <>
-                    <p>thisis benefit</p>
-                </>
-            );
+            return <BenefitComponent />;
         case DISPLAY_TYPE.TOGETHER:
-            return (
-                <>
-                    <p>thisis together</p>
-                </>
-            );
+            return <TogetherComponent />;
         case DISPLAY_TYPE.SETTING:
-            return (
-                <>
-                    <p>thisis setting</p>
-                </>
-            );
+            return <SettingComponent />;
         default:
             return <></>;
     }
@@ -41,7 +29,7 @@ const HomePage: React.FC = () => {
     const onChange = (type: DISPLAY_TYPE) => {
         setCurrentRenderType(type);
     };
-    console.log(`Render`);
+
     return (
         <div className="bg_gray5">
             <Box className="glow_body">{homeRendering(renderType)}</Box>
