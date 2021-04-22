@@ -3,10 +3,7 @@ package com.pickxxx.woori.wooripickxxx.service;
 import com.pickxxx.woori.wooripickxxx.common.FriendComparator;
 import com.pickxxx.woori.wooripickxxx.common.MemberDTOComparator;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
-import com.pickxxx.woori.wooripickxxx.dto.BuyDTO;
-import com.pickxxx.woori.wooripickxxx.dto.DonationDTO;
-import com.pickxxx.woori.wooripickxxx.dto.DonationStatisticsDTO;
-import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
+import com.pickxxx.woori.wooripickxxx.dto.*;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
@@ -84,7 +81,8 @@ public class TradingService {
         TradingLedger tradingLedger = TradingLedger.builder()
                 .userNickname(buyDTO.getUserNickname())
                 .tradingType(TradingLedgerType.BENEFIT.getTradingLedgerTypeName())
-                .totalAccountMoney(userAccountMoney - buyDTO.totalPrice())
+                .companyName(buyDTO.getCompanyName())
+                .totalBuyPrice(buyDTO.totalPrice() * -1)
                 .categoryId(categoryIndex)
                 .point((int)Math.round(userSalePrice))
                 .date(time.getNowTime())
@@ -111,7 +109,8 @@ public class TradingService {
         TradingLedger tradingLedger = TradingLedger.builder()
                 .userNickname(donationDTO.getUserNickname())
                 .tradingType(TradingLedgerType.DONATION.getTradingLedgerTypeName())
-                .totalAccountMoney(userAccountMoney)
+                .companyName("")
+                .totalBuyPrice(0)
                 .categoryId(donationDTO.getDonationId())
                 .point(donationDTO.getDonationPoint() * -1)
                 .date(time.getNowTime()).build();
@@ -198,4 +197,22 @@ public class TradingService {
                 .memberDTOs(donaKingDTO)
                 .build();
     }
+
+    //혜택적립내역
+    public ArrayList<TradingLedgerDTO> benefitList(String userNickname){
+        ArrayList<TradingLedger> tl = new ArrayList<>();
+        ArrayList<TradingLedgerDTO> tlDTO = new ArrayList<>();
+
+        tl = tradingLedgerRepository.findAllByUserNicknameAndAndTradingTypeOrderByDateDesc(userNickname, TradingLedgerType.BENEFIT.getTradingLedgerTypeName());
+        for(int i = 0; i < tl.size(); i++){
+            tlDTO.add(TradingLedgerDTO.builder()
+            .date(tl.get(i).getDate())
+            .totalBuyPrice(tl.get(i).getTotalBuyPrice())
+            .point(tl.get(i).getPoint())
+            .companyName(tl.get(i).getCompanyName())
+            .build());
+        }
+        return tlDTO;
+    }
+
 }

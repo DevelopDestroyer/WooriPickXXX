@@ -14,8 +14,9 @@ public class TradingLedgerDTO {
     private Long id;
     private String userNickname;
     private String tradingType;
+    private String companyName;
     private Integer categoryId;
-    private Integer totalAccountMoney;
+    private Integer totalBuyPrice;
     private Integer point;
     private String date;
 
@@ -23,8 +24,9 @@ public class TradingLedgerDTO {
         return TradingLedger.builder()
                 .userNickname(userNickname)
                 .tradingType(tradingType)
+                .companyName(companyName)
                 .categoryId(categoryId)
-                .totalAccountMoney(totalAccountMoney)
+                .totalBuyPrice(totalBuyPrice)
                 .point(point)
                 .date(date)
                 .build();

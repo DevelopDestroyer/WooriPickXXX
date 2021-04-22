@@ -54,4 +54,11 @@ public class TradingController {
     public Response<DonationStatisticsDTO> donationStatistics() {
         return Response.ok(tradingService.donationStatistic());
     }
+
+    //혜택적립내역benefitList
+    @GetMapping("/trading/benefits/{userNickname}")
+    public Response<ArrayList<TradingLedgerDTO>> donationStatistics(@PathVariable("userNickname") String userNickname) {
+        return Response.ok(tradingService.benefitList(userNickname));
+    }
+
 }
