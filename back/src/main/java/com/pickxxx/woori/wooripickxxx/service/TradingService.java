@@ -210,6 +210,7 @@ public class TradingService {
             .totalBuyPrice(tl.get(i).getTotalBuyPrice())
             .point(tl.get(i).getPoint())
             .companyName(tl.get(i).getCompanyName())
+            .categoryId(tl.get(i).getCategoryId())
             .build());
         }
         return tlDTO;
