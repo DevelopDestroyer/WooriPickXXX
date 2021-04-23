@@ -78,3 +78,22 @@
 .MuiBottomNavigationAction-root.Mui-selected {
     color: #62c3eb !important;
 }
+
+.MuiPaper-elevation1,
+.MuiPaper-elevation4 {
+    box-shadow: none;
+}
+
+.MuiAppBar-colorPrimary {
+    color: black;
+    background-color: white;
+}
+
+.MuiCardHeader-root {
+    padding-bottom: 0px;
+}
+
+.line {
+    height: 1px;
+    width: 100%;
+}

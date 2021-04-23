@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { CategoryDataSet } from '../component/Category/DataModel';
+import { TransactionSet } from '../component/Home/DataModel';
 import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
 
@@ -8,15 +9,12 @@ export interface UserInfo {
     nickname: string;
     phoneNumber: string;
     accountNumber: string;
+}
+
+export interface UserAccount {
     accountMoney: number;
     point: number;
 }
-
-export const IsLoginState = atom<boolean>({
-    key: 'IsLoginState',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-});
 
 export const IsSplashSkip = atom<boolean>({
     key: 'IsSplashSkip',
@@ -49,9 +47,28 @@ export const CurrentUserState = atom<UserInfo>({
         name: '',
         nickname: '',
         phoneNumber: '',
-        point: 0,
-        accountMoney: 0,
         accountNumber: '',
     },
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const CurrentAccountState = atom<UserAccount>({
+    key: 'CurrentAccountState',
+    default: {
+        point: 0,
+        accountMoney: 0,
+    },
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const CurrentUserCategoryState = atom<number[]>({
+    key: 'CurrentUserCategoryState',
+    default: [],
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const CurrentUserTransactionState = atom<TransactionSet[]>({
+    key: 'CurrentUserTransactionState',
+    default: [],
     effects_UNSTABLE: [persistAtom],
 });

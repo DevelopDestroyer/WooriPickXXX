@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
+import { AppBar, Box, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
 
 export interface HeaderDeafaultProps {
@@ -10,12 +10,21 @@ const HeaderDeafault: React.FC<HeaderDeafaultProps> = (
     props: HeaderDeafaultProps
 ) => {
     return (
-        <Box>
-            <Box m="1rem">
+        <AppBar position="sticky">
+            <Toolbar>
                 {props.icon}
-                <Typography>{props.title}</Typography>
-            </Box>
-        </Box>
+                <Box ml="0.5rem">
+                    <Typography
+                        style={{
+                            fontWeight: 'bold',
+                            fontSize: '1.3rem',
+                        }}
+                    >
+                        {props.title}
+                    </Typography>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };
 

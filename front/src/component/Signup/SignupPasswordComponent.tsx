@@ -5,7 +5,6 @@ import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
     CurrentUserState,
-    IsLoginState,
     SignUpAccNumState,
     SignUpCategoryState,
     SignUpProfileState,
@@ -35,7 +34,6 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
     const [showPassword, setShowPassword] = useState(false);
 
     const setUserState = useSetRecoilState<UserInfo>(CurrentUserState);
-    const setLoginState = useSetRecoilState<boolean>(IsLoginState);
 
     const signupProfile = useRecoilValue(SignUpProfileState);
     const accountNumber = useRecoilValue(SignUpAccNumState);
@@ -79,10 +77,13 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
             `/api/members/${encodeURI(signupProfile.nickName)}`
         ); // user 먼저 만들어져야함
         const currentUser: UserInfo = userRes.data.data as UserInfo;
-        console.log(currentUser);
 
-        setUserState(currentUser);
-        setLoginState(true);
+        setUserState({
+            accountNumber: currentUser.accountNumber,
+            name: currentUser.name,
+            nickname: currentUser.nickname,
+            phoneNumber: currentUser.phoneNumber,
+        });
     };
 
     const onClose = async () => {

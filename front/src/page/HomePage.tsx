@@ -32,7 +32,9 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="bg_gray5">
-            <Box className="glow_body">{homeRendering(renderType)}</Box>
+            <Box className="glow_body" overflow="hidden">
+                {homeRendering(renderType)}
+            </Box>
             <BottomBarNav current={renderType} onChange={onChange} />
         </div>
     );

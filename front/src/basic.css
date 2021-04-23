@@ -100,6 +100,10 @@ input {
     border: none;
 }
 
+td {
+    padding: 0;
+}
+
 /*폰트 두께*/
 .txt_b {
     font-weight: 700;
@@ -110,6 +114,11 @@ input {
 }
 
 /*폰트 크기 (txt_폰트크기숫자)*/
+.txt_10 {
+    font-size: 10px;
+    line-height: 12px;
+}
+
 .txt_14 {
     font-size: 14px;
     line-height: 20px;
@@ -154,6 +163,10 @@ input {
     color: #62c3eb;
 }
 
+.txt_primaryBlue2 {
+    color: #3baad8;
+}
+
 .txt_gray1 {
     color: #747474;
 }
@@ -176,15 +189,39 @@ input {
     margin-top: 20px;
 }
 
+.mg_t24 {
+    margin-top: 24px;
+}
+
 .mg_t30 {
     margin-top: 30px;
+}
+
+.mg_l10 {
+    margin-left: 10px;
 }
 
 .mg_l16 {
     margin-left: 16px;
 }
 
+.mg_b2 {
+    margin-bottom: 2px;
+}
+
 /*페딩*/
+.pd_18 {
+    padding: 18px;
+}
+
+.pd_20 {
+    padding: 20px;
+}
+
+.pd_24 {
+    padding: 24px;
+}
+
 .pd_t4 {
     padding-top: 4px;
 }
@@ -224,6 +261,10 @@ input {
 
 .pd_l20 {
     padding-left: 20px;
+}
+
+.pd_r20 {
+    padding-right: 20px;
 }
 
 .pd_b80 {
@@ -333,9 +374,21 @@ input {
 .bottom_navi {
     position: fixed;
     width: 100%;
-    height: 50px;
+    height: 60px;
     left: 0;
     bottom: 0;
+}
+
+/*네비게이션 아이콘*/
+.home_div {
+    width: 24px;
+    height: 24px;
+}
+
+/*네비게이션 스타일*/
+.bottom_navi_div {
+    width: 25%;
+    padding-top: 7px;
 }
 
 /*숨김*/
@@ -346,6 +399,10 @@ input {
 /*높이*/
 .height_80 {
     height: 80px;
+}
+
+.height_160 {
+    height: 160px;
 }
 
 /*img*/
@@ -375,12 +432,27 @@ input {
     background: #62c3eb;
 }
 
+.bg_opacityblue {
+    background: #62c3eb;
+    opacity: 40%;
+}
+
 /*버튼 - ex.1원 인증*/
 .btn_blueBorder {
     padding-left: 14px;
     padding-right: 14px;
     height: 30px;
     background-color: white;
+    border: 1px solid #62c3eb;
+    box-sizing: border-box;
+    border-radius: 15px;
+}
+
+.btn_blue {
+    padding-left: 13px;
+    padding-right: 13px;
+    height: 30px;
+    background-color: #62c3eb;
     border: 1px solid #62c3eb;
     box-sizing: border-box;
     border-radius: 15px;
