@@ -4,14 +4,31 @@ import {
     Checkbox,
     Dialog,
     FormControlLabel,
+    makeStyles,
     Typography,
 } from '@material-ui/core';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import React, { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { SignUpCategoryState } from '../../recoil/Session';
 import { CategoryDataSet, CategoryStandInfo } from '../Category/DataModel';
 import { SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
+const useStyles = makeStyles({
+    root: {
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+    },
+    margin: {
+        marginLeft: '5px',
+    },
+    icon: {
+        color: '#62C3EB',
+        fontSize: '1.5rem',
+    },
+});
 
 interface ACDialogProps {
     open: boolean;
@@ -65,6 +82,8 @@ const ACOverDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
 const SignupCategoryComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
+    const classes = useStyles();
+
     const [category, setCategory] = useRecoilState<CategoryDataSet[]>(
         SignUpCategoryState
     );
@@ -119,6 +138,16 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
                                 className="checkbox__label pd_t26 pd_l20"
                                 control={
                                     <Checkbox
+                                        checkedIcon={
+                                            <CheckCircleOutlineIcon
+                                                className={classes.icon}
+                                            />
+                                        }
+                                        icon={
+                                            <RadioButtonUncheckedIcon
+                                                className={classes.icon}
+                                            />
+                                        }
                                         color="primary"
                                         checked={
                                             category.indexOf(eachCategory) >= 0
@@ -130,6 +159,7 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
                                         }}
                                     />
                                 }
+                                classes={{ label: classes.margin }}
                                 label={eachCategory.name}
                             />
                         </div>

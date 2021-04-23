@@ -37,7 +37,3 @@ export const CategoryStandInfo: CategoryDataSet[] = [
         name: '구호물품',
     },
 ];
-
-export const getCategoryNameFromId = (id: number): string | undefined => {
-    return CategoryStandInfo.find((eachId) => eachId.id == id)?.name;
-};

@@ -97,3 +97,33 @@
     height: 1px;
     width: 100%;
 }
+
+.money-font {
+    font-family: 'Recursive', sans-serif;
+}
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.noncheck {
+    border: none;
+    border-radius: 12px;
+    content: '';
+    display: block;
+    height: 24px;
+    width: 24px;
+}
+.yescheck {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    content: '';
+    display: block;
+    height: 8px;
+    left: 7px;
+    top: 5px;
+    transform: rotate(45deg);
+    width: 8px;
+}

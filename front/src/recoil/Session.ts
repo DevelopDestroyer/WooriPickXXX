@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { CategoryDataSet } from '../component/Category/DataModel';
+import { GivingResultInfo } from '../component/Giving/DataModel';
 import { TransactionSet } from '../component/Home/DataModel';
 import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
@@ -15,6 +16,17 @@ export interface UserAccount {
     accountMoney: number;
     point: number;
 }
+
+export const GivingResultState = atom<GivingResultInfo>({
+    key: 'GivingResultState',
+    default: {
+        isLoaded: false,
+        donationRatioStatus: [],
+        memberDTOs: [],
+        totalDonationMoney: 0,
+    },
+    effects_UNSTABLE: [persistAtom],
+});
 
 export const IsSplashSkip = atom<boolean>({
     key: 'IsSplashSkip',

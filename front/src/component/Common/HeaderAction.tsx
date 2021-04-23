@@ -1,12 +1,12 @@
 import {
-    BottomNavigation,
-    BottomNavigationAction,
+    AppBar,
+    Box,
+    IconButton,
     makeStyles,
+    Toolbar,
+    Typography,
 } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import PeopleIcon from '@material-ui/icons/People';
-import SettingsIcon from '@material-ui/icons/Settings';
-import StorefrontIcon from '@material-ui/icons/Storefront';
+import { KeyboardArrowLeft } from '@material-ui/icons';
 import React from 'react';
 
 const useStyles = makeStyles(() => ({
@@ -18,74 +18,34 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-export enum DISPLAY_TYPE {
-    HOME,
-    BENEFIT,
-    TOGETHER,
-    SETTING,
+export interface HeaderActionProps {
+    isLast: boolean;
+    headerTitle: string;
 }
 
-interface BottomBarNavProps {
-    current: DISPLAY_TYPE;
-    onChange: (clickType: DISPLAY_TYPE) => void;
-}
-
-const BottomBarNav: React.FC<BottomBarNavProps> = (
-    props: BottomBarNavProps
+const HeaderAction: React.FC<HeaderActionProps> = (
+    props: HeaderActionProps
 ) => {
     const classes = useStyles();
 
-    const handleChange = (
-        event: React.ChangeEvent<any>,
-        newValue: DISPLAY_TYPE
-    ) => {
-        props.onChange(newValue);
-    };
-
     return (
-        <BottomNavigation
-            value={props.current}
-            onChange={handleChange}
-            showLabels={true}
-        >
-            <BottomNavigationAction
-                classes={{
-                    selected: classes.selectedType,
-                    label: classes.defaultType,
-                }}
-                label="홈"
-                value={DISPLAY_TYPE.HOME}
-                icon={<HomeIcon classes={{}} />}
-            />
-            <BottomNavigationAction
-                classes={{
-                    selected: classes.selectedType,
-                    label: classes.defaultType,
-                }}
-                label="혜택찾기"
-                value={DISPLAY_TYPE.BENEFIT}
-                icon={<StorefrontIcon />}
-            />
-            <BottomNavigationAction
-                classes={{
-                    selected: classes.selectedType,
-                    label: classes.defaultType,
-                }}
-                label="투게더"
-                value={DISPLAY_TYPE.TOGETHER}
-                icon={<PeopleIcon />}
-            />
-            <BottomNavigationAction
-                classes={{
-                    selected: classes.selectedType,
-                    label: classes.defaultType,
-                }}
-                label="My"
-                value={DISPLAY_TYPE.SETTING}
-                icon={<SettingsIcon />}
-            />
-        </BottomNavigation>
+        <AppBar position="sticky">
+            <Toolbar>
+                <IconButton className="back_div" disabled={props.isLast}>
+                    <KeyboardArrowLeft
+                        style={{
+                            display: `${props.isLast ? 'none' : 'block'}`,
+                        }}
+                    />
+                </IconButton>
+            </Toolbar>
+            <Box ml="16px" mb="10px">
+                <Typography className="txt_24 txt_b mg_t10">
+                    {props.headerTitle}
+                </Typography>
+            </Box>
+        </AppBar>
     );
 };
 
-export default BottomBarNav;
+export default HeaderAction;

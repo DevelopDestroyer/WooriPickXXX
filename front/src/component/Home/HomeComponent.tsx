@@ -1,4 +1,4 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -8,19 +8,7 @@ import HCBenefit from './HCBenefit';
 import HCPoint from './HCPoint';
 import HCStatus from './HCStatus';
 
-const useStyles = makeStyles(() => ({
-    dfColor: {
-        color: 'white',
-    },
-    buttonLayout: {
-        backgroundColor: '#3BAAD8',
-        flexBasis: 0,
-        flexGrow: 1,
-    },
-}));
-
 const HomeComponent: React.FC = () => {
-    const classes = useStyles();
     const userInfo = useRecoilValue(CurrentUserState);
     console.log(userInfo);
     return (

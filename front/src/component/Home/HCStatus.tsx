@@ -7,6 +7,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import http from '../../http';
 import { CurrentAccountState, CurrentUserState } from '../../recoil/Session';
@@ -36,6 +37,7 @@ const useStyles = makeStyles(() => ({
 
 const HCStatus: React.FC = () => {
     const classes = useStyles();
+    const history = useHistory();
     const userInfo = useRecoilValue(CurrentUserState);
     const [account, setAccount] = useRecoilState(CurrentAccountState);
 
@@ -51,6 +53,10 @@ const HCStatus: React.FC = () => {
             );
         }
     }, []);
+
+    const onGivingClick = () => {
+        history.push('/giving');
+    };
 
     return (
         <Card style={{ backgroundColor: '#62C3EB', borderRadius: '0.5rem' }}>
@@ -78,6 +84,7 @@ const HCStatus: React.FC = () => {
                 </Button>
                 <Button
                     className={`${classes.buttonLayout} ${classes.dfColor}`}
+                    onClick={onGivingClick}
                 >
                     기부하기
                 </Button>
