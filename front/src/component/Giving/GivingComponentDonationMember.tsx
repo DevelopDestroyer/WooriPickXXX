@@ -2,86 +2,65 @@ import {
     Box,
     Card,
     CardContent,
+    Grid,
     makeStyles,
     Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
-import { getGivingNameFromId } from '../Common/util';
-import { DonationCategory } from './DataModel';
+import { COLOR_SET, DonationMember } from './DataModel';
 
 const useStyles = makeStyles(() => ({
-    moneyFont: {
-        fontFamily: "'Recursive', sans-serif !important",
-        fontSize: '36px',
-        textAlign: 'center',
+    text: {
+        display: 'inline-block',
+        maxWidth: '55px',
+        minWidth: '50px',
+        whiteSpace: 'nowrap',
+        textAlign: 'right',
+        overflow: 'hidden !important',
+        textOverflow: 'ellipsis',
+    },
+    money: {
+        position: 'relative',
+        display: 'inline-block',
+        fontFamily: "'Recursive', sans-serif",
+        fontSize: '17px',
     },
 }));
 
-interface GivingComponentDonationPieProps {
-    donationStatus: DonationCategory[];
+const MAX_SHOW_MEMBER = 8;
+
+interface GivingComponentDonationMemberProps {
+    donationMember: DonationMember[];
 }
 
-const COLOR_SET = [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
-    'rgba(246,219,111,0.2)',
-    'rgb(168,109,103)',
-];
-
-const GivingComponentDonationMember: React.FC<GivingComponentDonationPieProps> = ({
-    donationStatus,
-}: GivingComponentDonationPieProps) => {
-    const classes = useStyles();
-    console.log(111111111);
-    console.log(donationStatus);
-    const sortData = donationStatus
-        .filter((data) => data.totalDonationCount !== 0)
+const getOrderMember = (donationMember: DonationMember[]) => {
+    return donationMember
+        .slice()
         .sort((d1, d2) => {
-            console.log(d1);
-            console.log(d2);
-            return d2.totalDonationCount - d1.totalDonationCount;
-        });
-    //.filter((data) => data.totalDonationCount !== 0);
+            return d2.point - d1.point;
+        })
+        .slice(0, MAX_SHOW_MEMBER);
+};
 
-    console.log(sortData);
-    const data = {
-        labels: new Array<string>(),
-        datasets: [
-            {
-                data: new Array<number>(),
-                backgroundColor: new Array<string>(),
-                borderColor: new Array<string>(),
-            },
-        ],
-    };
+const getRage = (sortMemger: DonationMember[]): [number, number] => {
+    const maxValueLen = sortMemger[0].point;
+    const minValueLen = sortMemger[sortMemger.length - 1].point;
 
-    const options = {
-        maintainAspectRatio: false,
-        responsive: false,
-        plugins: {
-            legend: {
-                position: 'right',
-                labels: {
-                    fontSize: 12,
-                    boxWidth: 12,
-                    usePointStyle: true,
-                },
-            },
-        },
-    };
+    if (sortMemger.length >= 1) {
+        const max = maxValueLen * 1.1;
+        const min = minValueLen * 0.9;
+        return [min, max];
+    } else {
+        return [0, 0];
+    }
+};
 
-    sortData.forEach((eachData, index) => {
-        data.labels.push(getGivingNameFromId(eachData.donationId));
-        data.datasets[0].data.push(eachData.totalDonationCount);
-        data.datasets[0].backgroundColor.push(COLOR_SET[index]);
-        data.datasets[0].borderColor.push('#00000000');
-    });
-    console.log(data);
+const GivingComponentDonationMember: React.FC<GivingComponentDonationMemberProps> = ({
+    donationMember,
+}: GivingComponentDonationMemberProps) => {
+    const classes = useStyles();
+    const orderMember = getOrderMember(donationMember);
+    const [start, end] = getRage(orderMember);
     return (
         <Card
             style={{
@@ -92,14 +71,53 @@ const GivingComponentDonationMember: React.FC<GivingComponentDonationPieProps> =
                 <Typography className="txt_b txt_20">
                     지난 달 기부왕👍
                 </Typography>
-                <Box mt="1rem">
-                    <Pie
-                        width={250}
-                        height={180}
-                        options={options}
-                        type="pie"
-                        data={data}
-                    />
+                <Box>
+                    <Grid>
+                        {orderMember.map((eachMember, index) => {
+                            return (
+                                <Box
+                                    display="flex"
+                                    key={eachMember.nickname}
+                                    my="1.5rem"
+                                >
+                                    <Box
+                                        width="1.5rem"
+                                        height="2rem"
+                                        position="relative"
+                                    >
+                                        {index <= 2 && (
+                                            <img
+                                                src={`/images/ICON_ranking${
+                                                    index + 1
+                                                }.png`}
+                                            />
+                                        )}
+                                    </Box>
+                                    <Box flexGrow="1" ml="0.5rem">
+                                        <Box
+                                            mt="0.3rem"
+                                            height="40%"
+                                            width={`${
+                                                (eachMember.point /
+                                                    (end - start)) *
+                                                100
+                                            }%`}
+                                            style={{
+                                                backgroundColor:
+                                                    COLOR_SET[index],
+                                            }}
+                                        />
+                                        <Typography className={classes.money}>
+                                            {eachMember.point}원
+                                        </Typography>
+                                    </Box>
+                                    <Typography className={classes.text}>
+                                        {eachMember.nickname}
+                                    </Typography>
+                                </Box>
+                            );
+                        })}
+                    </Grid>
                 </Box>
             </CardContent>
         </Card>

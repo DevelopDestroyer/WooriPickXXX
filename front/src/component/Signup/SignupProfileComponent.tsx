@@ -41,7 +41,6 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                 setProfile({ ...profile, realName: data });
                 break;
             case 1:
-                console.log(`Onchange Called`);
                 if (data !== '') {
                     http.get(`/api/members/nicknameCheck/${data}`).then(
                         (res) => {

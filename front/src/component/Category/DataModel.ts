@@ -1,7 +1,6 @@
-export interface CategoryDataSet {
-    id: number;
-    name: string;
-}
+import { CategoryDataInfo } from '../Common/SelectList';
+
+export interface CategoryDataSet extends CategoryDataInfo {}
 
 export const CategoryStandInfo: CategoryDataSet[] = [
     {

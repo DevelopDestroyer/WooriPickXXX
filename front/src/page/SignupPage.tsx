@@ -94,13 +94,12 @@ const SignupPage: React.FC = () => {
         if (index + move > 7) {
             // 맨마지막 페이지
             // setIsAccSeq(true); real Signup
-            console.log(`last page`);
+            history.replace('/');
         } else {
-            console.log(`goto slide ${index + move}`);
             sliderRef.current && sliderRef.current.slickGoTo(index + move);
         }
     };
-    console.log(items);
+
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}

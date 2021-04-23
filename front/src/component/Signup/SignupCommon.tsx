@@ -1,4 +1,10 @@
-import { Button, IconButton } from '@material-ui/core';
+import {
+    AppBar,
+    Button,
+    IconButton,
+    Toolbar,
+    Typography,
+} from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import React, { PropsWithChildren } from 'react';
 
@@ -14,22 +20,28 @@ const SignupCommonComponent: React.FC<PropsWithChildren<SignUpCommon>> = (
 ) => {
     return (
         <>
-            <div className="toptitle_div bg_wh">
-                <div className="container">
-                    <IconButton
-                        className="back_div"
-                        disabled={props.isLast}
-                        onClick={() => props.onMoveButtonClick(-1)}
-                    >
-                        <KeyboardArrowLeft
-                            style={{
-                                display: `${props.isLast ? 'none' : 'block'}`,
-                            }}
-                        />
-                    </IconButton>
-                    <p className="txt_24 txt_b mg_t10">혜택통 만들기</p>
-                </div>
-            </div>
+            <AppBar position="sticky">
+                <Toolbar style={{ alignItems: 'center' }}>
+                    {!props.isLast && (
+                        <IconButton
+                            className="back_div"
+                            disabled={props.isLast}
+                            onClick={() => props.onMoveButtonClick(-1)}
+                        >
+                            <KeyboardArrowLeft
+                                style={{
+                                    display: `${
+                                        props.isLast ? 'none' : 'block'
+                                    }`,
+                                }}
+                            />
+                        </IconButton>
+                    )}
+                    <Typography className="txt_24 txt_b">
+                        혜택통 만들기
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <div className="glow_body">
                 <div className="container mg_t30" style={{ height: '100%' }}>
                     {props.children}

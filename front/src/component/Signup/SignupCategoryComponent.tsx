@@ -1,18 +1,9 @@
-import {
-    Box,
-    Button,
-    Checkbox,
-    Dialog,
-    FormControlLabel,
-    makeStyles,
-    Typography,
-} from '@material-ui/core';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import { Box, Button, Dialog, makeStyles, Typography } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { SignUpCategoryState } from '../../recoil/Session';
 import { CategoryDataSet, CategoryStandInfo } from '../Category/DataModel';
+import SelectList from '../Common/SelectList';
 import { SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
 const useStyles = makeStyles({
@@ -127,44 +118,11 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
                 <p className="txt_20">관심있는 카테고리 2가지를 골라</p>
                 <p className="txt_20 txt_b">집중 혜택 받으세요.</p>
 
-                {CategoryStandInfo.map((eachCategory: CategoryDataSet) => {
-                    return (
-                        <div
-                            key={eachCategory.id}
-                            className="box_div mg_t20 bg_wh height_80"
-                        >
-                            <FormControlLabel
-                                style={{ display: 'flex' }}
-                                className="checkbox__label pd_t26 pd_l20"
-                                control={
-                                    <Checkbox
-                                        checkedIcon={
-                                            <CheckCircleOutlineIcon
-                                                className={classes.icon}
-                                            />
-                                        }
-                                        icon={
-                                            <RadioButtonUncheckedIcon
-                                                className={classes.icon}
-                                            />
-                                        }
-                                        color="primary"
-                                        checked={
-                                            category.indexOf(eachCategory) >= 0
-                                        }
-                                        onChange={(
-                                            event: ChangeEvent<HTMLInputElement>
-                                        ) => {
-                                            selectData(eachCategory, event);
-                                        }}
-                                    />
-                                }
-                                classes={{ label: classes.margin }}
-                                label={eachCategory.name}
-                            />
-                        </div>
-                    );
-                })}
+                <SelectList
+                    selectData={category}
+                    standardData={CategoryStandInfo}
+                    onChange={selectData}
+                />
             </SignupCommonComponent>
         </div>
     );

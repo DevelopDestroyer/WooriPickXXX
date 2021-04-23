@@ -8,8 +8,6 @@ export interface AuthRouteProps extends RouteProps {
 class AuthRoute extends Route<AuthRouteProps> {
     render = () => {
         const { isLogin, children, component, ...others } = this.props;
-        console.log(`RouterCalled`);
-        console.log(this.props);
         if (isLogin) {
             return (
                 <Route {...others} component={component}>

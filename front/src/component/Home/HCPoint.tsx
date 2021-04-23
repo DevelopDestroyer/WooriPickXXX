@@ -65,6 +65,7 @@ const HCPoint: React.FC = () => {
     if (displaySet.length === 0) {
         return <></>;
     }
+
     return (
         <Card style={{ borderRadius: '0.5rem' }}>
             <CardHeader title={<Typography>혜택 적립 내역</Typography>} />

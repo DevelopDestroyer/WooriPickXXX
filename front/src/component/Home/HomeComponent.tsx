@@ -1,21 +1,17 @@
 import { Box } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { CurrentUserState } from '../../recoil/Session';
 import HeaderDeafault from '../Common/HeaderDefault';
 import HCBenefit from './HCBenefit';
 import HCPoint from './HCPoint';
 import HCStatus from './HCStatus';
 
 const HomeComponent: React.FC = () => {
-    const userInfo = useRecoilValue(CurrentUserState);
-    console.log(userInfo);
     return (
         <>
             <HeaderDeafault icon={<HomeIcon />} title="홈" />
             <Box mx="1rem" overflow="hiddne">
-                <Box>
+                <Box mt="1rem">
                     <HCStatus />
                 </Box>
                 <Box mt="1rem">

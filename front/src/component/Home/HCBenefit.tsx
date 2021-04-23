@@ -70,7 +70,6 @@ const HCPoint: React.FC = () => {
                 setCategory(resCategory);
             }
         );
-        console.log('EffectCalled');
     }, [userInfo]);
 
     if (category.length === 0) {

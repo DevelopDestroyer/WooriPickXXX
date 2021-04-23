@@ -1,29 +1,19 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import http from '../../http';
-import { GivingResultState } from '../../recoil/Session';
+import { GivingResultState } from '../../recoil/Giving';
 import Loading from '../Common/Loading';
+import { CommonInterface } from './DataModel';
 import GivingCommon from './GivingCommon';
 import GivingComponentDonationMember from './GivingComponentDonationMember';
 import GivingComponentDonationPie from './GivingComponentDonationPie';
 import GivingComponentStatus from './GivingComponentStatus';
 
-const useStyles = makeStyles(() => ({
-    moneyFont: {
-        fontFamily: "'Recursive', sans-serif !important",
-        fontSize: '36px',
-        textAlign: 'center',
-    },
-    buttonLayout: {
-        backgroundColor: '#3BAAD8',
-        flexBasis: 0,
-        flexGrow: 1,
-    },
-}));
-
-const GivingComponent: React.FC = () => {
-    const classes = useStyles();
+const GivingComponent: React.FC<CommonInterface> = ({
+    index,
+    onMoveClick,
+}: CommonInterface) => {
     const [givingData, setGivingData] = useRecoilState(GivingResultState);
 
     useEffect(() => {
@@ -34,13 +24,13 @@ const GivingComponent: React.FC = () => {
             });
         });
     }, []);
-    console.log(givingData);
 
     return (
         <GivingCommon
-            header={{
-                isLast: false,
-                headerTitle: '기부하기',
+            headerTitle="기부하기"
+            isLast={false}
+            onMoveClick={(nextMove: number) => {
+                onMoveClick(index + nextMove);
             }}
             buttonTitle="기부 동참하기"
         >
@@ -56,9 +46,9 @@ const GivingComponent: React.FC = () => {
                             donationStatus={givingData.donationRatioStatus}
                         />
                     </Box>
-                    <Box mt="1rem">
+                    <Box my="1rem">
                         <GivingComponentDonationMember
-                            donationStatus={givingData.donationRatioStatus}
+                            donationMember={givingData.memberDTOs}
                         />
                     </Box>
                 </>

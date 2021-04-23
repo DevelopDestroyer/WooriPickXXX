@@ -1,6 +1,5 @@
 import {
     AppBar,
-    Box,
     IconButton,
     makeStyles,
     Toolbar,
@@ -21,29 +20,32 @@ const useStyles = makeStyles(() => ({
 export interface HeaderActionProps {
     isLast: boolean;
     headerTitle: string;
+    onMoveClick: () => void;
 }
 
 const HeaderAction: React.FC<HeaderActionProps> = (
     props: HeaderActionProps
 ) => {
-    const classes = useStyles();
-
     return (
         <AppBar position="sticky">
-            <Toolbar>
-                <IconButton className="back_div" disabled={props.isLast}>
-                    <KeyboardArrowLeft
-                        style={{
-                            display: `${props.isLast ? 'none' : 'block'}`,
-                        }}
-                    />
-                </IconButton>
-            </Toolbar>
-            <Box ml="16px" mb="10px">
-                <Typography className="txt_24 txt_b mg_t10">
+            <Toolbar style={{ alignItems: 'center' }}>
+                {!props.isLast && (
+                    <IconButton
+                        onClick={props.onMoveClick}
+                        className="back_div"
+                    >
+                        <KeyboardArrowLeft
+                            style={{
+                                display: 'block',
+                            }}
+                        />
+                    </IconButton>
+                )}
+
+                <Typography className="txt_24 txt_b">
                     {props.headerTitle}
                 </Typography>
-            </Box>
+            </Toolbar>
         </AppBar>
     );
 };
