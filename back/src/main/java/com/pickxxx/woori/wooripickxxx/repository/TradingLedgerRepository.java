@@ -11,4 +11,5 @@ public interface TradingLedgerRepository extends JpaRepository<TradingLedger, Lo
     ArrayList<TradingLedger> findAllByDateGreaterThanEqualAndDateLessThanEqualAndTradingTypeEquals(String ago3month, String ago1month, String type);
     ArrayList<TradingLedger> findAllByTradingTypeEquals(String type);
     ArrayList<TradingLedger> findAllByUserNicknameEqualsAndTradingTypeEqualsAndDateGreaterThanEqualAndDateLessThanEqual(String userNickname, String type, String ago3month, String ago1month);
+    ArrayList<TradingLedger> findAllByUserNicknameAndAndTradingTypeOrderByDateDesc(String userNickname, String trType);
 }
