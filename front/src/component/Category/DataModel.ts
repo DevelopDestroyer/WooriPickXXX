@@ -35,4 +35,8 @@ export const CategoryStandInfo: CategoryDataSet[] = [
         id: 108,
         name: '구호물품',
     },
+    {
+        id: 109,
+        name: '비건',
+    },
 ];

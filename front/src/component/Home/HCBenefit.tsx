@@ -14,7 +14,7 @@ import {
     CurrentUserCategoryState,
     CurrentUserState,
 } from '../../recoil/Session';
-import { getCategoryNameFromId } from '../Common/util';
+import { getCategoryImgPath, getCategoryNameFromId } from '../Common/util';
 
 const useStyles = makeStyles(() => ({
     dfColor: {
@@ -42,7 +42,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = (
     return (
         <Box display="flex" flexDirection="column">
             <img
-                src="images/Logo.png"
+                src={getCategoryImgPath(props.id)}
                 style={{ width: '3.5rem', height: '3.5rem', margin: 'auto' }}
             />
             <Typography style={{ textAlign: 'center' }}>

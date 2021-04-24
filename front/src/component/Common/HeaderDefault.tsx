@@ -1,16 +1,18 @@
 import { AppBar, Box, Toolbar, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 export interface HeaderDeafaultProps {
     icon: JSX.Element;
     title: string;
 }
 
-const HeaderDeafault: React.FC<HeaderDeafaultProps> = (
-    props: HeaderDeafaultProps
+type HeaderDefaultType = PropsWithChildren<HeaderDeafaultProps>;
+
+const HeaderDeafault: React.FC<HeaderDefaultType> = (
+    props: HeaderDefaultType
 ) => {
     return (
-        <AppBar position="sticky">
+        <AppBar position="sticky" style={{ backgroundColor: '#fafbfc' }}>
             <Toolbar>
                 {props.icon}
                 <Box ml="0.5rem">
@@ -24,6 +26,7 @@ const HeaderDeafault: React.FC<HeaderDeafaultProps> = (
                     </Typography>
                 </Box>
             </Toolbar>
+            {props.children}
         </AppBar>
     );
 };

@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import React, { useState } from 'react';
-import BenefitComponent from '../component/Benefit/BenefitComponent';
+import HomeBenefitComponent from '../component/Benefit/HomeBenefitComponent';
 import BottomBarNav, { DISPLAY_TYPE } from '../component/Common/BottomBar';
 import HomeComponent from '../component/Home/HomeComponent';
 import SettingComponent from '../component/Setting/SettingComponent';
@@ -11,7 +11,7 @@ const homeRendering = (type: DISPLAY_TYPE) => {
         case DISPLAY_TYPE.HOME:
             return <HomeComponent />;
         case DISPLAY_TYPE.BENEFIT:
-            return <BenefitComponent />;
+            return <HomeBenefitComponent />;
         case DISPLAY_TYPE.TOGETHER:
             return <TogetherComponent />;
         case DISPLAY_TYPE.SETTING:

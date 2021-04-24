@@ -73,9 +73,13 @@
 .MuiTypography-body3 {
     font-family: 'Noto Sans KR', sans-serif;
 }
-
+.MuiTab-textColorPrimary.Mui-selected,
 .MuiBottomNavigationAction-root.Mui-selected {
     color: #62c3eb !important;
+}
+
+.PrivateTabIndicator-colorPrimary-54 {
+    background-color: #62c3eb !important;
 }
 
 .MuiPaper-elevation1,

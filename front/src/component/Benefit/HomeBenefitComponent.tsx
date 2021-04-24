@@ -1,0 +1,110 @@
+import { Tab, Tabs } from '@material-ui/core';
+import StorefrontIcon from '@material-ui/icons/Storefront';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import http from '../../http';
+import {
+    BenefitFavoriteState,
+    BenefitStateCompany,
+} from '../../recoil/Benefit';
+import { CurrentUserState } from '../../recoil/Session';
+import { CategoryStandInfo } from '../Category/DataModel';
+import HeaderDeafault from '../Common/HeaderDefault';
+import {
+    BenefitCompany,
+    BenefitCompanyRes,
+    BenefitFavoriteCompany,
+} from './DataModel';
+import HomeBenefitInputText from './HomeBenefitInputText';
+import HomeBenefitSlider from './HomeBenefitSlider';
+
+const a11yProps = (index: any) => {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+    };
+};
+
+const HomeBenefitComponent: React.FC = () => {
+    const userInfo = useRecoilValue(CurrentUserState);
+
+    const [searchText, setSearchText] = useState<string>('');
+    const [benefitCompany, setBenefitCompany] = useRecoilState(
+        BenefitStateCompany
+    );
+    const [favoriteState, setFavoriteState] = useRecoilState(
+        BenefitFavoriteState
+    );
+
+    useEffect(() => {
+        if (benefitCompany.isLoaded) {
+            return;
+        }
+        http.get(`/api/${encodeURI(userInfo.nickname)}/company`).then((res) => {
+            const isertArr: BenefitCompanyRes = {
+                isLoaded: true,
+                data: [],
+            };
+            const benefitData: BenefitFavoriteCompany = {};
+            res.data.data.forEach((eachData: BenefitCompany) => {
+                isertArr.data.push({
+                    categoryId: eachData.categoryId,
+                    companyName: eachData.companyName,
+                    description: eachData.description,
+                    thumbNailPath: eachData.thumbNailPath.replace(
+                        /\/\//gi,
+                        '/'
+                    ),
+                    totalLike: eachData.totalLike,
+                });
+                benefitData[eachData.companyName] = eachData.userLike;
+            });
+            setBenefitCompany(isertArr);
+            setFavoriteState(benefitData);
+        });
+    }, []);
+
+    const onChange = (value: string) => {
+        setSearchText(value);
+    };
+
+    const [page, setPage] = useState<number>(0);
+
+    const tabChange = (event: ChangeEvent<any>, nextValue: number) => {
+        setPage(nextValue);
+    };
+
+    return (
+        <>
+            <HeaderDeafault icon={<StorefrontIcon />} title="혜택 찾기">
+                <HomeBenefitInputText
+                    inputText={searchText}
+                    onChange={onChange}
+                />
+
+                <Tabs
+                    value={page}
+                    onChange={tabChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="scrollable"
+                    scrollButtons="auto"
+                >
+                    {CategoryStandInfo.map((eachData, index) => {
+                        return (
+                            <Tab
+                                key={index}
+                                label={eachData.name}
+                                {...a11yProps(index)}
+                            />
+                        );
+                    })}
+                </Tabs>
+            </HeaderDeafault>
+
+            <HomeBenefitSlider pageIndex={page} />
+        </>
+    );
+};
+
+export default HomeBenefitComponent;

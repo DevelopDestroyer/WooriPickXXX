@@ -104,7 +104,9 @@ const GivingComponentDonationMember: React.FC<GivingComponentDonationMemberProps
                                             }%`}
                                             style={{
                                                 backgroundColor:
-                                                    COLOR_SET[index],
+                                                    COLOR_SET[
+                                                        index >= 5 ? 4 : index
+                                                    ],
                                             }}
                                         />
                                         <Typography className={classes.money}>
