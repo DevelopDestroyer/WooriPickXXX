@@ -1,25 +1,34 @@
 package com.pickxxx.woori.wooripickxxx.entity;
 
 import com.pickxxx.woori.wooripickxxx.common.StringUtil;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 public class Block {
     @Getter
+    @Setter
     private String hash;
     @Getter
+    @Setter
     private String previousHash;
     @Getter
+    @Setter
     private String data; //Transaction
 
     @Getter
+    @Setter
     private long timeStamp;
     @Getter
+    @Setter
     private int nonce;
     @Getter
+    @Setter
     private String target = "00000";
     @Getter
+    @Setter
     private int targetDepth = 5;
 
 

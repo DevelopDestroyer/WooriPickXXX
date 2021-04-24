@@ -68,7 +68,7 @@ INSERT INTO TRADING_COUNTER (USER_NICKNAME, COMPANY_NAME, CNT) VALUES ('정민',
 /* 제휴회사 정보 */
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('더피커', 101, '건강한 자원의 순환을 위해 지속가능한 생활 대안 제품 판매', '/images/company/1.png');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('보틀팩토리', 101, '일회용품을 줄이기 위한 텀블러 테이크아웃 서비스 제공', '/images/company/2.png');
-INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구샵', 101, '낭비 없는 소비를 위한 생필품 및 식품 판매', '/images//company/3.png');
+INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구샵', 101, '낭비 없는 소비를 위한 생필품 및 식품 판매', '/images/company/3.png');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('송포어스', 101, '제로웨이스트를 위한 상품 판매와 비건 카페를 동시 운영', '/images/company/4.jpg');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구별가게', 101, '다회용품 브랜드 `소락`이 만든 제로웨이스트 제품 판매', '/images/company/5.jpg');
 

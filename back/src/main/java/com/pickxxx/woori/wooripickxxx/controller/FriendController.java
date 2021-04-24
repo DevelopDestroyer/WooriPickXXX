@@ -2,11 +2,8 @@ package com.pickxxx.woori.wooripickxxx.controller;
 
 import com.pickxxx.woori.wooripickxxx.common.Response;
 import com.pickxxx.woori.wooripickxxx.dto.FriendDTO;
-import com.pickxxx.woori.wooripickxxx.dto.FriendListDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
-import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
 import com.pickxxx.woori.wooripickxxx.service.FriendService;
-import com.pickxxx.woori.wooripickxxx.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
