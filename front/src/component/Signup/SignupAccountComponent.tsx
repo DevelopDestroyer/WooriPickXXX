@@ -1,155 +1,158 @@
-import { Box, Button, Dialog, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { SignUpAccNumState } from '../../recoil/Session';
-import { SignupComponentProps } from './DataModel';
+import {
+    Box,
+    Checkbox,
+    FormControlLabel,
+    Grid,
+    makeStyles,
+    Typography,
+} from '@material-ui/core';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import http from '../../http';
+import { SignUpAccInfoState, SignUpProfileState } from '../../recoil/Session';
+import { getMoneyStr2Number, getNumberString } from '../Common/util';
+import { SignupAccountInterface, SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
 
-interface ACDialogProps {
-    open: boolean;
-    onClose: () => void;
-}
+const useStyles = makeStyles({
+    labelLayout: {
+        display: 'flex',
+        alignItems: 'center',
+        height: '100%',
+        paddingTop: 0,
+        marginLeft: '5px',
+    },
+    icon: {
+        color: '#62C3EB',
+        fontSize: '1.5rem',
+    },
+});
 
-const ACDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
-    const { onClose, open } = props;
-
-    const handleOk = () => {
-        onClose();
-    };
-
+const AccountComponent: React.FC<SignupAccountInterface> = (
+    props: SignupAccountInterface
+) => {
     return (
-        <Dialog onClose={handleOk} open={open}>
-            <Box mt="15px" mx="15px">
-                <Typography>계좌 인증이 확인 되었습니다.</Typography>
-            </Box>
-            <Box>
-                <Button onClick={handleOk} className="p_btn_bottom txt_b">
-                    확인
-                </Button>
-            </Box>
-        </Dialog>
+        <Box display="flex" flexDirection="column">
+            <Grid>
+                <Typography>계좌번호: {props.ACNO}</Typography>
+            </Grid>
+            <Grid>
+                <Typography>
+                    잔액: {getNumberString(getMoneyStr2Number(props.PBOK_BAL))}
+                </Typography>
+            </Grid>
+        </Box>
     );
 };
 
 const SignupAccountComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
-    const [account, setAccount] = useRecoilState<string>(SignUpAccNumState);
-    const [isCert, setIsCert] = useState<boolean>(false);
-    const [tokenStr, setTokenStr] = useState<string>('');
+    const classes = useStyles();
 
-    const [dialog, setDialog] = useState<boolean>(false);
-    const [complete, setComplete] = useState<boolean>(false);
+    const setAccount = useSetRecoilState(SignUpAccInfoState);
+    const signupInfo = useRecoilValue(SignUpProfileState);
 
-    const completeClick = () => {
-        setComplete(true);
-        setDialog(true);
+    const [wooriAccountList, setWooriAccountList] = useState<
+        SignupAccountInterface[]
+    >([]);
+
+    const [selectAccount, setSelectAccount] = useState<
+        SignupAccountInterface[]
+    >([]);
+
+    console.log('Account Called');
+    console.log(props.checkCurrent);
+    useEffect(() => {
+        if (props.checkCurrent) {
+            let regex = /(\d{3})(\d{3})(\d{4})/;
+            if (signupInfo.cellNumber.length === 11) {
+                regex = /(\d{3})(\d{4})(\d{4})/;
+            }
+            const cellFormat = signupInfo.cellNumber.replace(regex, '$1-$2-$3');
+            http.get(
+                `/api/wooribank/userPhoneNumber/${encodeURI(
+                    cellFormat
+                )}/accounts`
+            ).then((res) => {
+                const data: SignupAccountInterface[] = (res.data.dataBody
+                    .GRID as SignupAccountInterface[]).filter((eachData) => {
+                    return eachData.ACCT_KND.toUpperCase() === 'P';
+                });
+                setWooriAccountList(data);
+            });
+        }
+    }, [props.checkCurrent]);
+
+    const onChange = (
+        data: SignupAccountInterface,
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        if (event.currentTarget.checked) {
+            setSelectAccount([data]);
+            setAccount({
+                accountNumber: data.ACNO,
+                accountMoney: getMoneyStr2Number(data.PBOK_BAL),
+            });
+        } else {
+            setSelectAccount([]);
+        }
     };
 
-    const onCertClick = () => {
-        setIsCert(!isCert);
-    };
-
+    console.log(selectAccount);
     return (
         <div className="bg_gray5">
-            <ACDialog
-                open={dialog}
-                onClose={() => {
-                    setDialog(false);
-                }}
-            />
             <SignupCommonComponent
-                buttonDisable={!complete}
+                buttonDisable={selectAccount.length === 0}
                 onMoveButtonClick={props.onMoveButtonClick}
             >
                 <p className="txt_20 txt_b">
-                    본인의 우리은행 계좌번호를 알려주세요.
+                    결재하실 계좌번호를 선택해 주세요.
                 </p>
 
                 <div className="box_div mg_t20 bg_wh">
-                    <table style={{ width: '100%' }}>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div className="pd_t16 mg_l16">
-                                        <TextField
-                                            disabled={isCert || complete}
-                                            value={account}
-                                            onChange={(event) => {
-                                                setAccount(event.target.value);
-                                            }}
-                                            label="계좌번호"
-                                            variant="outlined"
-                                        />
-                                    </div>
-                                    <div className="pd_t4 mg_l16 pd_b16"></div>
-                                </td>
-                                <td style={{ textAlign: 'right' }}>
-                                    <div className="">
-                                        <Button
-                                            disabled={
-                                                account === '' || complete
+                    {wooriAccountList.map((eachData) => {
+                        return (
+                            <div
+                                key={eachData.ACNO}
+                                className="box_div mg_t20 bg_wh height_80"
+                            >
+                                <FormControlLabel
+                                    style={{ display: 'flex' }}
+                                    className="checkbox__label pd_l20"
+                                    control={
+                                        <Checkbox
+                                            checkedIcon={
+                                                <CheckCircleOutlineIcon
+                                                    className={classes.icon}
+                                                />
                                             }
-                                            className="btn_blueBorder"
-                                            style={{
-                                                marginRight: '16px',
-                                            }}
-                                            onClick={onCertClick}
-                                        >
-                                            {isCert ? '취소' : '1원 인증'}
-                                        </Button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <p className="mg_t30 txt_14 txt_center">
-                    계좌 확인을 위해 계좌번호로 1원을 보낼게요
-                    <br />
-                    입금명을 확인해 주세요
-                </p>
-
-                <div className="box_div mg_t30 bg_wh">
-                    <table style={{ width: '100%' }}>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div className="pd_t16 mg_l16">
-                                        <TextField
-                                            disabled={!isCert || complete}
-                                            onChange={(event) => {
-                                                setTokenStr(event.target.value);
-                                            }}
-                                            placeholder="혜택통 +"
-                                            label="입금명을 입력해주세요"
-                                            variant="outlined"
+                                            icon={
+                                                <RadioButtonUncheckedIcon
+                                                    className={classes.icon}
+                                                />
+                                            }
+                                            color="primary"
+                                            checked={
+                                                selectAccount.findIndex(
+                                                    (select) =>
+                                                        select.ACNO ===
+                                                        eachData.ACNO
+                                                ) >= 0
+                                            }
+                                            onChange={(event) =>
+                                                onChange(eachData, event)
+                                            }
                                         />
-                                    </div>
-                                    <div className="pd_t4 mg_l16 pd_b16"></div>
-                                </td>
-                                <td style={{ textAlign: 'right' }}>
-                                    <div className="">
-                                        {isCert && (
-                                            <Button
-                                                disabled={
-                                                    tokenStr === '' || complete
-                                                }
-                                                className="btn_blueBorder"
-                                                style={{
-                                                    marginRight: '16px',
-                                                }}
-                                                onClick={completeClick}
-                                            >
-                                                입력
-                                            </Button>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    }
+                                    classes={{ root: classes.labelLayout }}
+                                    label={<AccountComponent {...eachData} />}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             </SignupCommonComponent>
         </div>

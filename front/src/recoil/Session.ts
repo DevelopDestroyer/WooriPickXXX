@@ -31,9 +31,15 @@ export const SignUpProfileState = atom<SignupProfileInfo>({
     },
 });
 
-export const SignUpAccNumState = atom<string>({
-    key: 'SignUpAccNumState',
-    default: '',
+export const SignUpAccInfoState = atom<{
+    accountNumber: string;
+    accountMoney: number;
+}>({
+    key: 'SignUpAccInfoState',
+    default: {
+        accountMoney: 0,
+        accountNumber: '',
+    },
 });
 
 export const SignUpCategoryState = atom<CategoryDataSet[]>({

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import Slider from 'react-slick';
 import { useResetRecoilState } from 'recoil';
@@ -8,13 +8,12 @@ import {
     SignupProfileInterface,
 } from '../component/Signup/DataModel';
 import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
-import SignupBillingComponent from '../component/Signup/SignupBillingComponent';
 import SignupCategoryComponent from '../component/Signup/SignupCategoryComponent';
 import SignupFinishComponent from '../component/Signup/SignupFinishComponent';
 import SignupPasswordComponent from '../component/Signup/SignupPasswordComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
 import {
-    SignUpAccNumState,
+    SignUpAccInfoState,
     SignUpCategoryState,
     SignUpProfileState,
 } from '../recoil/Session';
@@ -23,9 +22,10 @@ const SignupPage: React.FC = () => {
     const history = useHistory();
 
     const resetProfile = useResetRecoilState(SignUpProfileState);
-    const resetAccNum = useResetRecoilState(SignUpAccNumState);
+    const resetAccInfo = useResetRecoilState(SignUpAccInfoState);
     const resetCategory = useResetRecoilState(SignUpCategoryState);
     const sliderRef = useRef<Slider>(null);
+    const [index, setIndex] = useState<number>(0);
 
     const items: Array<JSX.Element> = [];
     rendingData.forEach((eachData: SignupProfileInterface, index: number) => {
@@ -39,58 +39,16 @@ const SignupPage: React.FC = () => {
         );
     });
 
-    items.push(
-        <SignupAccountComponent
-            key={3}
-            onMoveButtonClick={(move: number) => {
-                onMove(3, move);
-            }}
-        />
-    );
-    items.push(
-        <SignupCategoryComponent
-            key={4}
-            onMoveButtonClick={(move: number) => {
-                onMove(4, move);
-            }}
-        />
-    );
-    items.push(
-        <SignupBillingComponent
-            key={5}
-            onMoveButtonClick={(move: number) => {
-                onMove(5, move);
-            }}
-        />
-    );
-
-    items.push(
-        <SignupPasswordComponent
-            key={6}
-            onMoveButtonClick={(move: number) => {
-                onMove(6, move);
-            }}
-        />
-    );
-
-    items.push(
-        <SignupFinishComponent
-            key={7}
-            onMoveButtonClick={(move: number) => {
-                onMove(7, move);
-            }}
-        />
-    );
-
-    const onMove = (index: number, move: number) => {
+    const onMove = async (index: number, move: number) => {
         if (index + move < 0) {
             resetProfile();
-            resetAccNum();
+            resetAccInfo();
             resetCategory();
             history.replace('/mainpage');
+            setIndex(0);
             return;
         }
-
+        setIndex(index + move);
         if (index + move > 7) {
             // 맨마지막 페이지
             // setIsAccSeq(true); real Signup
@@ -103,6 +61,33 @@ const SignupPage: React.FC = () => {
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}
+            <SignupAccountComponent
+                key={3}
+                checkCurrent={index === 3}
+                onMoveButtonClick={(move: number) => {
+                    onMove(3, move);
+                }}
+            />
+            <SignupPasswordComponent
+                key={4}
+                onMoveButtonClick={(move: number) => {
+                    onMove(4, move);
+                }}
+            />
+
+            <SignupCategoryComponent
+                key={5}
+                onMoveButtonClick={(move: number) => {
+                    onMove(5, move);
+                }}
+            />
+
+            <SignupFinishComponent
+                key={6}
+                onMoveButtonClick={(move: number) => {
+                    onMove(6, move);
+                }}
+            />
         </Slider>
     );
 };

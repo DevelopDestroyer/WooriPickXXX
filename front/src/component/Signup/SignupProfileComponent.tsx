@@ -34,6 +34,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
     const value = parseData(profile, props.index);
     const buttonDisable = value === '';
     const [inValid, setInValid] = useState<boolean>(false);
+    const [helperText, setHelperText] = useState<string>('');
 
     const onChange = (index: number, data: string) => {
         switch (index) {
@@ -47,6 +48,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                             const alreadyExist: boolean = res.data.data;
                             if (alreadyExist !== inValid) {
                                 setInValid(alreadyExist);
+                                setHelperText('이미 존재하는 닉네임입니다.');
                             }
                         }
                     );
@@ -55,7 +57,17 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
 
                 break;
             case 2:
-                setProfile({ ...profile, cellNumber: data });
+                let onlyNums = data.replace(/[^0-9]/g, '');
+                if (onlyNums.length > 11) {
+                    onlyNums = onlyNums.slice(0, 11);
+                }
+                setProfile({ ...profile, cellNumber: onlyNums });
+                if (onlyNums.length < 10 || onlyNums.length > 11) {
+                    setInValid(true);
+                    setHelperText('휴대전화 번호는 10~11 자리입니다');
+                } else {
+                    setInValid(false);
+                }
                 break;
         }
     };
@@ -72,9 +84,7 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                     <div className="pd_t4 mg_l16 pd_b16">
                         <TextField
                             error={inValid}
-                            helperText={
-                                inValid && '이미 존재하는 닉네임입니다.'
-                            }
+                            helperText={inValid && helperText}
                             value={value}
                             onChange={(event) => {
                                 onChange(props.index, event.target.value);

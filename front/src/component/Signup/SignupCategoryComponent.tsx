@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Dialog, Typography } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { SignUpCategoryState } from '../../recoil/Session';
@@ -6,20 +6,6 @@ import { CategoryDataSet, CategoryStandInfo } from '../Category/DataModel';
 import SelectList from '../Common/SelectList';
 import { SignupComponentProps } from './DataModel';
 import SignupCommonComponent from './SignupCommon';
-const useStyles = makeStyles({
-    root: {
-        '&:hover': {
-            backgroundColor: 'transparent',
-        },
-    },
-    margin: {
-        marginLeft: '5px',
-    },
-    icon: {
-        color: '#62C3EB',
-        fontSize: '1.5rem',
-    },
-});
 
 interface ACDialogProps {
     open: boolean;
@@ -73,8 +59,6 @@ const ACOverDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
 const SignupCategoryComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
 ) => {
-    const classes = useStyles();
-
     const [category, setCategory] = useRecoilState<CategoryDataSet[]>(
         SignUpCategoryState
     );
@@ -112,6 +96,7 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
                 }}
             />
             <SignupCommonComponent
+                isLast={true}
                 buttonDisable={buttonDisable}
                 onMoveButtonClick={props.onMoveButtonClick}
             >

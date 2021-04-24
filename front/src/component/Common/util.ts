@@ -11,6 +11,10 @@ export const getGivingNameFromId = (id: number): string => {
     return target ? target.name : '';
 };
 
+export const getMoneyStr2Number = (str: string): number => {
+    return Math.floor(Number(str));
+};
+
 export const getNumberString = (number: number): string => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

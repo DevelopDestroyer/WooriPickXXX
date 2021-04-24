@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
+    CurrentAccountState,
     CurrentUserState,
-    SignUpAccNumState,
+    SignUpAccInfoState,
     SignUpCategoryState,
     SignUpProfileState,
+    UserAccount,
     UserInfo,
 } from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
@@ -34,15 +36,16 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
     const [showPassword, setShowPassword] = useState(false);
 
     const setUserState = useSetRecoilState<UserInfo>(CurrentUserState);
+    const setAccountState = useSetRecoilState(CurrentAccountState);
 
     const signupProfile = useRecoilValue(SignUpProfileState);
-    const accountNumber = useRecoilValue(SignUpAccNumState);
-    const currentCategory = useRecoilValue(SignUpCategoryState);
+    const accountInfo = useRecoilValue(SignUpAccInfoState);
+
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     const resetProfile = useResetRecoilState(SignUpProfileState);
-    const resetAccNum = useResetRecoilState(SignUpAccNumState);
+    const resetAccNum = useResetRecoilState(SignUpAccInfoState);
     const resetCategory = useResetRecoilState(SignUpCategoryState);
 
     const [fingerDialog, setFingerDialog] = useState<boolean>(false);
@@ -52,19 +55,22 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
             name: signupProfile.realName,
             nickname: signupProfile.nickName,
             phoneNumber: signupProfile.cellNumber,
-            accountNumber: accountNumber,
+            accountNumber: accountInfo.accountNumber,
             password: password,
-            accountMoney: '10000',
+            accountMoney: accountInfo.accountMoney + '',
         };
         const signupCategory: SignupCategory = {
-            benefitCategoryList: [],
+            benefitCategoryList: [
+                {
+                    categoryId: 101,
+                    userNickname: signupProfile.nickName,
+                },
+                {
+                    categoryId: 102,
+                    userNickname: signupProfile.nickName,
+                },
+            ],
         };
-        currentCategory.forEach((eachData) => {
-            signupCategory.benefitCategoryList.push({
-                userNickname: signupProfile.nickName,
-                categoryId: eachData.id,
-            });
-        });
 
         const createRes = await http.post('/api/members', signupData); // user 먼저 만들어져야함
         console.log(createRes);
@@ -76,13 +82,18 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
         const userRes = await http.get(
             `/api/members/${encodeURI(signupProfile.nickName)}`
         ); // user 먼저 만들어져야함
-        const currentUser: UserInfo = userRes.data.data as UserInfo;
+        console.log(userRes.data.data);
+        const currentUser: UserInfo & UserAccount = userRes.data.data;
 
         setUserState({
             accountNumber: currentUser.accountNumber,
             name: currentUser.name,
             nickname: currentUser.nickname,
             phoneNumber: currentUser.phoneNumber,
+        });
+        setAccountState({
+            accountMoney: currentUser.accountMoney,
+            point: currentUser.point,
         });
     };
 

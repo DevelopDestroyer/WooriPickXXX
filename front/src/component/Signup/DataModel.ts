@@ -6,12 +6,27 @@ export enum SIGNUP_TYPE {
     PASSWORD,
 }
 
+export interface SignupAccountInterface {
+    ACCT_KND: string;
+    ACNO: string;
+    ACT_STCD: string;
+    ADNT_RGS_YN: string;
+    CUCD: string;
+    FAXC_BAL: string;
+    NEW_DT: string;
+    PBOK_BAL: string;
+    PRD_NM: string;
+    PSKL_ACT_YN: string;
+    XPR_DT: string;
+}
+
 export interface SignupProfileInterface {
     title: string;
     description: string;
 }
 
 export interface SignupComponentProps {
+    checkCurrent?: boolean;
     onMoveButtonClick: (move: number) => void;
 }
 
