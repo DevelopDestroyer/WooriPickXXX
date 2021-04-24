@@ -30,8 +30,7 @@ function TabPanel(props: TabPanelProps) {
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
-        height: '1500px',
+        backgroundColor: 'rgb(250, 251, 252)',
     },
 }));
 

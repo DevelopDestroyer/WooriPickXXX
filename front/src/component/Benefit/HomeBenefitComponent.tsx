@@ -1,7 +1,7 @@
-import { Tab, Tabs } from '@material-ui/core';
+import { Box, Tab, Tabs } from '@material-ui/core';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
     BenefitFavoriteState,
@@ -16,6 +16,7 @@ import {
     BenefitFavoriteCompany,
 } from './DataModel';
 import HomeBenefitInputText from './HomeBenefitInputText';
+import HomeBenefitSearchList from './HomeBenefitSearchList';
 import HomeBenefitSlider from './HomeBenefitSlider';
 
 const a11yProps = (index: any) => {
@@ -32,9 +33,7 @@ const HomeBenefitComponent: React.FC = () => {
     const [benefitCompany, setBenefitCompany] = useRecoilState(
         BenefitStateCompany
     );
-    const [favoriteState, setFavoriteState] = useRecoilState(
-        BenefitFavoriteState
-    );
+    const setFavoriteState = useSetRecoilState(BenefitFavoriteState);
 
     useEffect(() => {
         if (benefitCompany.isLoaded) {
@@ -74,6 +73,8 @@ const HomeBenefitComponent: React.FC = () => {
         setPage(nextValue);
     };
 
+    const isSearchMode = searchText.length !== 0;
+
     return (
         <>
             <HeaderDeafault icon={<StorefrontIcon />} title="혜택 찾기">
@@ -81,28 +82,34 @@ const HomeBenefitComponent: React.FC = () => {
                     inputText={searchText}
                     onChange={onChange}
                 />
-
-                <Tabs
-                    value={page}
-                    onChange={tabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                >
-                    {CategoryStandInfo.map((eachData, index) => {
-                        return (
-                            <Tab
-                                key={index}
-                                label={eachData.name}
-                                {...a11yProps(index)}
-                            />
-                        );
-                    })}
-                </Tabs>
+                {!isSearchMode && (
+                    <Tabs
+                        value={page}
+                        onChange={tabChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                    >
+                        {CategoryStandInfo.map((eachData, index) => {
+                            return (
+                                <Tab
+                                    key={index}
+                                    label={eachData.name}
+                                    {...a11yProps(index)}
+                                />
+                            );
+                        })}
+                    </Tabs>
+                )}
             </HeaderDeafault>
-
-            <HomeBenefitSlider pageIndex={page} />
+            {isSearchMode ? (
+                <Box p={3}>
+                    <HomeBenefitSearchList searchText={searchText} />
+                </Box>
+            ) : (
+                <HomeBenefitSlider pageIndex={page} />
+            )}
         </>
     );
 };

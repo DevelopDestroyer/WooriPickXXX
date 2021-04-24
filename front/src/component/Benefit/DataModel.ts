@@ -4,7 +4,7 @@ export interface BenefitCompany {
     description: string;
     thumbNailPath: string;
     totalLike: number;
-    userLike: false;
+    userLike: boolean;
 }
 
 export interface BenefitCompanyRes {

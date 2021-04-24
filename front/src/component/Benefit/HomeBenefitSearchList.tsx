@@ -6,6 +6,7 @@ import {
     BenefitFavoriteState,
     BenefitStateCompany,
 } from '../../recoil/Benefit';
+import { getCategoryNameFromId } from '../Common/util';
 import { BenefitCompany } from './DataModel';
 import HomBenefitCompany from './HomBenefitCompany';
 
@@ -18,13 +19,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export interface HomeBenefitListProps {
-    categoryId: number;
+export interface HomeBenefitSearchListProps {
+    searchText: string;
 }
 
-const HomeBenefitList: React.FC<HomeBenefitListProps> = (
-    props: HomeBenefitListProps
-) => {
+const HomeBenefitSearchList: React.FC<HomeBenefitSearchListProps> = ({
+    searchText,
+}: HomeBenefitSearchListProps) => {
     const classes = useStyles();
     const benefitCompany = useRecoilValue(BenefitStateCompany);
     const benefitFavoriteCompany = useRecoilValue(BenefitFavoriteState);
@@ -34,10 +35,17 @@ const HomeBenefitList: React.FC<HomeBenefitListProps> = (
 
     useEffect(() => {
         const filterData = benefitCompany.data.filter((eachData) => {
-            return eachData.categoryId === props.categoryId;
+            const categoryName = getCategoryNameFromId(eachData.categoryId);
+            console.log(
+                `Current Category Name ${categoryName} ${eachData.companyName} ${searchText}`
+            );
+            return (
+                categoryName.includes(searchText) ||
+                eachData.companyName.includes(searchText)
+            );
         });
         setRenderValue(filterData);
-    }, [benefitCompany.data]);
+    }, [searchText]);
 
     return (
         <>
@@ -61,4 +69,4 @@ const HomeBenefitList: React.FC<HomeBenefitListProps> = (
     );
 };
 
-export default HomeBenefitList;
+export default HomeBenefitSearchList;
