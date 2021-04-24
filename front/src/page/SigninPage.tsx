@@ -25,8 +25,20 @@ const SigninPage: React.FC = (props) => {
         history.push('/signup');
     };
 
+    const postMessage = (event: any) => {
+        event.preventDefault();
+        console.log(`Post Message Called`);
+        if (window && window.parent) {
+            console.log(`Post Send`);
+            window.parent.postMessage(1, '*');
+        }
+    };
+
     return (
         <>
+            <Button onClick={postMessage} style={{ display: 'absolute' }}>
+                IFrame Message Test
+            </Button>
             <div className={`bg_primaryblue ${classes.bodyReplace}`} />
             <div className="container">
                 <div className="div_rd_txt pd_t60">

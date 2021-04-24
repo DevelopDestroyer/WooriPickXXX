@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -11,6 +11,26 @@ import MainPage from './page/MainPage';
 import SignupPage from './page/SignupPage';
 
 const App: React.FC = () => {
+    useEffect(() => {
+        window.addEventListener(
+            'receivePhoneNumberList',
+            (e) => {
+                console.log(e);
+                alert(`receivePhoneNumberList ${e}`);
+            },
+            false
+        );
+
+        window.addEventListener(
+            'message',
+            (e) => {
+                console.log(e);
+                alert(`message ${e}`);
+            },
+            false
+        );
+    }, []);
+
     return (
         <BrowserRouter>
             <Switch>
