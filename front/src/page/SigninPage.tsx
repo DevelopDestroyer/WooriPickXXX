@@ -30,7 +30,7 @@ const SigninPage: React.FC = (props) => {
         console.log(`Post Message Called`);
         if (window && window.parent) {
             console.log(`Post Send`);
-            window.parent.postMessage(1, '*');
+            window.parent.postMessage('child;;;requestPhoneNumber', '*');
         }
     };
 

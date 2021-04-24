@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, Typography } from '@material-ui/core';
-import React, { ChangeEvent, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { SignUpCategoryState } from '../../recoil/Session';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { CurrentUserState, SignUpCategoryState } from '../../recoil/Session';
 import { CategoryDataSet, CategoryStandInfo } from '../Category/DataModel';
 import SelectList from '../Common/SelectList';
 import { SignupComponentProps } from './DataModel';
@@ -62,9 +62,17 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
     const [category, setCategory] = useRecoilState<CategoryDataSet[]>(
         SignUpCategoryState
     );
+
+    const userInfo = useRecoilValue(CurrentUserState);
+
     const [suggestDialog, setSuggestDialog] = useState<boolean>(false);
     const [overDialog, setOverDialog] = useState<boolean>(false);
     const buttonDisable = category.length !== 2;
+
+    useEffect(() => {
+        if (props.checkCurrent) {
+        }
+    }, []);
 
     const selectData = (
         data: CategoryDataSet,

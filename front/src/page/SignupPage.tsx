@@ -74,14 +74,13 @@ const SignupPage: React.FC = () => {
                     onMove(4, move);
                 }}
             />
-
             <SignupCategoryComponent
                 key={5}
+                checkCurrent={index === 5}
                 onMoveButtonClick={(move: number) => {
                     onMove(5, move);
                 }}
             />
-
             <SignupFinishComponent
                 key={6}
                 onMoveButtonClick={(move: number) => {

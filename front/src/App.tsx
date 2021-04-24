@@ -13,10 +13,15 @@ import SignupPage from './page/SignupPage';
 const App: React.FC = () => {
     useEffect(() => {
         window.addEventListener(
-            'receivePhoneNumberList',
+            'message',
             (e) => {
                 console.log(e);
-                alert(`receivePhoneNumberList ${e}`);
+                const res = e.data.split(';;;');
+                if (res[0] === 'parent') {
+                    alert(res[1]);
+                } else if (res[0] === 'child') {
+                    console.log('called by me');
+                }
             },
             false
         );
