@@ -13,11 +13,13 @@ import com.pickxxx.woori.wooripickxxx.repository.TradingCounterRepository;
 import com.pickxxx.woori.wooripickxxx.repository.TradingLedgerRepository;
 import com.pickxxx.woori.wooripickxxx.type.BenefitCategoryType;
 import com.pickxxx.woori.wooripickxxx.type.ErrorCode;
+import com.pickxxx.woori.wooripickxxx.type.TradingCounterTargetType;
 import com.pickxxx.woori.wooripickxxx.type.TradingLedgerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,11 +36,34 @@ public class MemberService {
     TimeCalcul time = new TimeCalcul();
     CosineSimilarity cosineSimilarity = new CosineSimilarity();
 
-    public MemberDTO createMember(SignUpDTO signUpDTO) {
+    public MemberDTO createMember(SignUpDTO signUpDTO) throws IOException {
         if (isExistUserByNickname(signUpDTO.getNickname())) {
             throw new CustomException(ErrorCode.NICKNAME_DUPLICATION);
         }
         signUpDTO.setPoint(0);
+
+        //계좌에 대한 거래카운터 정보 추출 및 저장
+        String userTransStr = WooribankAPI.getTransCustomerList(signUpDTO.getAccountNumber());
+        String userTransArr[] = userTransStr.split(";");
+        for(int i = 0; i < userTransArr.length; i++){
+            String comName = TradingCounterTargetType.checkTargetCompany(userTransArr[i]);
+            if(comName != null){
+                ArrayList<TradingCounter> alreadyHaveTradingCounter = new ArrayList<>();
+                alreadyHaveTradingCounter = tradingCounterRepository.findByUserNicknameAndCompanyName(signUpDTO.getNickname(), comName);
+                //첫거래한 회사면 새로 카운터 저장
+                if(alreadyHaveTradingCounter == null || alreadyHaveTradingCounter.size() == 0){
+                    tradingCounterRepository.save(TradingCounter.builder()
+                            .userNickname(signUpDTO.getNickname())
+                            .companyName(comName)
+                            .cnt(1)
+                            .build());
+                }
+                else{ //이미 거래했었던 회사면 카운터 업데이트
+                    tradingCounterRepository.updateCnt(alreadyHaveTradingCounter.get(0).getCnt() + 1, signUpDTO.getNickname(), comName);
+                }
+            }
+        }
+
         return MemberDTO.of(memberRepository.save(signUpDTO.toEntity()));
     }
 
@@ -213,14 +238,19 @@ public class MemberService {
     public ArrayList<BenefitCategoryDTO> recommendCategories(String userNickname) {
         ArrayList<BenefitCategoryDTO> result = new ArrayList<>();
         ArrayList<Member> memberList = new ArrayList<>();
+        ArrayList<TradingCounter> userData = new ArrayList<>();
         ArrayList<TradingCounterDTO> sampleData = new ArrayList<>();
 
         //우리은행API 사용전 샘플
         HashMap<CharSequence, Integer> newUser = new HashMap<>();
-        newUser.put("CGV", 10);
-        newUser.put("이마트", 20);
-        newUser.put("S-OIL", 0);
-        newUser.put("스타벅스", 30);
+        userData = tradingCounterRepository.findByUserNickname(userNickname);
+        for(int i = 0; i < userData.size(); i++){
+            newUser.put(userData.get(i).getCompanyName(), userData.get(i).getCnt());
+        }
+        //newUser.put("CGV", 10);
+        //newUser.put("이마트", 20);
+        //newUser.put("S-OIL", 0);
+        //newUser.put("스타벅스", 30);
 
         /*
         * 1. userTradingCounterInfo, newUser 변수에 요청유저의 거래내역정보를 우리은행 API로 받아와서 저장해야한다.
@@ -230,7 +260,7 @@ public class MemberService {
         * 5. 기획자들과 어떤 거래내역(제휴회사)을 넣을 것인지 논의 필요
         * */
         TradingCounterDTO userTradingCounterInfo = TradingCounterDTO.builder()
-                .userNickname("태호")
+                .userNickname(userNickname)
                 .companyNameAndCnt(newUser)
                 .build();
 
@@ -258,6 +288,7 @@ public class MemberService {
 
         ArrayList<BenefitCategory> recommendCategory = new ArrayList<>();
         recommendCategory = benefitCategoryRepository.getBenefitCategoriesByUserNickname(sampleData.get(0).getUserNickname());
+        log.info("추천매핑정보 : " + sampleData.get(0).getUserNickname());
         for(int i = 0; i < recommendCategory.size(); i++){
             result.add(BenefitCategoryDTO.builder().categoryId(recommendCategory.get(i).getCategoryId()).build());
         }
