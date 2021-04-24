@@ -20,15 +20,6 @@ const App: React.FC = () => {
             },
             false
         );
-
-        window.addEventListener(
-            'message',
-            (e) => {
-                console.log(e);
-                alert(`message ${e}`);
-            },
-            false
-        );
     }, []);
 
     return (
