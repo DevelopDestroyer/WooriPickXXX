@@ -1,6 +1,5 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
-import com.pickxxx.woori.wooripickxxx.common.FriendComparator;
 import com.pickxxx.woori.wooripickxxx.common.MemberDTOComparator;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.*;
@@ -26,6 +25,7 @@ public class TradingService {
     private final TradingLedgerRepository tradingLedgerRepository;
     private final BenefitCategoryRepository benefitCategoryRepository;
     private final MemberRepository memberRepository;
+    private final BlockService blockService;
     TimeCalcul time = new TimeCalcul();
 
     public boolean createBuy(BuyDTO buyDTO){
@@ -115,6 +115,12 @@ public class TradingService {
                 .point(donationDTO.getDonationPoint() * -1)
                 .date(time.getNowTime()).build();
         tradingLedgerRepository.save(tradingLedger);
+
+        //블록체인 기록
+        blockService.mineBlock(donationDTO.getUserNickname()+";"
+                + "우리핏베네핏 기부;"
+                + donationDTO.getDonationPoint() + ";"
+                + DonationCategoryType.constantOf(donationDTO.getDonationId()).getCategoryName());
 
         return true;
     }

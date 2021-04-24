@@ -18,7 +18,8 @@ public enum BenefitCategoryType {
     SAVE_ELDER(105, "노인보호"),
     WELFARE_FOR_THE_DISABLED(106, "장애인 복지"),
     PRODUCTS_MADE_BY_DISABILITIES(107, "장애인이 만든 제품"),
-    RELIEF_GOODS(108, "구호물품");
+    RELIEF_GOODS(108, "구호물품"),
+    VEGAN(109, "비건");
 
     private final Integer categoryId;
     private final String categoryName;
@@ -90,6 +91,9 @@ public enum BenefitCategoryType {
             case RELIEF_GOODS:
                 saleProductsList.add(SaleProduct.builder().productName("유아용품").salePercentage(5).build());
                 break;
+            case VEGAN:
+                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(10).build());
+                break;
         }
         return saleProductsList;
     }
@@ -122,6 +126,9 @@ public enum BenefitCategoryType {
                 break;
             case RELIEF_GOODS:
                 saleCompaniesList.add(SaleCompany.builder().companyName("배달의민족").salePercentage(5).build());
+                break;
+            case VEGAN:
+                saleCompaniesList.add(SaleCompany.builder().companyName("하나로마트").salePercentage(20).build());
                 break;
         }
         return saleCompaniesList;
