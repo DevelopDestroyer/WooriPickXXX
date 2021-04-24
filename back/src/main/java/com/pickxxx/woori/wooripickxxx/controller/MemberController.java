@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -21,7 +22,7 @@ public class MemberController {
 
     //멤버 가입
     @PostMapping("/members")
-    public Response<MemberDTO> createUser(@RequestBody SignUpDTO signUpDTO) {
+    public Response<MemberDTO> createUser(@RequestBody SignUpDTO signUpDTO) throws IOException {
         return Response.ok(memberService.createMember(signUpDTO));
     }
 
