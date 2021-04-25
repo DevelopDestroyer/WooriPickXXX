@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import http from '../../http';
 import { GivingAmountState, GivingSelectState } from '../../recoil/Giving';
-import { CurrentAccountState, CurrentUserState } from '../../recoil/Session';
+import { CurrentUserState } from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
 import { getNumberString } from '../Common/util';
 import { CommonInterface } from './DataModel';
@@ -32,7 +32,6 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
 
     const [givingAmount, setGivingAmount] = useRecoilState(GivingAmountState);
     const givingSelect = useRecoilValue(GivingSelectState);
-    const userAccount = useRecoilValue(CurrentAccountState);
     const userInfo = useRecoilValue(CurrentUserState);
 
     const [open, setOpen] = useState<boolean>(false);
@@ -55,7 +54,7 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
         <GivingCommon
             headerTitle="기부하기"
             isLast={false}
-            buttonDisable={!isValid(givingAmount, userAccount.point)}
+            buttonDisable={!isValid(givingAmount, userInfo.point)}
             onMoveClick={(nextMove: number) => {
                 if (nextMove < 0) {
                     onMoveClick(index + nextMove);
@@ -67,7 +66,7 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
             }}
             buttonTitle="다음"
         >
-            <FingerDialog open={open} onClose={onClose} />
+            <FingerDialog fingerClick={onClose} open={open} onClose={onClose} />
             <p className="txt_20">기부하고 싶은</p>
             <p className="txt_20 txt_b">금액을 입력하세요.</p>
             <Box mt="25px">
@@ -80,7 +79,7 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
                         marginLeft: '10%',
                     }}
                     helperText={`최대 ${getNumberString(
-                        userAccount.point
+                        userInfo.point
                     )} 원 입금 가능`}
                     onChange={onChange}
                 />

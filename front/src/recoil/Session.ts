@@ -9,9 +9,6 @@ export interface UserInfo {
     nickname: string;
     phoneNumber: string;
     accountNumber: string;
-}
-
-export interface UserAccount {
     accountMoney: number;
     point: number;
 }
@@ -54,15 +51,8 @@ export const CurrentUserState = atom<UserInfo>({
         nickname: '',
         phoneNumber: '',
         accountNumber: '',
-    },
-    effects_UNSTABLE: [persistAtom],
-});
-
-export const CurrentAccountState = atom<UserAccount>({
-    key: 'CurrentAccountState',
-    default: {
-        point: 0,
         accountMoney: 0,
+        point: 0,
     },
     effects_UNSTABLE: [persistAtom],
 });

@@ -108,8 +108,17 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                 buttonDisable={selectAccount.length === 0}
                 onMoveButtonClick={props.onMoveButtonClick}
             >
-                <p className="txt_20 txt_b">
-                    결재하실 계좌번호를 선택해 주세요.
+                <p className="txt_20">보유 중인 우리은행 계좌 1개를</p>
+                <p className="txt_20 txt_b">선택해주세요.</p>
+
+                <p className="txt_14" style={{ color: '#3BAAD8' }}>
+                    구독료가 매월 20일에 2,900원씩 해당 계좌에서 빠질
+                    예정입니다.
+                </p>
+                <br />
+
+                <p className="txt_14" style={{ color: '#3BAAD8' }}>
+                    첫달 무료 이용 후 언제든 해지하실 수 있어요!
                 </p>
 
                 <div className="box_div mg_t20 bg_wh">

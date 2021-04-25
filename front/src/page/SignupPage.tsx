@@ -8,8 +8,6 @@ import {
     SignupProfileInterface,
 } from '../component/Signup/DataModel';
 import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
-import SignupCategoryComponent from '../component/Signup/SignupCategoryComponent';
-import SignupFinishComponent from '../component/Signup/SignupFinishComponent';
 import SignupPasswordComponent from '../component/Signup/SignupPasswordComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
 import {
@@ -49,10 +47,10 @@ const SignupPage: React.FC = () => {
             return;
         }
         setIndex(index + move);
-        if (index + move > 7) {
+        if (index + move > 4) {
             // 맨마지막 페이지
             // setIsAccSeq(true); real Signup
-            history.replace('/');
+            history.replace('/category');
         } else {
             sliderRef.current && sliderRef.current.slickGoTo(index + move);
         }
@@ -72,19 +70,6 @@ const SignupPage: React.FC = () => {
                 key={4}
                 onMoveButtonClick={(move: number) => {
                     onMove(4, move);
-                }}
-            />
-            <SignupCategoryComponent
-                key={5}
-                checkCurrent={index === 5}
-                onMoveButtonClick={(move: number) => {
-                    onMove(5, move);
-                }}
-            />
-            <SignupFinishComponent
-                key={6}
-                onMoveButtonClick={(move: number) => {
-                    onMove(6, move);
                 }}
             />
         </Slider>

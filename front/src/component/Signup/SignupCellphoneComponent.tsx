@@ -21,6 +21,8 @@ const parseData = (data: SignupProfileInfo, index: number): string => {
             return data.realName;
         case 1:
             return data.nickName;
+        case 2:
+            return data.cellNumber;
     }
     return '';
 };
@@ -53,6 +55,19 @@ const SignupProfileComponent: React.FC<SignupProfileProps> = (
                 }
                 setProfile({ ...profile, nickName: data });
 
+                break;
+            case 2:
+                let onlyNums = data.replace(/[^0-9]/g, '');
+                if (onlyNums.length > 11) {
+                    onlyNums = onlyNums.slice(0, 11);
+                }
+                setProfile({ ...profile, cellNumber: onlyNums });
+                if (onlyNums.length < 10 || onlyNums.length > 11) {
+                    setInValid(true);
+                    setHelperText('휴대전화 번호는 10~11 자리입니다');
+                } else {
+                    setInValid(false);
+                }
                 break;
         }
     };

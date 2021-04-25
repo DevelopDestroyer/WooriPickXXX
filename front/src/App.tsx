@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import './basic.css';
 import AuthRouteGuard from './component/AuthRouteGuard';
 import './overide.css';
+import CategoryPage from './page/CategoryPage';
 import GivingPage from './page/GivingPage';
 import HomePage from './page/HomePage';
 import MainPage from './page/MainPage';
@@ -32,6 +33,7 @@ const App: React.FC = () => {
             <Switch>
                 <Route exact path="/mainpage" component={MainPage} />
                 <Route exact path="/signup" component={SignupPage} />
+                <Route exact path="/category" component={CategoryPage} />
                 <AuthRouteGuard exact path="/" component={HomePage} />
                 <AuthRouteGuard exact path="/giving" component={GivingPage} />
 

@@ -8,9 +8,9 @@ import {
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import http from '../../http';
-import { CurrentAccountState, CurrentUserState } from '../../recoil/Session';
+import { CurrentUserState } from '../../recoil/Session';
 import { getNumberString } from '../Common/util';
 
 const useStyles = makeStyles(() => ({
@@ -38,14 +38,15 @@ const useStyles = makeStyles(() => ({
 const HCStatus: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
-    const userInfo = useRecoilValue(CurrentUserState);
-    const [account, setAccount] = useRecoilState(CurrentAccountState);
+    const [userInfo, setUserInfo] = useRecoilState(CurrentUserState);
+    //const [account, setAccount] = useRecoilState(CurrentAccountState);
 
     useEffect(() => {
         if (userInfo.nickname) {
             http.get(`/api/members/${encodeURI(userInfo.nickname)}`).then(
                 (res) => {
-                    setAccount({
+                    setUserInfo({
+                        ...userInfo,
                         accountMoney: res.data.data.accountMoney,
                         point: res.data.data.point,
                     });
@@ -69,7 +70,7 @@ const HCStatus: React.FC = () => {
                 <Typography
                     className={`${classes.inline} ${classes.moneyFont} ${classes.dfColor}`}
                 >
-                    {getNumberString(account.point)}
+                    {getNumberString(userInfo.point)}
                 </Typography>
                 <Typography className={`${classes.inline} ${classes.dfColor}`}>
                     원

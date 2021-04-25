@@ -78,7 +78,7 @@
     color: #62c3eb !important;
 }
 
-.PrivateTabIndicator-colorPrimary-54 {
+span[class|='.PrivateTabIndicator-colorPrimary'] {
     background-color: #62c3eb !important;
 }
 

@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
-    CurrentAccountState,
     CurrentUserState,
     SignUpAccInfoState,
     SignUpCategoryState,
     SignUpProfileState,
-    UserAccount,
     UserInfo,
 } from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
@@ -36,7 +34,6 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
     const [showPassword, setShowPassword] = useState(false);
 
     const setUserState = useSetRecoilState<UserInfo>(CurrentUserState);
-    const setAccountState = useSetRecoilState(CurrentAccountState);
 
     const signupProfile = useRecoilValue(SignUpProfileState);
     const accountInfo = useRecoilValue(SignUpAccInfoState);
@@ -83,22 +80,15 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
             `/api/members/${encodeURI(signupProfile.nickName)}`
         ); // user 먼저 만들어져야함
         console.log(userRes.data.data);
-        const currentUser: UserInfo & UserAccount = userRes.data.data;
-
+        const currentUser: UserInfo = userRes.data.data;
         setUserState({
+            accountMoney: currentUser.accountMoney,
+            point: currentUser.point,
             accountNumber: currentUser.accountNumber,
             name: currentUser.name,
             nickname: currentUser.nickname,
             phoneNumber: currentUser.phoneNumber,
         });
-        setAccountState({
-            accountMoney: currentUser.accountMoney,
-            point: currentUser.point,
-        });
-    };
-
-    const onClose = async () => {
-        await signupFunction();
         resetProfile();
         resetAccNum();
         resetCategory();
@@ -107,9 +97,21 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
         props.onMoveButtonClick(1);
     };
 
+    const fingerClick = async () => {
+        await signupFunction();
+    };
+
+    const fingerClose = () => {
+        setFingerDialog(false);
+    };
+
     return (
         <div className="bg_gray5">
-            <FingerDialog open={fingerDialog} onClose={onClose} />
+            <FingerDialog
+                fingerClick={fingerClick}
+                open={fingerDialog}
+                onClose={fingerClose}
+            />
             <SignupCommonComponent
                 buttonDisable={password === ''}
                 onMoveButtonClick={props.onMoveButtonClick}
