@@ -26,23 +26,22 @@ function onDeviceReady() {
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
-    alert("cordova is ready!!!");
 }
 
 function getPhoneNumber(testNum){
-    alert("It's parent : " + testNum);
     document.getElementById("wooriFrame").contentWindow.receivePhoneNumberList(2);
 }
+
 var phoneInfo = "3";
 window.addEventListener('message', function(e) {
-  console.log("ok?? : " + e.data); // { hello: 'parent' }
+  console.log("ok : " + e.data); // { hello: 'parent' }
+
   var tmpData = ".";
   tmpData = e.data.toString();
   if(tmpData.split(";;;")[0] == "parent"){
     console.log("detected parent send");
     return;
   }
-   alert("여기까지OK : 0");
   findContact();
   var item = "parent;;;" + phoneInfo;//localStorage.getItem('dummy');
   console.log(item); // zerocho
@@ -55,25 +54,20 @@ function buttonEv(){
 }
 
 function findContact() {
-   alert("여기까지OK : 00");
    var options = new ContactFindOptions();
    options.filter = "";            // ""은 전체 출력
    options.multiple = true;
    var fields = ["displayName", "name", "nickname"];
-   alert("여기까지OK : 1");
    navigator.contacts.find(fields, contactfindSuccess, contactfindError, options);
-   alert("여기까지OK : 2");
    function contactfindSuccess(contacts) {
-      alert("여기까지OK : 3");
       var temp = "";
       for (var i = 0; i < contacts.length; i++) { 
         if(contacts[i].phoneNumbers != null && contacts[i].phoneNumbers.length > 0){
-          temp += contacts[i].name.givenName + ":" + contacts[i].displayName + ":" + contacts[i].phoneNumber + ";";
+          temp += contacts[i].name.givenName + ":" + contacts[i].displayName + ":" + contacts[i].phoneNumbers[0].value + ";";
         }
-        phoneInfo = temp;
-        alert("result1 = " + temp); 
-        alert("result2 = " + phoneInfo); 
       }
+      phoneInfo = temp;
+      alert(phoneInfo);
    }
    function contactfindError(message) { alert('주소록 가져오기 실패 : ' + message); }	
 }
