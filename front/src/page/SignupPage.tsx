@@ -8,6 +8,7 @@ import {
     SignupProfileInterface,
 } from '../component/Signup/DataModel';
 import SignupAccountComponent from '../component/Signup/SignupAccountComponent';
+import SignupCellphoneComponent from '../component/Signup/SignupCellphoneComponent';
 import SignupPasswordComponent from '../component/Signup/SignupPasswordComponent';
 import SignupProfileComponent from '../component/Signup/SignupProfileComponent';
 import {
@@ -59,6 +60,12 @@ const SignupPage: React.FC = () => {
     return (
         <Slider {...commonSlickSettings} ref={sliderRef}>
             {items}
+            <SignupCellphoneComponent
+                key={2}
+                onMoveButtonClick={(move: number) => {
+                    onMove(2, move);
+                }}
+            />
             <SignupAccountComponent
                 key={3}
                 checkCurrent={index === 3}

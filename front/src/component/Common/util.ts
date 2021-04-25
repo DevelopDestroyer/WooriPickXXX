@@ -19,6 +19,18 @@ export const getNumberString = (number: number): string => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+export const makeNumberId = (length: number): string => {
+    const result = [];
+    const characters = '0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result.push(
+            characters.charAt(Math.floor(Math.random() * charactersLength))
+        );
+    }
+    return result.join('');
+};
+
 export const getCategoryImgPath = (id: number): string => {
     const prefix = '/images/';
     switch (id) {
