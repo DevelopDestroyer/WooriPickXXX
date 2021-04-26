@@ -5,12 +5,19 @@
 git을 기반으로 동작한다.
 
 ### 배포 프로세스
+
  (1) heroku login
+ 
  (2) 로그인창 뜨면 로그인처리
+ 
  (3) heroku git 디렉터리로 변경된 프로젝트내용 복붙
+ 
  (4) git add .
+
  (5) git commit -am "commit msg"
+ 
  (6) git push heroku master
+ 
  (7) https://woorifitbenefit.herokuapp.com/
 
 ###Reference
