@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -28,12 +28,6 @@ const TogetherComponent: React.FC = () => {
         }
     }, [userInfo]);
 
-    useEffect(() => {
-        if (friendList.length > 0) {
-            alert(`component ${friendList.toString()}`);
-        }
-    }, [friendList]);
-
     return (
         <>
             <HeaderDeafault icon={<PeopleIcon />} title="투게더" />
@@ -50,6 +44,15 @@ const TogetherComponent: React.FC = () => {
                         <TCNoFriend />
                     </Box>
                 )}
+                {friendList.map((eachData) => {
+                    return (
+                        <>
+                            <Box>
+                                <Typography>{`${eachData.name} ${eachData.displayname} ${eachData.cellphone}`}</Typography>
+                            </Box>
+                        </>
+                    );
+                })}
             </Box>
         </>
     );

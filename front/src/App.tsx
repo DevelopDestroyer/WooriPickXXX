@@ -24,7 +24,6 @@ const App: React.FC = () => {
                 console.log(e);
                 const res = e.data.split(';;;');
                 if (res[0] === 'parent') {
-                    alert();
                     const dataStr: string = res[1] as string;
                     console.log(`Data Str ${dataStr}`);
                     const eachPersonStr = dataStr.split(';');
@@ -39,7 +38,6 @@ const App: React.FC = () => {
                     });
                     console.log(eachPersonStr);
                     setFrined(friendList);
-                    alert(`App Alert ${friendList.toString()}`);
                 } else if (res[0] === 'child') {
                     console.log('called by me');
                 }
