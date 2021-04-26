@@ -11,16 +11,17 @@ import java.net.URL;
 public class WooribankAPI {
     public static String getAllAccntInfo(String userPhoneNumber) throws IOException {
         //테스트 환경
-        StringBuilder urlBuilder = new StringBuilder("http://localhost:8000/api/wooribank/test/userAccntInfo");
+        //StringBuilder urlBuilder = new StringBuilder("http://localhost:8000/api/wooribank/test/userAccntInfo");
         //운영 환경
-        //StringBuilder urlBuilder = new StringBuilder("https://openapi.wooribank.com:444/oai/wb/v1/finance/getIndivAllAccInfo");
+        StringBuilder urlBuilder = new StringBuilder("https://openapi.wooribank.com:444/oai/wb/v1/finance/getIndivAllAccInfo");
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
+        //conn.set
 
-        conn.setRequestProperty("appkey", "wooribank");
+        conn.setRequestProperty("appkey", "l7xxp2bXo3SM7sNt3VuicNlqI5v9C3zy14Xd");
 
-        conn.setRequestProperty("token", "");
+        conn.setRequestProperty("Content-type", "application/json");
 
         String body = "{" +
                 "\"dataHeader\": {" +
@@ -34,13 +35,13 @@ public class WooribankAPI {
                 "\"UTZ_MCHR_APP_VER_NM\": \"\"" +
                 "}," +
                 "\"dataBody\": {}" +
-                "}".getBytes();
+                "}";
         conn.setFixedLengthStreamingMode(body.getBytes().length);
         conn.setDoOutput(true);
 
         OutputStream out = conn.getOutputStream();
         out.write(body.getBytes());
-        //System.out.println("Response code: " + conn.getResponseCode());
+        System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
         rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -60,16 +61,16 @@ public class WooribankAPI {
 
     public static String getTransCustomerList(String userAccountNumber) throws IOException {
         //테스트 환경
-        StringBuilder urlBuilder = new StringBuilder("http://localhost:8000/api/wooribank/test/userTransList");
+        //StringBuilder urlBuilder = new StringBuilder("http://localhost:8000/api/wooribank/test/userTransList");
         //운영 환경
-        //StringBuilder urlBuilder = new StringBuilder("/oai/wb/v1/finance/getAccTransList");
+        StringBuilder urlBuilder = new StringBuilder("https://openapi.wooribank.com:444/oai/wb/v1/finance/getAccTransList");
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
 
-        conn.setRequestProperty("appkey", "wooribank");
-
-        conn.setRequestProperty("token", "");
+        conn.setRequestProperty("appkey", "l7xxp2bXo3SM7sNt3VuicNlqI5v9C3zy14Xd");
+        conn.setRequestProperty("Content-type", "application/json");
+        //conn.setRequestProperty("token", "");
 
         String body = "{\n" +
                 "  \"dataHeader\": {\n" +
@@ -83,14 +84,14 @@ public class WooribankAPI {
                 "    \"UTZ_MCHR_APP_VER_NM\": \"\"\n" +
                 "  },\n" +
                 "  \"dataBody\": {\n" +
-                "    \"INQ_ACNO\": \"" + userAccountNumber + "\",\n" +
+                "    \"INQ_ACNO\": \"110202034341\",\n" +
                 "    \"INQ_STA_DT\": \"20200101\",\n" +
                 "    \"INQ_END_DT\": \"20210310\",\n" +
                 "    \"NEW_DT\": \"20140522\",\n" +
                 "    \"ACCT_KND\": \"P\",\n" +
                 "    \"CUCD\": \"KRW\"\n" +
                 "  }\n" +
-                "}".getBytes();
+                "}";
         conn.setFixedLengthStreamingMode(body.getBytes().length);
         conn.setDoOutput(true);
 
@@ -107,6 +108,7 @@ public class WooribankAPI {
         String line;
         while ((line = rd.readLine()) != null) {
             if(line.contains("TRN_TXT")){
+                sb.append(line);
                 String[] customer = line.split(": \"");
                 sb.append(customer[1].substring(0, customer[1].length()-1) + ";");
             }
