@@ -130,3 +130,7 @@ canvas {
     transform: rotate(45deg);
     width: 8px;
 }
+
+.MuiCard-root {
+    min-height: 124px !important;
+}

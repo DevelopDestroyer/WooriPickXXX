@@ -51,10 +51,9 @@ const HomeBenefitComponent: React.FC = () => {
                     categoryId: eachData.categoryId,
                     companyName: eachData.companyName,
                     description: eachData.description,
-                    thumbNailPath: eachData.thumbNailPath.replace(
-                        /\/\//gi,
-                        '/'
-                    ),
+                    thumbNailPath: eachData.thumbNailPath
+                        .replace(/\/\//gi, '/')
+                        .replace(/\.[^/.]+$/, '.png'),
                     totalLike: eachData.totalLike,
                 });
                 benefitData[eachData.companyName] = eachData.userLike;

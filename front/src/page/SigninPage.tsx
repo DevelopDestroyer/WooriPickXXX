@@ -36,9 +36,6 @@ const SigninPage: React.FC = (props) => {
 
     return (
         <>
-            <Button onClick={postMessage} style={{ display: 'absolute' }}>
-                IFrame Message Test
-            </Button>
             <div className={`bg_primaryblue ${classes.bodyReplace}`} />
             <div className="container">
                 <div className="div_rd_txt pd_t60">
