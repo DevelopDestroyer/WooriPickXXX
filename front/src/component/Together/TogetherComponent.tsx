@@ -4,13 +4,18 @@ import React, { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import { CurrentUserState } from '../../recoil/Session';
-import { FriendDataSetState, TogetherAVGState } from '../../recoil/Together';
+import {
+    FriendDataSetState,
+    TestFrienString,
+    TogetherAVGState,
+} from '../../recoil/Together';
 import HeaderDeafault from '../Common/HeaderDefault';
 import TCNoFriend from './TCNoFriend';
 import TCRanking from './TCRanking';
 import TCStatus from './TCStatus';
 
 const TogetherComponent: React.FC = () => {
+    const friendTestString = useRecoilValue(TestFrienString);
     const friendList = useRecoilValue(FriendDataSetState);
     const friendMode = friendList.length > 0;
 
@@ -44,6 +49,8 @@ const TogetherComponent: React.FC = () => {
                         <TCNoFriend />
                     </Box>
                 )}
+                <Box>{friendTestString}</Box>
+                <br />
                 {friendList.map((eachData) => {
                     return (
                         <>
