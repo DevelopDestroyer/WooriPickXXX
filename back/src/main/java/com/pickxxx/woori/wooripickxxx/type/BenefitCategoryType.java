@@ -67,32 +67,32 @@ public enum BenefitCategoryType {
 
         switch(type){
             case LOW_PLASTIC:
-                saleProductsList.add(SaleProduct.builder().productName("우유").salePercentage(5).build());
-                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s10").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case LOW_CARBON:
-                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case OPPOSITION_TO_ANIMAL_TESTING:
-                saleProductsList.add(SaleProduct.builder().productName("육류").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case SAVE_CHILDRUN:
-                saleProductsList.add(SaleProduct.builder().productName("갤럭시").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case SAVE_ELDER:
-                saleProductsList.add(SaleProduct.builder().productName("노트북").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case WELFARE_FOR_THE_DISABLED:
-                saleProductsList.add(SaleProduct.builder().productName("휘발유").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case PRODUCTS_MADE_BY_DISABILITIES:
-                saleProductsList.add(SaleProduct.builder().productName("경유").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case RELIEF_GOODS:
-                saleProductsList.add(SaleProduct.builder().productName("유아용품").salePercentage(5).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(5).build());
                 break;
             case VEGAN:
-                saleProductsList.add(SaleProduct.builder().productName("샐러드").salePercentage(10).build());
+                saleProductsList.add(SaleProduct.builder().productName("갤럭시s21").salePercentage(10).build());
                 break;
         }
         return saleProductsList;
@@ -103,8 +103,13 @@ public enum BenefitCategoryType {
 
         switch(type){
             case LOW_PLASTIC:
-                saleCompaniesList.add(SaleCompany.builder().companyName("안랩").salePercentage(10).build());
-                saleCompaniesList.add(SaleCompany.builder().companyName("우리마트").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("나이키").salePercentage(50).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("더피커").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("보틀팩토리").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("지구샵").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("송포어스").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("지구별가게").salePercentage(20).build());
+
                 break;
             case LOW_CARBON:
                 saleCompaniesList.add(SaleCompany.builder().companyName("삼성전자").salePercentage(5).build());
