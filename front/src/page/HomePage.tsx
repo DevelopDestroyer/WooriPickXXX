@@ -1,11 +1,12 @@
 import { Box } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import HomeBenefitComponent from '../component/Benefit/HomeBenefitComponent';
 import BottomBarNav, { DISPLAY_TYPE } from '../component/Common/BottomBar';
 import HomeComponent from '../component/Home/HomeComponent';
 import SettingComponent from '../component/Setting/SettingComponent';
 import TogetherComponent from '../component/Together/TogetherComponent';
-
+import { BottomNavState } from '../recoil/Session';
 const homeRendering = (type: DISPLAY_TYPE) => {
     switch (type) {
         case DISPLAY_TYPE.HOME:
@@ -22,9 +23,7 @@ const homeRendering = (type: DISPLAY_TYPE) => {
 };
 
 const HomePage: React.FC = () => {
-    const [renderType, setCurrentRenderType] = useState<DISPLAY_TYPE>(
-        DISPLAY_TYPE.HOME
-    );
+    const [renderType, setCurrentRenderType] = useRecoilState(BottomNavState);
 
     const onChange = (type: DISPLAY_TYPE) => {
         setCurrentRenderType(type);

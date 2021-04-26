@@ -7,7 +7,7 @@ import {
     BenefitFavoriteState,
     BenefitStateCompany,
 } from '../../recoil/Benefit';
-import { CurrentUserState } from '../../recoil/Session';
+import { BenefitSearch, CurrentUserState } from '../../recoil/Session';
 import { CategoryStandInfo } from '../Category/DataModel';
 import HeaderDeafault from '../Common/HeaderDefault';
 import {
@@ -29,7 +29,7 @@ const a11yProps = (index: any) => {
 const HomeBenefitComponent: React.FC = () => {
     const userInfo = useRecoilValue(CurrentUserState);
 
-    const [searchText, setSearchText] = useState<string>('');
+    const [searchText, setSearchText] = useRecoilState(BenefitSearch);
     const [benefitCompany, setBenefitCompany] = useRecoilState(
         BenefitStateCompany
     );
@@ -39,6 +39,7 @@ const HomeBenefitComponent: React.FC = () => {
         if (benefitCompany.isLoaded) {
             return;
         }
+
         http.get(`/api/${encodeURI(userInfo.nickname)}/company`).then((res) => {
             const isertArr: BenefitCompanyRes = {
                 isLoaded: true,
@@ -58,8 +59,11 @@ const HomeBenefitComponent: React.FC = () => {
                 });
                 benefitData[eachData.companyName] = eachData.userLike;
             });
+
             setBenefitCompany(isertArr);
-            setFavoriteState(benefitData);
+            setTimeout(() => {
+                setFavoriteState(benefitData);
+            }, 100);
         });
     }, []);
 

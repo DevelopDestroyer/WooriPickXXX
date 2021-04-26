@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { CategoryDataSet } from '../component/Category/DataModel';
+import { DISPLAY_TYPE } from '../component/Common/BottomBar';
 import { TransactionSet } from '../component/Home/DataModel';
 import { SignupProfileInfo } from '../component/Signup/DataModel';
 import { persistAtom } from './index';
@@ -17,6 +18,16 @@ export const IsSplashSkip = atom<boolean>({
     key: 'IsSplashSkip',
     default: false,
     effects_UNSTABLE: [persistAtom],
+});
+
+export const BottomNavState = atom<DISPLAY_TYPE>({
+    key: 'BottomNavState',
+    default: DISPLAY_TYPE.HOME,
+});
+
+export const BenefitSearch = atom<string>({
+    key: 'BenefitSearch',
+    default: '',
 });
 
 export const SignUpProfileState = atom<SignupProfileInfo>({

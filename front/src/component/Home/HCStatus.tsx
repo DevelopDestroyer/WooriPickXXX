@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     },
     moneyFont: {
         fontSize: '26px',
-        fontFamily: '"Recursive", sans-serif',
+        fontFamily: '"Recursive", sans-serif !important',
     },
     inline: {
         display: 'inline',
