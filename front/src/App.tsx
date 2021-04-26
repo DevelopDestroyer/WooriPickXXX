@@ -37,9 +37,9 @@ const App: React.FC = () => {
                             cellphone: privateDataList[2],
                         });
                     });
-                    alert(eachPersonStr);
                     console.log(eachPersonStr);
                     setFrined(friendList);
+                    alert(`App Alert ${friendList.toString()}`);
                 } else if (res[0] === 'child') {
                     console.log('called by me');
                 }

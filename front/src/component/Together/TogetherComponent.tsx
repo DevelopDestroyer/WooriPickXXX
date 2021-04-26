@@ -28,6 +28,12 @@ const TogetherComponent: React.FC = () => {
         }
     }, [userInfo]);
 
+    useEffect(() => {
+        if (friendList.length > 0) {
+            alert(`component ${friendList.toString()}`);
+        }
+    }, [friendList]);
+
     return (
         <>
             <HeaderDeafault icon={<PeopleIcon />} title="투게더" />
