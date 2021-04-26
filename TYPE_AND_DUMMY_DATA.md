@@ -1,0 +1,3 @@
+## [더미데이터 확인하기](https://github.com/DevelopDestroyer/WooriPickXXX/blob/master/back/src/main/resources/import.sql)
+## [베네핏 카테고리 아이디 확인하기](https://github.com/DevelopDestroyer/WooriPickXXX/blob/master/back/src/main/java/com/pickxxx/woori/wooripickxxx/type/BenefitCategoryType.java)
+## [기부 카테고리 아이디 확인하기](https://github.com/DevelopDestroyer/WooriPickXXX/blob/master/back/src/main/java/com/pickxxx/woori/wooripickxxx/type/DonationCategoryType.java)
