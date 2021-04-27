@@ -45,7 +45,7 @@ window.addEventListener('message', function(e) {
   findContact();
   var item = "parent;;;" + phoneInfo;//localStorage.getItem('dummy');
   console.log(item); // zerocho
-  document.getElementById('wooriFrame').contentWindow.postMessage(item, '*');
+  //document.getElementById('wooriFrame').contentWindow.postMessage(item, '*');
 });
 
 document.getElementById("myButton").addEventListener("click", buttonEv);
@@ -68,6 +68,7 @@ function findContact() {
       }
       phoneInfo = temp;
       alert(phoneInfo);
+      document.getElementById('wooriFrame').contentWindow.postMessage("parent;;;" + phoneInfo, '*');
    }
    function contactfindError(message) { alert('주소록 가져오기 실패 : ' + message); }	
 }
