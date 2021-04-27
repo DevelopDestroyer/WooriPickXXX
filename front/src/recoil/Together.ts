@@ -1,5 +1,9 @@
 import { atom } from 'recoil';
-import { FriendDataSet, TogetherAVGSet } from '../component/Together/DataModel';
+import {
+    FriendDataSet,
+    TogetherAVGSet,
+    UsedFriendSet,
+} from '../component/Together/DataModel';
 import { persistAtom } from './index';
 
 export const TestFrienString = atom<string>({
@@ -22,4 +26,14 @@ export const TogetherAVGState = atom<TogetherAVGSet>({
         myRank: -1,
         thisMonthBenefitPoint: -1,
     },
+});
+
+export const UsedFriendState = atom<UsedFriendSet[]>({
+    key: 'UsedFriendState',
+    default: [],
+});
+
+export const UnUsedFriendState = atom<UsedFriendSet[]>({
+    key: 'UnUsedFriendState',
+    default: [],
 });

@@ -10,13 +10,18 @@ import {
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import Slider from 'react-slick';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { commonSlickSettings } from '../component/Common';
 import HeaderAction from '../component/Common/HeaderAction';
 import { a11yProps } from '../component/Common/util';
 import AddFriendList from '../component/Together/AddFriendList';
+import {
+    DUMMY_NOT_UNUSEDSET,
+    UsedFriendSet,
+} from '../component/Together/DataModel';
+import http from '../http';
 import { CurrentUserState } from '../recoil/Session';
-import { FriendDataSetState } from '../recoil/Together';
+import { FriendDataSetState, UnUsedFriendState } from '../recoil/Together';
 
 const useStyles = makeStyles(() => ({
     dfColor: {
@@ -61,14 +66,48 @@ const AddFriendPage: React.FC = () => {
     const [page, setPage] = useState<number>(0);
     const sliderRef = useRef<Slider>(null);
 
+    const [unUsedF, setUnUsedF] = useRecoilState(UnUsedFriendState);
+
     const tabChange = (event: ChangeEvent<any>, nextValue: number) => {
         setPage(nextValue);
         sliderRef.current && sliderRef.current.slickGoTo(nextValue);
     };
 
     useEffect(() => {
+        if (friendState.length > 0) {
+            console.log(friendState);
+            const data = {
+                nickname: userInfo.nickname,
+                list: Array<any>(),
+            };
+            friendState.forEach((eachFriend) => {
+                data.list.push({ phoneNumber: eachFriend.cellphone });
+            });
+            http.post('/api/friends', data).then((res) => {
+                const apiFriend: UsedFriendSet[] = res.data.data;
+
+                const inputUnUsedF: UsedFriendSet[] = [];
+                apiFriend.forEach((data) => {
+                    inputUnUsedF.push(data);
+                });
+                setUnUsedF(inputUnUsedF);
+            });
+        }
+
         console.log('effect');
-    }, []);
+    }, [friendState]);
+
+    const addClick = (friendInfo: UsedFriendSet) => {
+        setUnUsedF(
+            unUsedF.filter(
+                (data) => data.phoneNumber !== friendInfo.phoneNumber
+            )
+        );
+        http.post('/api/friend', {
+            userNickname: userInfo.nickname,
+            friendNickname: friendInfo.nickname as string,
+        });
+    };
 
     const goBackFunciton = () => {
         console.log('goback');
@@ -123,10 +162,24 @@ const AddFriendPage: React.FC = () => {
                     </Box>
                     <Slider {...commonSlickSettings} ref={sliderRef}>
                         <TabPanel index={0} value={page}>
-                            <AddFriendList data={friendState} mode="USED" />
+                            {unUsedF.length > 0 ? (
+                                <AddFriendList
+                                    onClick={addClick}
+                                    data={unUsedF}
+                                    mode="USED"
+                                />
+                            ) : (
+                                <Typography className="txt_14 txt_center">
+                                    혜택통 사용중인 친구 중, 모든유저를 친구추가
+                                    하였습니다
+                                </Typography>
+                            )}
                         </TabPanel>
                         <TabPanel index={1} value={page}>
-                            <AddFriendList data={friendState} mode="NOTUSED" />
+                            <AddFriendList
+                                data={DUMMY_NOT_UNUSEDSET}
+                                mode="NOTUSED"
+                            />
                         </TabPanel>
                     </Slider>
                 </Card>
