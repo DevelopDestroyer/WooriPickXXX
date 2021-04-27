@@ -18,7 +18,7 @@ public class FriendController {
     private final FriendService friendService;
 
     //전화번호 기반 유효 친구 검색
-    @GetMapping("/friends")
+    @PostMapping("/friends")
     public Response<ArrayList<MemberDTO>> createUser(@RequestBody MemberDTO friendList) {
         return Response.ok(friendService.selectFriendsInfo(friendList));
     }
