@@ -1,5 +1,6 @@
 import {
     AppBar,
+    Box,
     IconButton,
     makeStyles,
     Toolbar,
@@ -21,6 +22,7 @@ export interface HeaderActionProps {
     isLast: boolean;
     headerTitle: string;
     onMoveClick: () => void;
+    endIcon?: JSX.Element;
 }
 
 const HeaderAction: React.FC<HeaderActionProps> = (
@@ -45,6 +47,12 @@ const HeaderAction: React.FC<HeaderActionProps> = (
                 <Typography className="txt_24 txt_b">
                     {props.headerTitle}
                 </Typography>
+                {props.endIcon && (
+                    <>
+                        <Box flexGrow="1" />
+                        {props.endIcon}
+                    </>
+                )}
             </Toolbar>
         </AppBar>
     );

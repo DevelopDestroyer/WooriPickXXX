@@ -7,6 +7,7 @@ import './basic.css';
 import AuthRouteGuard from './component/AuthRouteGuard';
 import { FriendDataSet } from './component/Together/DataModel';
 import './overide.css';
+import AddFriendPage from './page/AddFriendPage';
 import BenefitCompanyPage from './page/BenefitCompanyPage';
 import CategoryPage from './page/CategoryPage';
 import GivingPage from './page/GivingPage';
@@ -23,12 +24,10 @@ const App: React.FC = () => {
             'message',
             (e) => {
                 console.log(e);
-
                 setFrinedTest(e.data);
                 const res = e.data.split(';;;');
                 if (res[0] === 'parent') {
                     const dataStr: string = res[1] as string;
-                    console.log(`Data Str ${dataStr}`);
                     const eachPersonStr = dataStr.split(';');
                     const friendList: FriendDataSet[] = [];
                     eachPersonStr.forEach((eachStr: string) => {
@@ -61,6 +60,11 @@ const App: React.FC = () => {
                     exact
                     path="/benefit-company/:name"
                     component={BenefitCompanyPage}
+                />
+                <AuthRouteGuard
+                    exact
+                    path="/add-friend"
+                    component={AddFriendPage}
                 />
 
                 <Redirect from="*" to="/mainpage" />

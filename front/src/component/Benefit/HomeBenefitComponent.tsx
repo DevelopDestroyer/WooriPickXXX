@@ -10,6 +10,7 @@ import {
 import { BenefitSearch, CurrentUserState } from '../../recoil/Session';
 import { CategoryStandInfo } from '../Category/DataModel';
 import HeaderDeafault from '../Common/HeaderDefault';
+import { a11yProps } from '../Common/util';
 import {
     BenefitCompany,
     BenefitCompanyRes,
@@ -18,13 +19,6 @@ import {
 import HomeBenefitInputText from './HomeBenefitInputText';
 import HomeBenefitSearchList from './HomeBenefitSearchList';
 import HomeBenefitSlider from './HomeBenefitSlider';
-
-const a11yProps = (index: any) => {
-    return {
-        id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
-    };
-};
 
 const HomeBenefitComponent: React.FC = () => {
     const userInfo = useRecoilValue(CurrentUserState);

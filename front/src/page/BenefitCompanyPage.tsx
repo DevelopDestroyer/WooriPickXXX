@@ -1,10 +1,19 @@
-import { Box, Button, makeStyles } from '@material-ui/core';
+import { Box, Button, IconButton, makeStyles } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { useRecoilValue } from 'recoil';
-import { BenefitCompany } from '../component/Benefit/DataModel';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+    BenefitCompany,
+    BenefitCompanyRes,
+    BenefitFavoriteCompany,
+} from '../component/Benefit/DataModel';
 import HeaderAction from '../component/Common/HeaderAction';
+import http from '../http';
 import { BenefitFavoriteState, BenefitStateCompany } from '../recoil/Benefit';
+import { CurrentUserState } from '../recoil/Session';
+
 const useStyles = makeStyles(() => ({
     dfColor: {
         color: 'white',
@@ -22,9 +31,14 @@ const BenefitCompanyPage: React.FC = () => {
     const { name } = useParams<any>();
     const classes = useStyles();
     const history = useHistory();
-    const company = useRecoilValue(BenefitStateCompany);
-    const favoriteCompany = useRecoilValue(BenefitFavoriteState);
+    const userInfo = useRecoilValue(CurrentUserState);
+    const [company, setBenefitCompany] = useRecoilState(BenefitStateCompany);
+    const [favoriteCompany, setFavoriteCompany] = useRecoilState(
+        BenefitFavoriteState
+    );
     const [currentCompany, setCompany] = useState<BenefitCompany>();
+
+    const [statusChange, setStatusChange] = useState<boolean>(false);
 
     useEffect(() => {
         const data = company.data.find((data) => {
@@ -38,23 +52,81 @@ const BenefitCompanyPage: React.FC = () => {
             });
         }
     }, [company, favoriteCompany]);
-    console.log(currentCompany);
+
+    const onClick = () => {
+        const copy = Object.assign({}, favoriteCompany);
+        copy[name] = !favoriteCompany[name];
+        setFavoriteCompany(copy);
+        if (!statusChange) {
+            setStatusChange(true);
+        }
+    };
+
+    const goBackFunciton = async () => {
+        setStatusChange(false);
+        const currendAdd = !!favoriteCompany[name];
+        console.log(currendAdd);
+        const data = {
+            companyName: name,
+            userNickname: userInfo.nickname,
+        };
+        let res;
+        if (currendAdd) {
+            res = await http.post('/api/company/like', data);
+        } else {
+            res = await http.delete('/api/company/like', { data });
+        }
+
+        http.get(`/api/${encodeURI(userInfo.nickname)}/company`).then((res) => {
+            const isertArr: BenefitCompanyRes = {
+                isLoaded: true,
+                data: [],
+            };
+            const benefitData: BenefitFavoriteCompany = {};
+            res.data.data.forEach((eachData: BenefitCompany) => {
+                isertArr.data.push({
+                    categoryId: eachData.categoryId,
+                    companyName: eachData.companyName,
+                    description: eachData.description,
+                    thumbNailPath: eachData.thumbNailPath
+                        .replace(/\/\//gi, '/')
+                        .replace(/\.[^/.]+$/, '.png'),
+                    totalLike: eachData.totalLike,
+                });
+                benefitData[eachData.companyName] = eachData.userLike;
+            });
+
+            setBenefitCompany(isertArr);
+            setTimeout(() => {
+                setFavoriteCompany(benefitData);
+            }, 100);
+        });
+        history.goBack();
+    };
+
     return (
         <div className="bg_gray5">
             <HeaderAction
                 headerTitle={name}
                 isLast={false}
-                onMoveClick={() => {
-                    history.goBack();
-                }}
+                onMoveClick={goBackFunciton}
+                endIcon={
+                    <IconButton onClick={onClick}>
+                        {favoriteCompany[name] ? (
+                            <FavoriteIcon style={{ color: 'red' }} />
+                        ) : (
+                            <FavoriteBorderIcon />
+                        )}
+                    </IconButton>
+                }
             >
                 {name}
             </HeaderAction>
-            {currentCompany?.thumbNailPath && (
-                <img src={currentCompany?.thumbNailPath} />
-            )}
 
             <div className="container">
+                {currentCompany?.thumbNailPath && (
+                    <img src={currentCompany?.thumbNailPath} />
+                )}
                 <div className="div_rd_txt mg_t20">
                     <p className="txt_20 txt_b">{name}에서는</p>
 
