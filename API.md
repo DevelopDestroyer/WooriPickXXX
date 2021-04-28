@@ -219,7 +219,7 @@
 # 2. 친구 API
 ## 2.1. 전화번호 리스트로 친구신청 가능한 리스트 받아오기
 ### URL
-[GET] /api/friends
+[POST] /api/friends
 ### Request
 ``` 
     {
@@ -232,6 +232,7 @@
     }
 ```
 > nickname에는 사용자의 닉네임, list.phoneNumber는 사용자의 주소록에 있는 전화번호를 의미합니다. 전화번호 리스트는 갯수 제약 없이 전송 가능합니다.
+> GET을 사용하려하였으나 Req Body에 데이터를 넣기 어려운 문제로 POST Method로 전환하였음.
 
 
 ### Response
