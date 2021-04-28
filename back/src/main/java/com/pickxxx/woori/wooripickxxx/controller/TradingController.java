@@ -16,12 +16,11 @@ import java.util.ArrayList;
 @Slf4j
 public class TradingController {
     TradingService tradingService;
-    ArrayList<BuyProduct> buyProducts = new ArrayList<>();
 
     //테스트 구매
     @GetMapping("/trading/buy/test")
     public Response<Boolean> testBuyTrade() {
-        //ArrayList<BuyProduct> buyProducts = new ArrayList<>();
+        ArrayList<BuyProduct> buyProducts = new ArrayList<>();
 
         buyProducts.add(BuyProduct.builder().name("우유").price(1000).number(1).build());
         buyProducts.add(BuyProduct.builder().name("샐러드").price(10000).number(2).build());
@@ -36,6 +35,7 @@ public class TradingController {
                                      @PathVariable("companyName") String companyName,
                                      @PathVariable("product") String product,
                                      @PathVariable("price") Integer price) {
+        ArrayList<BuyProduct> buyProducts = new ArrayList<>();
 
         buyProducts.add(BuyProduct.builder().name(product).price(price).number(1).build());
         tradingService.createBuy(BuyDTO.builder().userNickname(userNickname).companyName(companyName).buyProductList(buyProducts).build());
