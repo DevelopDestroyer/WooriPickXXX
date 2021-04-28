@@ -564,6 +564,30 @@
 ### Exception
 > 예외처리 없음
 
+
+## 4.5. 돈복사
+> ⚠️ 테스트 편의를 위해 제작된 API 이므로 사용에 유의합니다.
+> 입력한 계좌잔고금액과 포인트대로 초기화를 진행합니다.
+### URL
+[GET] /api/trading/showMeTheMoney/{userNickname}/{money}/{point}
+### Request
+``` 
+/api/trading/showMeTheMoney/태호/99999999/500000
+```
+
+### Response
+```
+{
+    "statusCode": "OK",
+    "message": "SUCCESS",
+    "data": true
+}
+```
+
+### Exception
+> 예외처리 없음
+
+
 # 5. 제휴회사 API
 ## 5.1. 제휴회사 리스트 받아오기
 ### URL
