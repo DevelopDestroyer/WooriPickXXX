@@ -26,6 +26,7 @@ public class WooripickxxxApplication {
 
                 // 블록체인 초기화
                 blockService.initBlock();
+                blockService.autoInitBlock();
             }
         };
     }
