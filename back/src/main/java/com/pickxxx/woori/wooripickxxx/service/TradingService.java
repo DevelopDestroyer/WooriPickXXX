@@ -28,6 +28,11 @@ public class TradingService {
     private final BlockService blockService;
     TimeCalcul time = new TimeCalcul();
 
+    public boolean showMetheMoney(String nickName, Integer money, Integer point){
+        memberRepository.updateAccountMoneyAndPoint(nickName, money, point);
+        return true;
+    }
+
     public boolean createBuy(BuyDTO buyDTO){
         Integer userAccountMoney = memberRepository.findByNickname(buyDTO.getUserNickname()).getAccountMoney();
         Integer userPoint = memberRepository.findByNickname(buyDTO.getUserNickname()).getPoint();
@@ -120,7 +125,7 @@ public class TradingService {
         blockService.mineBlock(donationDTO.getUserNickname()+";"
                 + "우리핏베네핏 기부;"
                 + donationDTO.getDonationPoint() + ";"
-                + DonationCategoryType.constantOf(donationDTO.getDonationId()).getCategoryName() + ";"
+                + donationDTO.getDonationId() + ";"
                 + time.getNowTime());
 
         return true;

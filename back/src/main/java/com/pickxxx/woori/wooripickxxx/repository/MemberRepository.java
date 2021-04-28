@@ -33,4 +33,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Member m set m.accountMoney = ?2, m.point = ?3 where m.nickname = ?1")
     int updateAccountMoneyAndPoint(@Param("usrNickname") String usrNickname, @Param("usrAccountMoney") Integer usrAccountMoney, @Param("usrPoint") Integer usrPoint);
+
 }

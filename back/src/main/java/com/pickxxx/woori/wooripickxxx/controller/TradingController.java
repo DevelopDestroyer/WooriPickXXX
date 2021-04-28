@@ -61,4 +61,11 @@ public class TradingController {
         return Response.ok(tradingService.benefitList(userNickname));
     }
 
+    //테스트용, 돈복사
+    @GetMapping("/trading/showMeTheMoney/{userNickname}/{money}/{point}")
+    public Response<Boolean> donationStatistics(@PathVariable("userNickname") String userNickname,
+                                                @PathVariable("money") Integer money, @PathVariable("point") Integer point) {
+        return Response.ok(tradingService.showMetheMoney(userNickname, money, point));
+    }
+
 }
