@@ -1,5 +1,9 @@
 import { atom } from 'recoil';
-import { GivingDataSet, GivingResultInfo } from '../component/Giving/DataModel';
+import {
+    BlockChainTotalSet,
+    GivingDataSet,
+    GivingResultInfo,
+} from '../component/Giving/DataModel';
 import { persistAtom } from './index';
 
 export const GivingSelectState = atom<GivingDataSet[]>({
@@ -20,5 +24,11 @@ export const GivingResultState = atom<GivingResultInfo>({
         memberDTOs: [],
         totalDonationMoney: 0,
     },
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const BlockChainState = atom<BlockChainTotalSet>({
+    key: 'BlockChainState',
+    default: {},
     effects_UNSTABLE: [persistAtom],
 });

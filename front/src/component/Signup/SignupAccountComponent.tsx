@@ -63,8 +63,6 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
         SignupAccountInterface[]
     >([]);
 
-    console.log('Account Called');
-    console.log(props.checkCurrent);
     useEffect(() => {
         if (props.checkCurrent) {
             let regex = /(\d{3})(\d{3})(\d{4})/;
@@ -121,7 +119,7 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                     첫달 무료 이용 후 언제든 해지하실 수 있어요!
                 </p>
 
-                <div className="box_div mg_t20 bg_wh">
+                <div className="box_div mg_t20">
                     {wooriAccountList.map((eachData) => {
                         return (
                             <div

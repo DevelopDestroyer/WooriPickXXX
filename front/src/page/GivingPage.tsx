@@ -5,6 +5,7 @@ import { useResetRecoilState } from 'recoil';
 import { commonSlickSettings } from '../component/Common';
 import GivingAmountComponent from '../component/Giving/GivingAmountComponent';
 import GivingComponent from '../component/Giving/GivingComponent';
+import GivingExplanComponent from '../component/Giving/GivingExplanComponent';
 import GivingFinishComponent from '../component/Giving/GivingFinishComponent';
 import GivingSelectComponent from '../component/Giving/GivingSelectComponent';
 import { GivingAmountState, GivingSelectState } from '../recoil/Giving';
@@ -36,9 +37,10 @@ const GivingPage: React.FC = () => {
         <div className="bg_gray5">
             <Slider {...commonSlickSettings} ref={sliderRef}>
                 <GivingComponent index={0} onMoveClick={onNextMove} />
-                <GivingSelectComponent index={1} onMoveClick={onNextMove} />
-                <GivingAmountComponent index={2} onMoveClick={onNextMove} />
-                <GivingFinishComponent index={3} onMoveClick={onNextMove} />
+                <GivingExplanComponent index={1} onMoveClick={onNextMove} />
+                <GivingSelectComponent index={2} onMoveClick={onNextMove} />
+                <GivingAmountComponent index={3} onMoveClick={onNextMove} />
+                <GivingFinishComponent index={4} onMoveClick={onNextMove} />
             </Slider>
         </div>
     );

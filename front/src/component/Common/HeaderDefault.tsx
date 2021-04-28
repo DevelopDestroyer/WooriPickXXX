@@ -12,7 +12,7 @@ const HeaderDeafault: React.FC<HeaderDefaultType> = (
     props: HeaderDefaultType
 ) => {
     return (
-        <AppBar position="sticky" style={{ backgroundColor: '#fafbfc' }}>
+        <AppBar position="sticky" style={{ backgroundColor: '#F1F4F7' }}>
             <Toolbar>
                 {props.icon}
                 <Box ml="0.5rem">

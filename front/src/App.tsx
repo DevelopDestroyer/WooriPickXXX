@@ -9,6 +9,8 @@ import { FriendDataSet } from './component/Together/DataModel';
 import './overide.css';
 import AddFriendPage from './page/AddFriendPage';
 import BenefitCompanyPage from './page/BenefitCompanyPage';
+import BlockChainPage from './page/BlockChainPage';
+import BlockChainSelectPage from './page/BlockChainSelectPage';
 import CategoryPage from './page/CategoryPage';
 import GivingPage from './page/GivingPage';
 import HomePage from './page/HomePage';
@@ -65,6 +67,16 @@ const App: React.FC = () => {
                     exact
                     path="/add-friend"
                     component={AddFriendPage}
+                />
+                <AuthRouteGuard
+                    exact
+                    path="/chain-select"
+                    component={BlockChainSelectPage}
+                />
+                <AuthRouteGuard
+                    exact
+                    path="/blockchain/:type"
+                    component={BlockChainPage}
                 />
 
                 <Redirect from="*" to="/mainpage" />

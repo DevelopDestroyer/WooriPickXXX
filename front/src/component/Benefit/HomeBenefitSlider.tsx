@@ -23,7 +23,9 @@ function TabPanel(props: TabPanelProps) {
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
         >
-            <Box p={3}>{children}</Box>
+            <Box style={{ backgroundColor: '#F1F4F7' }} p={3}>
+                {children}
+            </Box>
         </div>
     );
 }

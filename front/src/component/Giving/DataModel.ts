@@ -1,5 +1,32 @@
 import { CategoryDataInfo } from '../Common/SelectList';
 
+export interface ChainAPIRes {
+    hash: string;
+    previousHash: string;
+    data: string;
+    timeStamp: number;
+    nonce: number;
+    target: string;
+    targetDepth: number;
+}
+
+// export type DONATION_TARGET = 201 | 202 | 203 | 204 | 205;
+export interface BlockChainTotalSet {
+    [givingTarget: number]: BlockChainDataSet[];
+}
+
+export interface BlockChainDataSet {
+    name: string;
+    givingTarget: number;
+    donationAmount: number;
+    hash: string;
+    nonce: number;
+    previousHash: string;
+    target: string;
+    targetDepth: number;
+    timeStamp: number;
+}
+
 export interface DonationCategory {
     donationId: number;
     totalDonationCount: number;
@@ -23,7 +50,7 @@ export const COLOR_SET = [
     '#3BAAD8',
     '#62BBE0',
     '#9DD4EC',
-    '#C4E5F#',
+    '#C4E5F7',
     '#D8EEF7',
 ];
 
