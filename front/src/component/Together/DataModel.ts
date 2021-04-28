@@ -4,6 +4,11 @@ export interface FriendDataSet {
     cellphone: string;
 }
 
+export interface RankingDataSet {
+    friendNickname: string;
+    friendPoint: number;
+}
+
 export interface UsedFriendSet {
     name: string;
     nickname?: string;
