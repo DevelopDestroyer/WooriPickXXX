@@ -17,7 +17,8 @@ export interface BlockChainTotalSet {
 
 export interface BlockChainDataSet {
     name: string;
-    givingTarget: number;
+    timeString: string;
+    givingTarget: string;
     donationAmount: number;
     hash: string;
     nonce: number;

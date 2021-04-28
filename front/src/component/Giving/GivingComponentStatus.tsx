@@ -1,11 +1,14 @@
 import {
     Box,
+    Button,
     Card,
+    CardActions,
     CardContent,
     makeStyles,
     Typography,
 } from '@material-ui/core';
 import React from 'react';
+import { useHistory } from 'react-router';
 import { getNumberString } from '../Common/util';
 
 const useStyles = makeStyles(() => ({
@@ -13,6 +16,13 @@ const useStyles = makeStyles(() => ({
         fontFamily: "'Recursive', sans-serif !important",
         fontSize: '36px',
         textAlign: 'center',
+    },
+    button: {
+        flexGrow: 1,
+        flexBasis: 0,
+        borderRadius: '0.5rem',
+        backgroundColor: '#3BAAD8',
+        color: 'white',
     },
 }));
 
@@ -24,6 +34,10 @@ const GivingComponentStatus: React.FC<GivingComponentStatusProps> = ({
     money,
 }: GivingComponentStatusProps) => {
     const classes = useStyles();
+    const history = useHistory();
+    const onClick = () => {
+        history.push('/chain-select');
+    };
 
     return (
         <Card
@@ -44,6 +58,11 @@ const GivingComponentStatus: React.FC<GivingComponentStatusProps> = ({
                     </Typography>
                 </Box>
             </CardContent>
+            <CardActions>
+                <Button onClick={onClick} className={classes.button}>
+                    실시간 기부 상황 보기
+                </Button>
+            </CardActions>
         </Card>
     );
 };

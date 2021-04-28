@@ -37,13 +37,14 @@ const BlockChainSelectPage: React.FC = () => {
             const insertValue: BlockChainTotalSet = {};
             res.data.forEach((eachData: ChainAPIRes) => {
                 const dataArr: string[] = eachData.data.split(';');
-                const givingTarget: number = Number(dataArr[3]);
+                const givingTarget: number = Number(dataArr[3]).valueOf();
                 if (!insertValue[givingTarget]) {
                     insertValue[givingTarget] = [];
                 }
+                console.log(dataArr);
                 insertValue[givingTarget].push({
                     donationAmount: Number(dataArr[2]),
-                    givingTarget,
+                    givingTarget: dataArr[1],
                     hash: eachData.hash,
                     name: dataArr[0],
                     nonce: eachData.nonce,
@@ -51,8 +52,11 @@ const BlockChainSelectPage: React.FC = () => {
                     target: eachData.target,
                     targetDepth: eachData.targetDepth,
                     timeStamp: eachData.timeStamp,
+                    timeString: dataArr[4],
                 });
             });
+            console.log(insertValue);
+            setChainData(insertValue);
         });
     }, []);
 

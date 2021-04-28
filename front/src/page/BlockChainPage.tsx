@@ -1,8 +1,12 @@
-import { Box, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import { Box, Fab, makeStyles, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router';
+import { useRecoilValue } from 'recoil';
+import BlockChainComponent from '../component/Block/BlockChainComponent';
 import HeaderAction from '../component/Common/HeaderAction';
 import { getNumberString } from '../component/Common/util';
+import { BlockChainState } from '../recoil/Giving';
+import { CurrentUserState } from '../recoil/Session';
 
 export enum CHAIN_TYPE {
     ENV = 201,
@@ -43,7 +47,7 @@ const getImageName = (data: CHAIN_TYPE) => {
         case CHAIN_TYPE.ANIMAL:
             return 'Animal.png';
         case CHAIN_TYPE.CHILD:
-            return 'Children';
+            return 'Children.png';
         case CHAIN_TYPE.DISABLE:
             return 'Disabled.png';
         case CHAIN_TYPE.ENV:
@@ -72,14 +76,29 @@ const getTitle = (data: CHAIN_TYPE) => {
 
 const BlockChainPage: React.FC = () => {
     const { type } = useParams<any>();
+    const userInfo = useRecoilValue(CurrentUserState);
     const titleName = getTitle(type * 1);
     const imageName = getImageName(type * 1);
     const colorSet = getColor(type * 1);
     const history = useHistory();
-    const classes = useStyles();
+
+    const [showMy, setShowMy] = useState(false);
+    const onShow = () => {
+        setShowMy(!showMy);
+    };
     const goBackFunciton = () => {
         history.goBack();
     };
+    const chainTotalData = useRecoilValue(BlockChainState);
+
+    const currentData = (chainTotalData[type * 1] || []).filter((data) => {
+        return !showMy || data.name === userInfo.nickname;
+    });
+    let total = 0;
+
+    currentData.forEach((eachData) => {
+        total += eachData.donationAmount;
+    });
     return (
         <div className="bg_gray5">
             <HeaderAction
@@ -104,7 +123,7 @@ const BlockChainPage: React.FC = () => {
                     </Box>
                     <Box>
                         <Typography className={`txt_20 txt_b txt_line`}>
-                            7812층
+                            {currentData.length}층
                         </Typography>
                         <Typography className={`txt_20 txt_line`}>
                             이며,
@@ -116,7 +135,7 @@ const BlockChainPage: React.FC = () => {
                         </Typography>
                         &nbsp;
                         <Typography className={`txt_20 txt_b txt_line`}>
-                            {getNumberString(12345)}
+                            {getNumberString(total)}
                         </Typography>
                         &nbsp;
                         <Typography className={`txt_20 txt_line`}>
@@ -141,12 +160,46 @@ const BlockChainPage: React.FC = () => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box bgcolor={colorSet} px="5px"></Box>
+                    <Box bgcolor={colorSet} p="15px">
+                        {currentData.map((eachData, index, arr) => {
+                            return (
+                                <Box
+                                    key={index}
+                                    mt={`${index === 0 ? '0' : '15px'}`}
+                                >
+                                    <BlockChainComponent
+                                        {...eachData}
+                                        isMine={
+                                            userInfo.nickname === eachData.name
+                                        }
+                                        donationId={type * 1}
+                                        floor={arr.length - index}
+                                    />
+                                </Box>
+                            );
+                        })}
+                    </Box>
                     <Box>
                         <img src={`/images/floor_${imageName}`} />
                     </Box>
                 </Box>
             </Box>
+            <Fab
+                variant="extended"
+                size="medium"
+                onClick={onShow}
+                style={{
+                    backgroundColor: 'white',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    position: 'absolute',
+                    bottom: '15px',
+                }}
+            >
+                <Typography className="txt_primaryBlue">
+                    {showMy ? '전부 보이기' : '내 블록만 보기'}
+                </Typography>
+            </Fab>
         </div>
     );
 };

@@ -132,5 +132,5 @@ canvas {
 }
 
 .MuiCard-root {
-    min-height: 124px !important;
+    min-height: 124px;
 }

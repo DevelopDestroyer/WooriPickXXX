@@ -24,7 +24,7 @@ const GivingPage: React.FC = () => {
             return;
         }
 
-        if (nextMove > 3) {
+        if (nextMove > 4) {
             resetSelect();
             resetAmount();
             history.replace('/');
