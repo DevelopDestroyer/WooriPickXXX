@@ -30,7 +30,7 @@ public class BlockController {
 
     @PostMapping
     public String mineBlock(@RequestParam(name="data") String data){
-        //data : 보낸사람;받는사람;금액;메모(항목)
+        //data : 보낸사람;받는사람;금액;카테고리;시간
         blockService.mineBlock(data);
         return "OK";
     }

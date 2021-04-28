@@ -120,7 +120,8 @@ public class TradingService {
         blockService.mineBlock(donationDTO.getUserNickname()+";"
                 + "우리핏베네핏 기부;"
                 + donationDTO.getDonationPoint() + ";"
-                + DonationCategoryType.constantOf(donationDTO.getDonationId()).getCategoryName());
+                + DonationCategoryType.constantOf(donationDTO.getDonationId()).getCategoryName() + ";"
+                + time.getNowTime());
 
         return true;
     }
