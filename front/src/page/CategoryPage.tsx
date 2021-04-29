@@ -15,7 +15,7 @@ const CategoryPage: React.FC = () => {
         }
         setIndex(index + move);
         if (index + move >= 2) {
-            history.replace('/');
+            history.replace('/homepage');
         } else {
             sliderRef.current && sliderRef.current.slickGoTo(index + move);
         }

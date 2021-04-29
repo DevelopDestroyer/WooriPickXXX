@@ -1,10 +1,13 @@
 import { Box, Fab, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { useRecoilValue } from 'recoil';
-import BlockChainComponent from '../component/Block/BlockChainComponent';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import BlockChainTop from '../component/Block/BlockChainTop';
+import BlockChainTower from '../component/Block/BlockChainTower';
 import HeaderAction from '../component/Common/HeaderAction';
-import { getNumberString } from '../component/Common/util';
+import LoaderComponent from '../component/Common/LoaderComponent';
+import { BlockChainTotalSet, ChainAPIRes } from '../component/Giving/DataModel';
+import http from '../http';
 import { BlockChainState } from '../recoil/Giving';
 import { CurrentUserState } from '../recoil/Session';
 
@@ -76,29 +79,60 @@ const getTitle = (data: CHAIN_TYPE) => {
 
 const BlockChainPage: React.FC = () => {
     const { type } = useParams<any>();
+    const donaionId: number = type * 1;
     const userInfo = useRecoilValue(CurrentUserState);
-    const titleName = getTitle(type * 1);
-    const imageName = getImageName(type * 1);
-    const colorSet = getColor(type * 1);
+    const titleName = getTitle(donaionId);
+    const imageName = getImageName(donaionId);
+    const colorSet = getColor(donaionId);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [chainData, setChainData] = useRecoilState(BlockChainState);
     const history = useHistory();
+
+    useEffect(() => {
+        http.get('/api/blocks').then((res) => {
+            console.log(res.data);
+            const insertValue: BlockChainTotalSet = {};
+            res.data.forEach((eachData: ChainAPIRes) => {
+                const dataArr: string[] = eachData.data.split(';');
+                const givingTarget: number = Number(dataArr[3]).valueOf();
+                if (!insertValue[givingTarget]) {
+                    insertValue[givingTarget] = [];
+                }
+                console.log(dataArr);
+                insertValue[givingTarget].push({
+                    donationAmount: Number(dataArr[2]),
+                    givingTarget: dataArr[1],
+                    hash: eachData.hash,
+                    name: dataArr[0],
+                    nonce: eachData.nonce,
+                    previousHash: eachData.previousHash,
+                    target: eachData.target,
+                    targetDepth: eachData.targetDepth,
+                    timeStamp: eachData.timeStamp,
+                    timeString: dataArr[4],
+                });
+            });
+            setIsLoaded(true);
+            setChainData(insertValue);
+        });
+    }, []);
 
     const [showMy, setShowMy] = useState(false);
     const onShow = () => {
         setShowMy(!showMy);
     };
     const goBackFunciton = () => {
+        setShowMy(false);
         history.goBack();
     };
-    const chainTotalData = useRecoilValue(BlockChainState);
 
-    const currentData = (chainTotalData[type * 1] || []).filter((data) => {
-        return !showMy || data.name === userInfo.nickname;
-    });
+    const currentData = chainData[type * 1] || [];
     let total = 0;
 
     currentData.forEach((eachData) => {
         total += eachData.donationAmount;
     });
+
     return (
         <div className="bg_gray5">
             <HeaderAction
@@ -107,83 +141,31 @@ const BlockChainPage: React.FC = () => {
                 onMoveClick={goBackFunciton}
             />
 
-            <Box className="container">
-                <Box mt="30px">
-                    <Box>
-                        <Typography className={`txt_20 txt_line`}>
-                            현재
-                        </Typography>
-                        &nbsp;
-                        <Typography className={`txt_20 txt_b txt_line`}>
-                            {titleName}빌딩
-                        </Typography>
-                        <Typography className={`txt_20 txt_line`}>
-                            은
-                        </Typography>
+            {isLoaded ? (
+                <Box className="container">
+                    <Box mt="30px">
+                        <BlockChainTop
+                            title={titleName}
+                            total={total}
+                            floorCount={currentData.length}
+                        />
                     </Box>
                     <Box>
-                        <Typography className={`txt_20 txt_b txt_line`}>
-                            {currentData.length}층
-                        </Typography>
-                        <Typography className={`txt_20 txt_line`}>
-                            이며,
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Typography className={`txt_20 txt_line`}>
-                            {`모금액은 `}
-                        </Typography>
-                        &nbsp;
-                        <Typography className={`txt_20 txt_b txt_line`}>
-                            {getNumberString(total)}
-                        </Typography>
-                        &nbsp;
-                        <Typography className={`txt_20 txt_line`}>
-                            {` 입니다`}
-                        </Typography>
+                        <BlockChainTower
+                            showMy={showMy}
+                            colorSet={colorSet}
+                            donationId={donaionId}
+                            currentData={currentData}
+                            imageName={imageName}
+                            nickName={userInfo.nickname}
+                            titleName={titleName}
+                        />
                     </Box>
                 </Box>
-                <Box>
-                    <Box
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '84px',
-                            backgroundSize: '100% 100%',
-                            backgroundImage: `url(/images/Roof_${imageName})`,
-                        }}
-                    >
-                        <Box pt="15px">
-                            <Typography className="txt_wh txt_b txt_20">
-                                {titleName}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Box bgcolor={colorSet} p="15px">
-                        {currentData.map((eachData, index, arr) => {
-                            return (
-                                <Box
-                                    key={index}
-                                    mt={`${index === 0 ? '0' : '15px'}`}
-                                >
-                                    <BlockChainComponent
-                                        {...eachData}
-                                        isMine={
-                                            userInfo.nickname === eachData.name
-                                        }
-                                        donationId={type * 1}
-                                        floor={arr.length - index}
-                                    />
-                                </Box>
-                            );
-                        })}
-                    </Box>
-                    <Box>
-                        <img src={`/images/floor_${imageName}`} />
-                    </Box>
-                </Box>
-            </Box>
+            ) : (
+                <LoaderComponent color={'#62C3EB'} />
+            )}
+
             <Fab
                 variant="extended"
                 size="medium"

@@ -25,9 +25,7 @@ const GivingPage: React.FC = () => {
         }
 
         if (nextMove > 4) {
-            resetSelect();
-            resetAmount();
-            history.replace('/');
+            history.replace('/homepage');
         } else {
             sliderRef.current && sliderRef.current.slickGoTo(nextMove);
         }

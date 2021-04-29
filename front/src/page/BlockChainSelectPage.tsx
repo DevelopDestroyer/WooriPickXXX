@@ -1,11 +1,7 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
 import HeaderAction from '../component/Common/HeaderAction';
-import { BlockChainTotalSet, ChainAPIRes } from '../component/Giving/DataModel';
-import http from '../http';
-import { BlockChainState } from '../recoil/Giving';
 import { CHAIN_TYPE } from './BlockChainPage';
 
 const useStyles = makeStyles(() => ({
@@ -22,7 +18,6 @@ const BlockChainSelectPage: React.FC = () => {
     const history = useHistory();
     const classes = useStyles();
 
-    const setChainData = useSetRecoilState(BlockChainState);
     const onClickChain = (data: CHAIN_TYPE) => {
         history.push(`/blockchain/${data}`);
     };
@@ -30,35 +25,6 @@ const BlockChainSelectPage: React.FC = () => {
     const goBackFunciton = () => {
         history.goBack();
     };
-
-    useEffect(() => {
-        http.get('/api/blocks').then((res) => {
-            console.log(res.data);
-            const insertValue: BlockChainTotalSet = {};
-            res.data.forEach((eachData: ChainAPIRes) => {
-                const dataArr: string[] = eachData.data.split(';');
-                const givingTarget: number = Number(dataArr[3]).valueOf();
-                if (!insertValue[givingTarget]) {
-                    insertValue[givingTarget] = [];
-                }
-                console.log(dataArr);
-                insertValue[givingTarget].push({
-                    donationAmount: Number(dataArr[2]),
-                    givingTarget: dataArr[1],
-                    hash: eachData.hash,
-                    name: dataArr[0],
-                    nonce: eachData.nonce,
-                    previousHash: eachData.previousHash,
-                    target: eachData.target,
-                    targetDepth: eachData.targetDepth,
-                    timeStamp: eachData.timeStamp,
-                    timeString: dataArr[4],
-                });
-            });
-            console.log(insertValue);
-            setChainData(insertValue);
-        });
-    }, []);
 
     return (
         <div className="bg_gray5">

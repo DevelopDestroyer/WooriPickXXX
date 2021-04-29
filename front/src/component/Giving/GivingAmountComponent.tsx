@@ -1,8 +1,17 @@
 import { Box, makeStyles, TextField } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+    useRecoilState,
+    useRecoilValue,
+    useResetRecoilState,
+    useSetRecoilState,
+} from 'recoil';
 import http from '../../http';
-import { GivingAmountState, GivingSelectState } from '../../recoil/Giving';
+import {
+    DonationResState,
+    GivingAmountState,
+    GivingSelectState,
+} from '../../recoil/Giving';
 import { CurrentUserState } from '../../recoil/Session';
 import FingerDialog from '../Common/FingerDialog';
 import { getNumberString } from '../Common/util';
@@ -29,25 +38,39 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
     onMoveClick,
 }: CommonInterface) => {
     const classes = useStyles();
+    const resetSelect = useResetRecoilState(GivingSelectState);
+    const resetAmount = useResetRecoilState(GivingAmountState);
 
     const [givingAmount, setGivingAmount] = useRecoilState(GivingAmountState);
     const givingSelect = useRecoilValue(GivingSelectState);
     const userInfo = useRecoilValue(CurrentUserState);
 
     const [open, setOpen] = useState<boolean>(false);
+    const setDonationRes = useSetRecoilState(DonationResState);
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setGivingAmount(Number(event.target.value));
     };
 
-    const onClose = async () => {
-        await http.post(`/api/trading/donation`, {
+    const onFingerClick = () => {
+        http.post(`/api/trading/donation`, {
             userNickname: userInfo.nickname,
             donationId: givingSelect[0].id,
             donationPoint: givingAmount,
+        }).then(() => {
+            console.log('기부 완료');
+            setDonationRes({
+                donationId: givingSelect[0].id,
+                open: true,
+            });
         });
+        resetSelect();
+        resetAmount();
         setOpen(false);
         onMoveClick(index + 1);
+    };
+    const onClose = () => {
+        setOpen(false);
     };
 
     return (
@@ -66,9 +89,16 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
             }}
             buttonTitle="다음"
         >
-            <FingerDialog fingerClick={onClose} open={open} onClose={onClose} />
-            <p className="txt_20">기부하고 싶은</p>
-            <p className="txt_20 txt_b">금액을 입력하세요.</p>
+            <FingerDialog
+                fingerClick={onFingerClick}
+                open={open}
+                onClose={onClose}
+            />
+            <Box mt="30px">
+                <p className="txt_20">기부하고 싶은</p>
+                <p className="txt_20 txt_b">금액을 입력하세요.</p>
+            </Box>
+
             <Box mt="25px">
                 <TextField
                     classes={{

@@ -57,6 +57,7 @@ const TCRankList: React.FC = () => {
     const [rankList, setRankList] = useState<RankingDataSet[]>([]);
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const [start, end] = getRage(rankList);
+    console.log(`${start} ${end}`);
     useEffect(() => {
         http.get(`/api/rank/friends/${userInfo.nickname}`).then((res) => {
             console.log(res);
@@ -107,15 +108,13 @@ const TCRankList: React.FC = () => {
 
     return (
         <>
-            <Box mt="30px">
-                {titleStr.map((eachString, index) => {
-                    return (
-                        <Typography key={index} className="txt_b txt_20">
-                            {eachString}
-                        </Typography>
-                    );
-                })}
-            </Box>
+            {titleStr.map((eachString, index) => {
+                return (
+                    <Typography key={index} className="txt_b txt_20">
+                        {eachString}
+                    </Typography>
+                );
+            })}
 
             <Card
                 style={{
@@ -171,7 +170,8 @@ const TCRankList: React.FC = () => {
                                                 mt="0.3rem"
                                                 height="40%"
                                                 width={`${
-                                                    (eachData.friendPoint /
+                                                    ((eachData.friendPoint -
+                                                        start) /
                                                         (end - start)) *
                                                     100
                                                 }%`}

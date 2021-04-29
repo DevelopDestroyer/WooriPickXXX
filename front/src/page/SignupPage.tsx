@@ -43,7 +43,7 @@ const SignupPage: React.FC = () => {
             resetProfile();
             resetAccInfo();
             resetCategory();
-            history.replace('/mainpage');
+            history.replace('/homepage');
             setIndex(0);
             return;
         }

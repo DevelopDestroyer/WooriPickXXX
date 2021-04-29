@@ -18,12 +18,8 @@ interface ACDialogProps {
 const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
     const { onClose, open, fingerClick } = props;
 
-    const handleOk = () => {
-        onClose();
-    };
-
     return (
-        <Dialog onClose={handleOk} open={open}>
+        <Dialog onClose={onClose} open={open}>
             <Card>
                 <CardHeader
                     title={
@@ -37,22 +33,24 @@ const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
                         </Typography>
                     }
                 />
-            </Card>
-            <CardContent style={{ textAlign: 'center' }}>
-                <IconButton onClick={fingerClick}>
-                    <img src="/images/Fingerprint_Color.png" />
-                </IconButton>
-                <Typography className="txt_14">센서에 지문인식</Typography>
-            </CardContent>
-            <CardActions style={{ justifyContent: 'flex-end', paddingTop: 0 }}>
-                <Button
-                    onClick={onClose}
-                    disableRipple
-                    style={{ color: '#62C3EB' }}
+                <CardContent style={{ textAlign: 'center' }}>
+                    <IconButton onClick={fingerClick}>
+                        <img src="/images/Fingerprint_Color.png" />
+                    </IconButton>
+                    <Typography className="txt_14">센서에 지문인식</Typography>
+                </CardContent>
+                <CardActions
+                    style={{ justifyContent: 'flex-end', paddingTop: 0 }}
                 >
-                    취소
-                </Button>
-            </CardActions>
+                    <Button
+                        onClick={onClose}
+                        disableRipple
+                        style={{ color: '#62C3EB' }}
+                    >
+                        취소
+                    </Button>
+                </CardActions>
+            </Card>
         </Dialog>
     );
 };

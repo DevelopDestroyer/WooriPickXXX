@@ -176,7 +176,7 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
                 userNickname: userInfo.nickname,
             });
         });
-        http.post(`/api/members/category`, category).then((res) => {
+        http.post(`/api/members/category`, data).then((res) => {
             console.log(res);
             props.onMoveButtonClick(next);
         });

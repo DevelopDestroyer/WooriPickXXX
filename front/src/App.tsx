@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import './basic.css';
 import AuthRouteGuard from './component/AuthRouteGuard';
+import GivingCompleteDialog from './component/Common/GivingCompleteDialog';
 import { FriendDataSet } from './component/Together/DataModel';
 import './overide.css';
 import AddFriendPage from './page/AddFriendPage';
@@ -52,11 +53,17 @@ const App: React.FC = () => {
 
     return (
         <BrowserRouter>
+            <GivingCompleteDialog />
+
             <Switch>
-                <Route exact path="/mainpage" component={MainPage} />
+                <Route exact path="/" component={MainPage} />
                 <Route exact path="/signup" component={SignupPage} />
-                <Route exact path="/category" component={CategoryPage} />
-                <AuthRouteGuard exact path="/" component={HomePage} />
+                <AuthRouteGuard
+                    exact
+                    path="/category"
+                    component={CategoryPage}
+                />
+                <AuthRouteGuard exact path="/homepage" component={HomePage} />
                 <AuthRouteGuard exact path="/giving" component={GivingPage} />
                 <AuthRouteGuard
                     exact
@@ -79,7 +86,7 @@ const App: React.FC = () => {
                     component={BlockChainPage}
                 />
 
-                <Redirect from="*" to="/mainpage" />
+                <Redirect from="*" to="/" />
             </Switch>
         </BrowserRouter>
     );

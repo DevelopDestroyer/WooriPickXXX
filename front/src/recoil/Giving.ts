@@ -32,3 +32,12 @@ export const BlockChainState = atom<BlockChainTotalSet>({
     default: {},
     effects_UNSTABLE: [persistAtom],
 });
+
+export const DonationResState = atom<{ donationId: number; open: boolean }>({
+    key: 'DonationReqIdState',
+    default: {
+        donationId: 0,
+        open: false,
+    },
+    effects_UNSTABLE: [persistAtom],
+});
