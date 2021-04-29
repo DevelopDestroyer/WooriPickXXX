@@ -1,8 +1,8 @@
 import { Button, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
-import { DonationResState } from '../recoil/Giving';
+import { useRecoilValue } from 'recoil';
+import { CurrentUserState } from '../recoil/Session';
 
 const useStyles = makeStyles(() => ({
     imgContainer: {
@@ -23,16 +23,13 @@ const useStyles = makeStyles(() => ({
 const SigninPage: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
+    const userInfo = useRecoilValue(CurrentUserState);
     const onClickSignup = () => {
         history.push('/signup');
     };
 
-    const setResData = useSetRecoilState(DonationResState);
     const onClickLogin = () => {
-        setResData({
-            donationId: 203,
-            open: true,
-        });
+        history.push('/login');
     };
 
     return (
@@ -62,6 +59,7 @@ const SigninPage: React.FC = () => {
                     </Button>
 
                     <Button
+                        disabled={userInfo.nickname === ''}
                         onClick={onClickLogin}
                         className={`mg_t10 ${classes.button}`}
                         style={{ border: '1px solid white', height: '55px' }}

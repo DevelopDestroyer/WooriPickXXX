@@ -6,12 +6,6 @@ import {
 } from '../component/Together/DataModel';
 import { persistAtom } from './index';
 
-export const TestFrienString = atom<string>({
-    key: 'TestFrienString',
-    default: '',
-    effects_UNSTABLE: [persistAtom],
-});
-
 export const FriendDataSetState = atom<FriendDataSet[]>({
     key: 'FriendDataSetState',
     default: [],

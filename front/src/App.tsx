@@ -15,19 +15,18 @@ import BlockChainSelectPage from './page/BlockChainSelectPage';
 import CategoryPage from './page/CategoryPage';
 import GivingPage from './page/GivingPage';
 import HomePage from './page/HomePage';
+import LoginPage from './page/LoginPage';
 import MainPage from './page/MainPage';
 import SignupPage from './page/SignupPage';
-import { FriendDataSetState, TestFrienString } from './recoil/Together';
+import { FriendDataSetState } from './recoil/Together';
 
 const App: React.FC = () => {
     const setFrined = useSetRecoilState(FriendDataSetState);
-    const setFrinedTest = useSetRecoilState(TestFrienString);
     useEffect(() => {
         window.addEventListener(
             'message',
             (e) => {
                 console.log(e);
-                setFrinedTest(e.data);
                 const res = e.data.split(';;;');
                 if (res[0] === 'parent') {
                     const dataStr: string = res[1] as string;
@@ -58,6 +57,7 @@ const App: React.FC = () => {
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/signup" component={SignupPage} />
+                <AuthRouteGuard exact path="/login" component={LoginPage} />
                 <AuthRouteGuard
                     exact
                     path="/category"
