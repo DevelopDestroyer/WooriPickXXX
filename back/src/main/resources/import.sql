@@ -114,7 +114,7 @@ INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VA
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('보틀팩토리', 101, '일상의 환경문제를 해결하기 위해 보틀을 판매해요.', 'company_1_2.png');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구샵', 101, '플라스틱을 사용하지 않는 생활용품을 판매해요.', 'company_1_3.png');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('송포어스', 101, '플라스틱을 사용하지 않는 친환경 생활용품을 판매해요.', 'company_1_4.png');
-INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구별가게', 101, '제로웨이스트를 위해 유기농 순면 소재의 제품을 판매해요.', 'company_1_5.png');
+--INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('지구별가게', 101, '제로웨이스트를 위해 유기농 순면 소재의 제품을 판매해요.', 'company_1_5.png');
 
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('하이트진로', 102, '주요 브랜드 총 21종에 `3단계 환경성적표지` 인증을 받았어요', 'company_2_1.png');
 INSERT INTO COMPANY (COMPANY_NAME, CATEGORY_ID, DESCRIPTION, THUMB_NAIL_PATH) VALUES ('포스코', 102, '생산하고 있는 전 제품군이 `환경성적표지` 인증을 받았어요', 'company_2_2.png');
