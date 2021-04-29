@@ -112,28 +112,52 @@ public enum BenefitCategoryType {
 
                 break;
             case LOW_CARBON:
-                saleCompaniesList.add(SaleCompany.builder().companyName("삼성전자").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("하이트진로").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("포스코").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("(주)기업과사람들").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("풀무원").salePercentage(20).build());
                 break;
             case OPPOSITION_TO_ANIMAL_TESTING:
-                saleCompaniesList.add(SaleCompany.builder().companyName("야놀자").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("아로마티카").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("이너프프로젝트").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("세럼카인드").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("에코라운드").salePercentage(20).build());
                 break;
             case SAVE_CHILDRUN:
-                saleCompaniesList.add(SaleCompany.builder().companyName("카카오").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("진짜 파스타").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("아재커피 종로구청점").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("알티프로젝트카페").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("엔플럼헤어").salePercentage(20).build());
                 break;
             case SAVE_ELDER:
-                saleCompaniesList.add(SaleCompany.builder().companyName("네이버").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("정스팜").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("성심당").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("지엔티").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("노노카페").salePercentage(20).build());
                 break;
             case WELFARE_FOR_THE_DISABLED:
-                saleCompaniesList.add(SaleCompany.builder().companyName("쿠팡").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("호텔 엘린").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("나는카페").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("스위트위드").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("섬섬옥수").salePercentage(20).build());
                 break;
             case PRODUCTS_MADE_BY_DISABILITIES:
-                saleCompaniesList.add(SaleCompany.builder().companyName("당근마켓").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("꿈드래 쇼핑몰").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("마로원").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("씨앤비빌리지").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("히즈빈스").salePercentage(20).build());
                 break;
             case RELIEF_GOODS:
-                saleCompaniesList.add(SaleCompany.builder().companyName("배달의민족").salePercentage(5).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("희망브리지").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("쓰리킹스인터내셔널").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("본죽").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("솜씨").salePercentage(20).build());
                 break;
             case VEGAN:
-                saleCompaniesList.add(SaleCompany.builder().companyName("하나로마트").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("Melixir").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("씨젬므쥬르").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("발우공양").salePercentage(20).build());
+                saleCompaniesList.add(SaleCompany.builder().companyName("몽크스부처").salePercentage(20).build());
                 break;
         }
         return saleCompaniesList;
