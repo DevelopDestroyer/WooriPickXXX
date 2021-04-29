@@ -32,9 +32,11 @@ const GivingCommon: React.FC<GivingCommonType> = (props: GivingCommonType) => {
                 onMoveClick={() => props.onMoveClick(-1)}
             />
             <div className="glow_body">
-                <div className="container mg_t30" style={{ height: '100%' }}>
-                    {props.children}
-                </div>
+                <Box mt="30px">
+                    <div className="container" style={{ height: '100%' }}>
+                        {props.children}
+                    </div>
+                </Box>
             </div>
             <Button
                 disableRipple={props.buttonDisable}

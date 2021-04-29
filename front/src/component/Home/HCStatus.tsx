@@ -63,7 +63,7 @@ const HCStatus: React.FC = () => {
         <Card style={{ backgroundColor: '#62C3EB', borderRadius: '0.5rem' }}>
             <CardContent>
                 <Typography className={classes.dfColor}>
-                    {`${userInfo.name}님의`}
+                    {`${userInfo.nickname}님의`}
                     <br />
                     혜택통 현황입니다.
                 </Typography>
@@ -78,7 +78,7 @@ const HCStatus: React.FC = () => {
             </CardContent>
             <CardActions classes={{ root: classes.cardActionLayout }}>
                 <Button
-                    disabled
+                    disabled={userInfo.point === 0}
                     className={`${classes.buttonLayout} ${classes.dfColor}`}
                 >
                     내 계좌로 인출

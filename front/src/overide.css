@@ -134,3 +134,7 @@ canvas {
 .MuiCard-root {
     min-height: 124px;
 }
+
+.txt_back_highlight {
+    height: 0.5rem;
+}

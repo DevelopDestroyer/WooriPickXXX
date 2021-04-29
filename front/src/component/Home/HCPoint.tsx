@@ -16,7 +16,7 @@ import {
     CurrentUserTransactionState,
 } from '../../recoil/Session';
 import BenefitList from './BenefitList';
-import { DummyTransactionData, TransactionSet } from './DataModel';
+import { TransactionSet } from './DataModel';
 
 const useStyles = makeStyles(() => ({
     dfColor: {
@@ -48,11 +48,7 @@ const HCPoint: React.FC = () => {
         http.get(`/api/trading/benefits/${encodeURI(userInfo.nickname)}`).then(
             (res) => {
                 let data: TransactionSet[] = [];
-                if (res.data.data.length === 0) {
-                    data = DummyTransactionData;
-                } else {
-                    data = res.data.data;
-                }
+                data = res.data.data;
                 data = data.filter((eachData) => {
                     return userCategory.includes(eachData.categoryId);
                 });

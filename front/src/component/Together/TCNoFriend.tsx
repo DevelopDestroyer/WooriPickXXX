@@ -41,7 +41,14 @@ const TCNoFriend: React.FC = () => {
     };
 
     return (
-        <Card style={{ borderRadius: '0.5rem' }}>
+        <Card
+            style={{
+                border: 'solid',
+                borderWidth: '2px',
+                borderColor: '#62C3EB',
+                borderRadius: '0.5rem',
+            }}
+        >
             <CardContent>
                 <Typography className="txt_14">
                     투게더를 통해 친구들과 함께 혜택통을 즐길 수 있어요. 지금

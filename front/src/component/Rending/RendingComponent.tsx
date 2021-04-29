@@ -20,7 +20,10 @@ interface RenderingPageProps {
     onMoveButtonClick: (move: number) => void;
 }
 
-type PropsType = RenderingPageProps & { isFirst: boolean };
+type PropsType = RenderingPageProps & {
+    isLast: boolean;
+    isFirst: boolean;
+};
 
 const RendingComponent: React.FC<PropsType> = ({
     data,
@@ -38,14 +41,17 @@ const RendingComponent: React.FC<PropsType> = ({
 
     return (
         <Box style={{ position: 'relative' }} width="100%" height="100%">
-            <div className="container mg_t10" style={{ overflowX: 'visible' }}>
-                <IconButton
-                    className={`back_div ${props.isFirst && 'hide'}`}
-                    onClick={onBackClick}
-                >
-                    <KeyboardArrowLeft />
-                </IconButton>
-            </div>
+            <Box mt="10px">
+                <div className="container" style={{ overflowX: 'visible' }}>
+                    <IconButton
+                        className={`back_div ${props.isFirst && 'hide'}`}
+                        onClick={onBackClick}
+                    >
+                        <KeyboardArrowLeft />
+                    </IconButton>
+                </div>
+            </Box>
+
             <div>
                 <p className="rd_posi_1 txt_30">{data.title.first}</p>
                 <p className="rd_posi_2 txt_30 txt_b">{data.title.second}</p>
@@ -71,7 +77,7 @@ const RendingComponent: React.FC<PropsType> = ({
                 onClick={onNextClick}
             >
                 <Typography className={`p_btn_bottom txt_wh txt_b`}>
-                    다음
+                    {props.isLast ? '시작하기' : '다음'}
                 </Typography>
             </Button>
         </Box>

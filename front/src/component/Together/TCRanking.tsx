@@ -3,7 +3,6 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CircularProgress,
     Grid,
     makeStyles,
     Typography,
@@ -12,6 +11,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { CurrentUserState } from '../../recoil/Session';
 import { TogetherAVGState } from '../../recoil/Together';
+import LoaderComponent from '../Common/LoaderComponent';
 
 const useStyles = makeStyles(() => ({
     moneyFont: {
@@ -97,14 +97,7 @@ const TCRanking: React.FC = () => {
                     </CardContent>
                 </>
             ) : (
-                <Box
-                    height="124px"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                >
-                    <CircularProgress style={{ color: 'black' }} />
-                </Box>
+                <LoaderComponent color="black" />
             )}
         </Card>
     );

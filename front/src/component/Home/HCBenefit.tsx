@@ -55,6 +55,7 @@ const HCPoint: React.FC = () => {
     if (category.length === 0) {
         return <></>;
     }
+    console.log(category);
     return (
         <Card style={{ borderRadius: '0.5rem' }}>
             <CardHeader

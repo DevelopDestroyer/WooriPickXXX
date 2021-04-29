@@ -129,7 +129,11 @@ const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
                     pt="20px"
                     pb="16px"
                 >
-                    <Grid container alignItems="center">
+                    <Grid
+                        style={{ flexWrap: 'unset' }}
+                        container
+                        alignItems="center"
+                    >
                         <TextField
                             disabled={certMode || complete}
                             error={inValid}
@@ -168,7 +172,11 @@ const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
                             pt="20px"
                             pb="16px"
                         >
-                            <Grid container alignItems="center">
+                            <Grid
+                                style={{ flexWrap: 'unset' }}
+                                container
+                                alignItems="center"
+                            >
                                 <TextField
                                     disabled={complete}
                                     error={inputValidStr !== validStr}

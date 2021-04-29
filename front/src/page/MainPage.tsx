@@ -31,12 +31,13 @@ const MainPage: React.FC = () => {
                 <SigninPage />
             ) : (
                 <Slider {...commonSlickSettings} ref={sliderRef}>
-                    {rendingData.map((eachData, index) => {
+                    {rendingData.map((eachData, index, arr) => {
                         return (
                             <RendingPage
                                 key={eachData.title.first}
                                 data={eachData}
                                 isFirst={index === 0}
+                                isLast={arr.length - 1 === index}
                                 onMoveButtonClick={(move) =>
                                     onMoveButtonClick(index, move)
                                 }

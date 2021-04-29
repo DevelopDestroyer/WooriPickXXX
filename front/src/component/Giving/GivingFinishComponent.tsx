@@ -1,5 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { CurrentUserState } from '../../recoil/Session';
 import { CommonInterface } from './DataModel';
 import GivingCommon from './GivingCommon';
 
@@ -7,6 +9,7 @@ const GivingFinishComponent: React.FC<CommonInterface> = ({
     index,
     onMoveClick,
 }: CommonInterface) => {
+    const userInfo = useRecoilValue(CurrentUserState);
     return (
         <GivingCommon
             headerTitle="기부하기"
@@ -21,7 +24,9 @@ const GivingFinishComponent: React.FC<CommonInterface> = ({
                 <Typography className="txt_20 txt_b">
                     기부 모금이 완료되었어요.
                 </Typography>
-                <Typography className="txt_20">진영님의 나눔으로</Typography>
+                <Typography className="txt_20">
+                    {userInfo.nickname}님의 나눔으로
+                </Typography>
                 <Typography className="txt_20">
                     세상이 한 층 더 밝아졌어요!
                 </Typography>

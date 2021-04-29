@@ -28,10 +28,15 @@ interface ACDialogProps {
 
 const LIMIT = 2;
 
-const ACCategoryDialog: React.FC<ACDialogProps & { recommand: number[] }> = (
-    props: ACDialogProps & { recommand: number[] }
+type ACCCategoryDialogProps = ACDialogProps & {
+    recommand: number[];
+    nickName: string;
+};
+
+const ACCategoryDialog: React.FC<ACCCategoryDialogProps> = (
+    props: ACCCategoryDialogProps
 ) => {
-    const { onClose, open, recommand } = props;
+    const { onClose, open, nickName, recommand } = props;
 
     const handleOk = () => {
         onClose();
@@ -60,7 +65,7 @@ const ACCategoryDialog: React.FC<ACDialogProps & { recommand: number[] }> = (
                         className="txt_14"
                         style={{ display: 'inline' }}
                     >
-                        진영님의 소비 패턴을 분석해보니
+                        {nickName}님의 소비 패턴을 분석해보니
                     </Typography>
                     <Typography
                         className="txt_14"
@@ -180,6 +185,7 @@ const SignupCategoryComponent: React.FC<SignupComponentProps> = (
     return (
         <div className="bg_gray5">
             <ACCategoryDialog
+                nickName={userInfo.nickname}
                 recommand={recommand}
                 open={suggestDialog}
                 onClose={() => {

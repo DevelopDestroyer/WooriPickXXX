@@ -1,5 +1,6 @@
 import {
     AppBar,
+    Box,
     Button,
     IconButton,
     Toolbar,
@@ -43,9 +44,11 @@ const SignupCommonComponent: React.FC<PropsWithChildren<SignUpCommon>> = (
                 </Toolbar>
             </AppBar>
             <div className="glow_body">
-                <div className="container mg_t30" style={{ height: '100%' }}>
-                    {props.children}
-                </div>
+                <Box mt="30px">
+                    <div className="container" style={{ height: '100%' }}>
+                        {props.children}
+                    </div>
+                </Box>
             </div>
             <Button
                 disableRipple={props.buttonDisable}

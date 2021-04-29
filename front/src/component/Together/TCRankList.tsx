@@ -3,7 +3,6 @@ import {
     Button,
     Card,
     CardContent,
-    CircularProgress,
     Grid,
     makeStyles,
     Typography,
@@ -13,6 +12,7 @@ import { useHistory } from 'react-router';
 import { useRecoilValue } from 'recoil';
 import http from '../../http';
 import { CurrentUserState } from '../../recoil/Session';
+import LoaderComponent from '../Common/LoaderComponent';
 import { COLOR_SET } from '../Giving/DataModel';
 import { RankingDataSet } from './DataModel';
 
@@ -102,16 +102,7 @@ const TCRankList: React.FC = () => {
     };
 
     if (!isLoad) {
-        return (
-            <Box
-                height="124px"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-            >
-                <CircularProgress style={{ color: '#62C3EB' }} />
-            </Box>
-        );
+        return <LoaderComponent color="#62C3EB" />;
     }
 
     return (
