@@ -1,73 +1,11 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Dialog,
-    Grid,
-    TextField,
-    Typography,
-} from '@material-ui/core';
+import { Box, Button, Grid, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { SignUpProfileState } from '../../recoil/Session';
 import { makeNumberId } from '../Common/util';
 import { SignupComponentProps } from './DataModel';
+import MSMDialog from './MSMDialog';
 import SignupCommonComponent from './SignupCommon';
-
-interface ACDialogProps {
-    open: boolean;
-    validNumber: string;
-    onClose: () => void;
-}
-
-const ACDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
-    const { onClose, open, validNumber } = props;
-
-    const handleOk = () => {
-        onClose();
-    };
-
-    return (
-        <Dialog onClose={handleOk} open={open}>
-            <Card>
-                <CardHeader
-                    title={
-                        <Typography className="txt_20 txt_b">
-                            인증번호 확인
-                        </Typography>
-                    }
-                    subheader={
-                        <Typography className="txt_14">
-                            인증번호 확인칸에 아래 번호를 입력하세요.
-                        </Typography>
-                    }
-                />
-                <CardContent>
-                    <Typography
-                        className="txt_20 txt_b"
-                        style={{ textAlign: 'center' }}
-                    >
-                        {validNumber}
-                    </Typography>
-                </CardContent>
-                <CardActions
-                    style={{ justifyContent: 'flex-end', paddingTop: 0 }}
-                >
-                    <Button
-                        onClick={handleOk}
-                        disableRipple
-                        style={{ color: '#62C3EB' }}
-                    >
-                        확인
-                    </Button>
-                </CardActions>
-            </Card>
-        </Dialog>
-    );
-};
 
 const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
     props: SignupComponentProps
@@ -80,11 +18,6 @@ const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
     const [inputValidStr, setInputValidStr] = useState<string>('');
     const [validStr, setValidStr] = useState<string>('');
 
-    const completeClick = () => {
-        setComplete(true);
-        setDialog(true);
-    };
-
     const onChangePhoneNumber = (data: string) => {
         let onlyNums = data.replace(/[^0-9]/g, '');
         if (onlyNums.length > 11) {
@@ -95,7 +28,9 @@ const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
 
     const onCertButtonClick = () => {
         setDialog(true);
-        setValidStr(makeNumberId(6));
+        const randomNum = makeNumberId(6);
+        setValidStr(randomNum);
+        setInputValidStr(randomNum);
     };
 
     const onVerifyButtonClick = () => {
@@ -111,8 +46,8 @@ const SignupCellphoneComponent: React.FC<SignupComponentProps> = (
 
     return (
         <div className="bg_gray5">
-            <ACDialog
-                validNumber={validStr}
+            <MSMDialog
+                validStr={validStr}
                 open={dialog}
                 onClose={() => {
                     setDialog(false);

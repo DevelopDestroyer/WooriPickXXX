@@ -40,8 +40,8 @@ const SignupAccountComponent: React.FC<SignupComponentProps> = (
                     return eachData.ACCT_KND.toUpperCase() === 'P';
                 });
                 setWooriAccountList(data);
+                setIsLoaded(true);
             });
-            setIsLoaded(true);
         }
     }, [props.checkCurrent]);
 

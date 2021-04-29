@@ -125,14 +125,14 @@ const BenefitCompanyPage: React.FC = () => {
 
             <div className="container">
                 {currentCompany?.thumbNailPath && (
-                    <img src={currentCompany?.thumbNailPath} />
+                    <img
+                        src={`/images/company/500_${currentCompany?.thumbNailPath}`}
+                    />
                 )}
                 <div className="div_rd_txt mg_t20">
                     <p className="txt_20 txt_b">{name}에서는</p>
 
-                    <p className="txt_20">
-                        {`${currentCompany?.description}합니다.`}
-                    </p>
+                    <p className="txt_20">{currentCompany?.description}</p>
                 </div>
 
                 <div className="box_div bg_wh pd_20 mg_t30">

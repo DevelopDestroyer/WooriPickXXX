@@ -66,10 +66,7 @@ const HomBenefitCompany: React.FC<BenefitCompany> = (props: BenefitCompany) => {
                         </Grid>
                         <Grid>
                             <img
-                                src={props.thumbNailPath.replace(
-                                    /.jpg/gi,
-                                    '.png'
-                                )}
+                                src={`/images/company/150_${props.thumbNailPath}`}
                             />
                         </Grid>
                     </Grid>
