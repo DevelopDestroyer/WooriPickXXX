@@ -57,8 +57,8 @@ public class TradingService {
         //제휴회사 할인 계산
         for(int i = 0; i < saleCompaniesList.size(); i++) {
             if (buyDTO.getCompanyName().equals(saleCompaniesList.get(i).getCompanyName())) {
-                isCompanySale = true;
-                categoryIndex = userBenefitCategoryList.get(i).getCategoryId();
+                //isCompanySale = true;
+                //categoryIndex = userBenefitCategoryList.get(i).getCategoryId();
                 log.info("회사할인 대상 입니다. : " + buyDTO.getCompanyName());
                 userSalePrice = (double) buyDTO.totalPrice() * ((double) saleCompaniesList.get(i).getSalePercentage() / 100);
                 break;
