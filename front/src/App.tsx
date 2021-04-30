@@ -40,12 +40,16 @@ const App: React.FC = () => {
                     const eachPersonStr = dataStr.split(';');
                     const friendList: FriendDataSet[] = [];
                     eachPersonStr.forEach((eachStr: string) => {
-                        const privateDataList: string[] = eachStr.split(':');
-                        friendList.push({
-                            name: privateDataList[0],
-                            displayname: privateDataList[1],
-                            cellphone: privateDataList[2],
-                        });
+                        if (eachStr.length > 0) {
+                            const privateDataList: string[] = eachStr.split(
+                                ':'
+                            );
+                            friendList.push({
+                                name: privateDataList[0],
+                                displayname: privateDataList[1],
+                                cellphone: privateDataList[2],
+                            });
+                        }
                     });
                     console.log(eachPersonStr);
                     setFrined(friendList);
