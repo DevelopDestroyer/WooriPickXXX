@@ -11,13 +11,14 @@ import {
 import React from 'react';
 interface ACDialogProps {
     title: string;
+    dscription: string;
     open: boolean;
     fingerClick: () => void;
     onClose: () => void;
 }
 
 const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
-    const { title, onClose, open, fingerClick } = props;
+    const { title, dscription, onClose, open, fingerClick } = props;
 
     return (
         <Dialog onClose={onClose} open={open}>
@@ -29,9 +30,7 @@ const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
                         </Typography>
                     }
                     subheader={
-                        <Typography className="txt_14">
-                            더욱 쉽고 빠른 로그인을 위해 지문을 등록해 주세요.
-                        </Typography>
+                        <Typography className="txt_14">{dscription}</Typography>
                     }
                 />
                 <CardContent style={{ textAlign: 'center' }}>

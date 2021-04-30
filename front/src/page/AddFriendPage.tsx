@@ -2,7 +2,6 @@ import {
     Box,
     Card,
     CardHeader,
-    makeStyles,
     Tab,
     Tabs,
     Typography,
@@ -10,31 +9,20 @@ import {
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import Slider from 'react-slick';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { commonSlickSettings } from '../component/Common';
 import HeaderAction from '../component/Common/HeaderAction';
 import { a11yProps } from '../component/Common/util';
 import AddFriendList from '../component/Together/AddFriendList';
-import {
-    DUMMY_NOT_UNUSEDSET,
-    UsedFriendSet,
-} from '../component/Together/DataModel';
+import { UsedFriendSet } from '../component/Together/DataModel';
 import http from '../http';
 import { CurrentUserState } from '../recoil/Session';
-import { FriendDataSetState, UnUsedFriendState } from '../recoil/Together';
-
-const useStyles = makeStyles(() => ({
-    dfColor: {
-        color: 'white',
-    },
-    buttonLayout: {
-        width: '80%',
-        backgroundColor: '#3BAAD8',
-        borderRadius: '0.5rem',
-        flexBasis: 0,
-        flexGrow: 1,
-    },
-}));
+import {
+    FriendDataSetState,
+    UnSingupFriendState,
+    UnUsedFriendState,
+    UsedFriendState,
+} from '../recoil/Together';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -67,7 +55,8 @@ const AddFriendPage: React.FC = () => {
     const sliderRef = useRef<Slider>(null);
 
     const [unUsedF, setUnUsedF] = useRecoilState(UnUsedFriendState);
-
+    const [usedF, setUsedF] = useRecoilState(UsedFriendState);
+    const setUnsigned = useSetRecoilState(UnSingupFriendState);
     const tabChange = (event: ChangeEvent<any>, nextValue: number) => {
         setPage(nextValue);
         sliderRef.current && sliderRef.current.slickGoTo(nextValue);
@@ -90,6 +79,34 @@ const AddFriendPage: React.FC = () => {
                 apiFriend.forEach((data) => {
                     inputUnUsedF.push(data);
                 });
+
+                const unSigendF = friendState
+                    .filter((eachData) => {
+                        return (
+                            inputUnUsedF.findIndex(
+                                (innerData) =>
+                                    innerData.phoneNumber === eachData.cellphone
+                            ) < 0
+                        );
+                    })
+                    .filter((eachData) => {
+                        return (
+                            usedF.findIndex(
+                                (innerData) =>
+                                    innerData.phoneNumber === eachData.cellphone
+                            ) < 0
+                        );
+                    })
+                    .map(
+                        (eachData): UsedFriendSet => {
+                            return {
+                                name: eachData.name,
+                                phoneNumber: eachData.name,
+                            };
+                        }
+                    );
+                setUnsigned(unSigendF);
+
                 setUnUsedF(inputUnUsedF);
             });
         }
@@ -98,6 +115,8 @@ const AddFriendPage: React.FC = () => {
     }, [friendState]);
 
     const addClick = (friendInfo: UsedFriendSet) => {
+        const insertUsedF = usedF.concat([friendInfo]);
+        setUsedF(insertUsedF);
         setUnUsedF(
             unUsedF.filter(
                 (data) => data.phoneNumber !== friendInfo.phoneNumber
@@ -112,6 +131,8 @@ const AddFriendPage: React.FC = () => {
     const goBackFunciton = () => {
         history.goBack();
     };
+
+    const unSignedData = useRecoilValue(UnSingupFriendState);
     return (
         <div className="bg_gray5">
             <HeaderAction
@@ -154,7 +175,7 @@ const AddFriendPage: React.FC = () => {
                             />
                             <Tab
                                 key={1}
-                                label={'혜택동 미가입 친구'}
+                                label={'혜택통 미가입 친구'}
                                 {...a11yProps(1)}
                             />
                         </Tabs>
@@ -175,10 +196,7 @@ const AddFriendPage: React.FC = () => {
                             )}
                         </TabPanel>
                         <TabPanel index={1} value={page}>
-                            <AddFriendList
-                                data={DUMMY_NOT_UNUSEDSET}
-                                mode="NOTUSED"
-                            />
+                            <AddFriendList data={unSignedData} mode="NOTUSED" />
                         </TabPanel>
                     </Slider>
                 </Card>

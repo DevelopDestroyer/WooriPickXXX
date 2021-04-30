@@ -91,6 +91,7 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
         >
             <FingerDialog
                 title={'지문확인'}
+                dscription={'본인확인을 위해 지문인증이 필요합니다.'}
                 fingerClick={onFingerClick}
                 open={open}
                 onClose={onClose}

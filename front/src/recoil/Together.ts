@@ -31,3 +31,8 @@ export const UnUsedFriendState = atom<UsedFriendSet[]>({
     key: 'UnUsedFriendState',
     default: [],
 });
+
+export const UnSingupFriendState = atom<UsedFriendSet[]>({
+    key: 'UnSingupFriendState',
+    default: [],
+});

@@ -109,6 +109,9 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
         <div className="bg_gray5">
             <FingerDialog
                 title={'지문확인'}
+                dscription={
+                    '더욱 쉽고 빠른 로그인을 위해 지문을 등록해 주세요.'
+                }
                 fingerClick={fingerClick}
                 open={fingerDialog}
                 onClose={fingerClose}
