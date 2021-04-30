@@ -108,6 +108,7 @@ const SignupPasswordComponent: React.FC<SignupComponentProps> = (
     return (
         <div className="bg_gray5">
             <FingerDialog
+                title={'지문확인'}
                 fingerClick={fingerClick}
                 open={fingerDialog}
                 onClose={fingerClose}

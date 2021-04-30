@@ -33,6 +33,7 @@ const App: React.FC = () => {
                 const res = e.data.split(';;;');
                 if (res[0] === 'parent') {
                     const dataStr: string = res[1] as string;
+                    alert(`Parent Called ${res[1]}`);
                     if (dataStr.length === 0) {
                         setFrined(DUMMY_FRIEND_SET);
                         return;
@@ -50,6 +51,7 @@ const App: React.FC = () => {
                     console.log(eachPersonStr);
                     setFrined(friendList);
                 } else if (res[0] === 'child') {
+                    alert('Child Called');
                     console.log('called by me');
                     setFrined(DUMMY_FRIEND_SET);
                 }

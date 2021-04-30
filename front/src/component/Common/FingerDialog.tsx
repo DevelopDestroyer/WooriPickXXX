@@ -10,13 +10,14 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 interface ACDialogProps {
+    title: string;
     open: boolean;
     fingerClick: () => void;
     onClose: () => void;
 }
 
 const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
-    const { onClose, open, fingerClick } = props;
+    const { title, onClose, open, fingerClick } = props;
 
     return (
         <Dialog onClose={onClose} open={open}>
@@ -24,7 +25,7 @@ const FingerDialog: React.FC<ACDialogProps> = (props: ACDialogProps) => {
                 <CardHeader
                     title={
                         <Typography className="txt_20 txt_b">
-                            지문등록
+                            {title}
                         </Typography>
                     }
                     subheader={

@@ -22,7 +22,7 @@ const GivingFinishComponent: React.FC<CommonInterface> = ({
             <Box display="flex" flexDirection="column" height="100%">
                 <Box mt="25px" />
                 <Typography className="txt_20 txt_b">
-                    기부 모금이 완료되었어요.
+                    기부 블록이 만들어졌어요!
                 </Typography>
                 <Typography className="txt_20">
                     {userInfo.nickname}님의 나눔으로
@@ -31,9 +31,11 @@ const GivingFinishComponent: React.FC<CommonInterface> = ({
                     세상이 한 층 더 밝아졌어요!
                 </Typography>
                 <br />
-                <Typography className="txt_20">기부는 블록체인으로</Typography>
                 <Typography className="txt_20">
-                    투명하게 공개진행됩니다.
+                    {userInfo.nickname}님의 기부블록이 기부빌딩에
+                </Typography>
+                <Typography className="txt_20">
+                    쌓여지면 알람으로 공유됩니다.
                 </Typography>
                 <Box flexGrow="1" />
                 <p className="txt_center">

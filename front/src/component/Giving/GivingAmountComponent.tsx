@@ -90,6 +90,7 @@ const GivingAmountComponent: React.FC<CommonInterface> = ({
             buttonTitle="다음"
         >
             <FingerDialog
+                title={'지문확인'}
                 fingerClick={onFingerClick}
                 open={open}
                 onClose={onClose}
