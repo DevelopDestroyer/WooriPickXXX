@@ -19,3 +19,9 @@ export const BenefitFavoriteState = atom<BenefitFavoriteCompany>({
     default: {},
     effects_UNSTABLE: [persistAtom],
 });
+
+export const BenefitSlideNumber = atom<number>({
+    key: 'BenefitSlideNumber',
+    default: 0,
+    effects_UNSTABLE: [persistAtom],
+});

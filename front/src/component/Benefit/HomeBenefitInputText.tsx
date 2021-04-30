@@ -34,6 +34,9 @@ const HomeBenefitInputText: React.FC<HomeBenefitInputTextProps> = (
         <Paper component="form" className={classes.root}>
             <img className={classes.img} src="/images/ICON_Search.png" />
             <InputBase
+                onKeyPress={(e) => {
+                    e.key === 'Enter' && e.preventDefault();
+                }}
                 className={classes.input}
                 value={props.inputText}
                 onChange={(event) => {

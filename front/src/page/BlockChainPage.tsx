@@ -166,22 +166,24 @@ const BlockChainPage: React.FC = () => {
                 <LoaderComponent color={'#62C3EB'} />
             )}
 
-            <Fab
-                variant="extended"
-                size="medium"
-                onClick={onShow}
-                style={{
-                    backgroundColor: 'white',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    position: 'absolute',
-                    bottom: '15px',
-                }}
-            >
-                <Typography className="txt_primaryBlue">
-                    {showMy ? '전부 보이기' : '내 블록만 보기'}
-                </Typography>
-            </Fab>
+            {currentData.length > 0 && (
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    onClick={onShow}
+                    style={{
+                        backgroundColor: 'white',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        position: 'absolute',
+                        bottom: '15px',
+                    }}
+                >
+                    <Typography className="txt_primaryBlue">
+                        {showMy ? '전부 보이기' : '내 블록만 보기'}
+                    </Typography>
+                </Fab>
+            )}
         </div>
     );
 };

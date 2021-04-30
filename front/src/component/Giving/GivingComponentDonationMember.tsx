@@ -98,7 +98,7 @@ const GivingComponentDonationMember: React.FC<GivingComponentDonationMemberProps
                                             mt="0.3rem"
                                             height="40%"
                                             width={`${
-                                                (eachMember.point /
+                                                ((eachMember.point - start) /
                                                     (end - start)) *
                                                 100
                                             }%`}

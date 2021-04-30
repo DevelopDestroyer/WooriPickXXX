@@ -1,7 +1,9 @@
 import Box from '@material-ui/core/Box';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Slider from 'react-slick';
+import { useRecoilValue } from 'recoil';
+import { BenefitSlideNumber } from '../../recoil/Benefit';
 import { CategoryStandInfo } from '../Category/DataModel';
 import { commonSlickSettings } from '../Common';
 import HomeBenefitList from './HomeBenefitList';
@@ -36,20 +38,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-export interface HomeBenefitSliderProps {
-    pageIndex: number;
-}
-
-const HomeBenefitSlider: React.FC<HomeBenefitSliderProps> = (
-    props: HomeBenefitSliderProps
-) => {
+const HomeBenefitSlider: React.FC = () => {
     const classes = useStyles();
-
-    useEffect(() => {
-        sliderRef.current && sliderRef.current.slickGoTo(props.pageIndex);
-    }, [props.pageIndex]);
-
+    const page = useRecoilValue(BenefitSlideNumber);
     const sliderRef = useRef<Slider>(null);
+    sliderRef.current && sliderRef.current.slickGoTo(page);
     const override = commonSlickSettings;
     override.speed = 100;
 
@@ -58,11 +51,7 @@ const HomeBenefitSlider: React.FC<HomeBenefitSliderProps> = (
             <Slider {...override} ref={sliderRef}>
                 {CategoryStandInfo.map((eachData, index) => {
                     return (
-                        <TabPanel
-                            key={props.pageIndex}
-                            value={props.pageIndex}
-                            index={index}
-                        >
+                        <TabPanel key={page} value={page} index={index}>
                             <HomeBenefitList categoryId={eachData.id} />
                         </TabPanel>
                     );

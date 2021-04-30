@@ -34,7 +34,12 @@ const TCRanking: React.FC = () => {
     const avgInfo = useRecoilValue(TogetherAVGState);
 
     return (
-        <Card style={{ borderRadius: '0.5rem' }}>
+        <Card
+            style={{
+                marginBottom: '15px',
+                borderRadius: '0.5rem',
+            }}
+        >
             {avgInfo.aveRank >= 0 ? (
                 <>
                     <CardHeader

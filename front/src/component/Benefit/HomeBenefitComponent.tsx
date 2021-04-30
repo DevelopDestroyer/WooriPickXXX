@@ -1,10 +1,11 @@
 import { Box, Tab, Tabs } from '@material-ui/core';
 import StorefrontIcon from '@material-ui/icons/Storefront';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import http from '../../http';
 import {
     BenefitFavoriteState,
+    BenefitSlideNumber,
     BenefitStateCompany,
 } from '../../recoil/Benefit';
 import { BenefitSearch, CurrentUserState } from '../../recoil/Session';
@@ -64,9 +65,10 @@ const HomeBenefitComponent: React.FC = () => {
         setSearchText(value);
     };
 
-    const [page, setPage] = useState<number>(0);
+    const [page, setPage] = useRecoilState(BenefitSlideNumber);
 
     const tabChange = (event: ChangeEvent<any>, nextValue: number) => {
+        console.log(`Tab Change Called ${nextValue}`);
         setPage(nextValue);
     };
 
@@ -105,7 +107,7 @@ const HomeBenefitComponent: React.FC = () => {
                     <HomeBenefitSearchList searchText={searchText} />
                 </Box>
             ) : (
-                <HomeBenefitSlider pageIndex={page} />
+                <HomeBenefitSlider />
             )}
         </>
     );
