@@ -33,10 +33,17 @@ const AccountComponent: React.FC<SignupAccountInterface> = (
     return (
         <Box display="flex" flexDirection="column">
             <Grid>
-                <Typography>계좌번호: {props.ACNO}</Typography>
+                <Typography className="txt_14 txt_gray">
+                    {props.PRD_NM}
+                </Typography>
             </Grid>
             <Grid>
-                <Typography>
+                <Typography className="txt_14 txt_b">
+                    계좌번호: {props.ACNO}
+                </Typography>
+            </Grid>
+            <Grid>
+                <Typography className="txt_14 txt_b">
                     잔액: {getNumberString(getMoneyStr2Number(props.PBOK_BAL))}
                 </Typography>
             </Grid>
