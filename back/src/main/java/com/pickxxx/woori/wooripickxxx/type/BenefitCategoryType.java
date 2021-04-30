@@ -166,40 +166,40 @@ public enum BenefitCategoryType {
     public static Integer getCategoryIdAboutCompanyName(String comName){
         if(comName.equals("나이키") || comName.equals("더피커") || comName.equals("보틀팩토리") || comName.equals("지구샵")
         || comName.equals("송포어스") || comName.equals("지구별가게")){
-            return 201;
+            return 101;
         }
 
         else if(comName.equals("하이트진로") || comName.equals("포스코") || comName.equals("(주)기업과사람들") || comName.equals("풀무원")){
-            return 202;
+            return 102;
         }
 
         else if(comName.equals("아로마티카") || comName.equals("이너프프로젝트") || comName.equals("세럼카인드") || comName.equals("에코라운드")){
-            return 203;
+            return 103;
         }
 
         else if(comName.equals("진짜 파스타") || comName.equals("아재커피 종로구청점") || comName.equals("알티프로젝트카페") || comName.equals("엔플럼헤어")){
-            return 204;
+            return 104;
         }
 
         else if(comName.equals("정스팜") || comName.equals("성심당") || comName.equals("지엔티") || comName.equals("노노카페")){
-            return 205;
+            return 105;
         }
 
 
         else if(comName.equals("호텔 엘린") || comName.equals("나는카페") || comName.equals("스위트위드") || comName.equals("섬섬옥수")){
-            return 206;
+            return 106;
         }
 
         else if(comName.equals("꿈드래 쇼핑몰") || comName.equals("마로원") || comName.equals("씨앤비빌리지") || comName.equals("히즈빈스")){
-            return 207;
+            return 107;
         }
 
         else if(comName.equals("Melixir") || comName.equals("씨젬므쥬르") || comName.equals("발우공양") || comName.equals("몽크스부처")){
-            return 208;
+            return 108;
         }
 
         else {
-            return 209;
+            return 109;
         }
 
     }
