@@ -9,9 +9,6 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
-import { FriendDataSetState } from '../../recoil/Together';
-import { DUMMY_FRIEND_SET } from './DataModel';
 
 const useStyles = makeStyles(() => ({
     moneyFont: {
@@ -29,14 +26,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TCNoFriend: React.FC = () => {
-    const setFrined = useSetRecoilState(FriendDataSetState);
     const history = useHistory();
     const onAddFriend = (event: any) => {
-        setFrined(DUMMY_FRIEND_SET);
         history.push('/add-friend');
         event.preventDefault();
         if (window && window.parent) {
-            //window.parent.postMessage('child;;;requestPhoneNumber', '*');
+            window.parent.postMessage('child;;;requestPhoneNumber', '*');
         }
     };
 

@@ -6,7 +6,10 @@ import 'slick-carousel/slick/slick.css';
 import './basic.css';
 import AuthRouteGuard from './component/AuthRouteGuard';
 import GivingCompleteDialog from './component/Common/GivingCompleteDialog';
-import { FriendDataSet } from './component/Together/DataModel';
+import {
+    DUMMY_FRIEND_SET,
+    FriendDataSet,
+} from './component/Together/DataModel';
 import './overide.css';
 import AddFriendPage from './page/AddFriendPage';
 import BenefitCompanyPage from './page/BenefitCompanyPage';
@@ -30,6 +33,10 @@ const App: React.FC = () => {
                 const res = e.data.split(';;;');
                 if (res[0] === 'parent') {
                     const dataStr: string = res[1] as string;
+                    if (dataStr.length === 0) {
+                        setFrined(DUMMY_FRIEND_SET);
+                        return;
+                    }
                     const eachPersonStr = dataStr.split(';');
                     const friendList: FriendDataSet[] = [];
                     eachPersonStr.forEach((eachStr: string) => {
@@ -44,6 +51,7 @@ const App: React.FC = () => {
                     setFrined(friendList);
                 } else if (res[0] === 'child') {
                     console.log('called by me');
+                    setFrined(DUMMY_FRIEND_SET);
                 }
             },
             false
