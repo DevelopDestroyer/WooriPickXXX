@@ -4,10 +4,12 @@ import com.pickxxx.woori.wooripickxxx.common.MemberDTOComparator;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.*;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
+import com.pickxxx.woori.wooripickxxx.entity.Friend;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.BenefitCategoryRepository;
+import com.pickxxx.woori.wooripickxxx.repository.FriendRepository;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
 import com.pickxxx.woori.wooripickxxx.repository.TradingLedgerRepository;
 import com.pickxxx.woori.wooripickxxx.type.*;
@@ -25,6 +27,7 @@ public class TradingService {
     private final TradingLedgerRepository tradingLedgerRepository;
     private final BenefitCategoryRepository benefitCategoryRepository;
     private final MemberRepository memberRepository;
+    private final FriendRepository friendRepository;
     private final BlockService blockService;
     TimeCalcul time = new TimeCalcul();
 
@@ -57,8 +60,8 @@ public class TradingService {
         //제휴회사 할인 계산
         for(int i = 0; i < saleCompaniesList.size(); i++) {
             if (buyDTO.getCompanyName().equals(saleCompaniesList.get(i).getCompanyName())) {
-                //isCompanySale = true;
-                //categoryIndex = userBenefitCategoryList.get(i).getCategoryId();
+                isCompanySale = true;
+                categoryIndex = BenefitCategoryType.getCategoryIdAboutCompanyName(buyDTO.getCompanyName());
                 log.info("회사할인 대상 입니다. : " + buyDTO.getCompanyName());
                 userSalePrice = (double) buyDTO.totalPrice() * ((double) saleCompaniesList.get(i).getSalePercentage() / 100);
                 break;
@@ -66,6 +69,7 @@ public class TradingService {
         }
 
         //제품 할인 계산
+        /*
         if(false == isCompanySale){
             for(int i = 0; i < buyDTO.getBuyProductList().size(); i++){
                 for(int j = 0; j < saleProductsList.size(); j++){
@@ -78,6 +82,7 @@ public class TradingService {
                 }
             }
         }
+        */
 
         //사용자 포인트 적립 및 계좌잔액 변동
         memberRepository.updateAccountMoneyAndPoint(buyDTO.getUserNickname(), userAccountMoney - buyDTO.totalPrice(), userPoint + (int)Math.round(userSalePrice));
