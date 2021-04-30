@@ -4,10 +4,12 @@ import com.pickxxx.woori.wooripickxxx.common.MemberDTOComparator;
 import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.*;
 import com.pickxxx.woori.wooripickxxx.entity.BenefitCategory;
+import com.pickxxx.woori.wooripickxxx.entity.Friend;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
 import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.BenefitCategoryRepository;
+import com.pickxxx.woori.wooripickxxx.repository.FriendRepository;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
 import com.pickxxx.woori.wooripickxxx.repository.TradingLedgerRepository;
 import com.pickxxx.woori.wooripickxxx.type.*;
@@ -25,6 +27,7 @@ public class TradingService {
     private final TradingLedgerRepository tradingLedgerRepository;
     private final BenefitCategoryRepository benefitCategoryRepository;
     private final MemberRepository memberRepository;
+    private final FriendRepository friendRepository;
     private final BlockService blockService;
     TimeCalcul time = new TimeCalcul();
 

@@ -1,15 +1,19 @@
 package com.pickxxx.woori.wooripickxxx.service;
 
 import com.pickxxx.woori.wooripickxxx.common.FriendComparator;
+import com.pickxxx.woori.wooripickxxx.common.TimeCalcul;
 import com.pickxxx.woori.wooripickxxx.dto.FriendDTO;
 import com.pickxxx.woori.wooripickxxx.dto.MemberDTO;
 import com.pickxxx.woori.wooripickxxx.dto.SignUpDTO;
 import com.pickxxx.woori.wooripickxxx.entity.Friend;
 import com.pickxxx.woori.wooripickxxx.entity.Member;
+import com.pickxxx.woori.wooripickxxx.entity.TradingLedger;
 import com.pickxxx.woori.wooripickxxx.exception.CustomException;
 import com.pickxxx.woori.wooripickxxx.repository.FriendRepository;
 import com.pickxxx.woori.wooripickxxx.repository.MemberRepository;
+import com.pickxxx.woori.wooripickxxx.repository.TradingLedgerRepository;
 import com.pickxxx.woori.wooripickxxx.type.ErrorCode;
+import com.pickxxx.woori.wooripickxxx.type.TradingLedgerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,12 +27,15 @@ import java.util.Collections;
 public class FriendService {
     private final MemberRepository memberRepository;
     private final FriendRepository friendRepository;
+    private final TradingLedgerRepository tradingLedgerRepository;
+    TimeCalcul time = new TimeCalcul();
 
     public ArrayList<MemberDTO> selectFriendsInfo(MemberDTO friendsList) {
         //Collection<String> friendPhoneNumbers = new Collection<String>();
         ArrayList<String> friendPhoneNumbers = new ArrayList<>();
         ArrayList<Member> existMembersEntity;
         ArrayList<MemberDTO> existMembersDTO = new ArrayList<>();
+
         for(int i = 0; i < friendsList.getList().size(); i++){
             friendPhoneNumbers.add(friendsList.getList().get(i).getPhoneNumber());
         }
@@ -70,6 +77,25 @@ public class FriendService {
     }
 
     public ArrayList<FriendDTO> getPointRank(String userNickname){
+        ArrayList<Friend> friends = friendRepository.findByUserNickname(userNickname);
+        friends.add(Friend.builder().userNickname(userNickname).friendNickname(userNickname).build());//본인도 추가
+
+        ArrayList<FriendDTO> pointList = new ArrayList<>();
+
+        for(int i = 0; i < friends.size(); i++){
+            ArrayList<TradingLedger> allUserBenefitTrading = new ArrayList<>();
+            Integer pointTotal = 0;
+            allUserBenefitTrading = tradingLedgerRepository.findAllByUserNicknameEqualsAndTradingTypeEqualsAndDateGreaterThanEqualAndDateLessThanEqual(friends.get(i).getFriendNickname(), TradingLedgerType.BENEFIT.getTradingLedgerTypeName(), time.thisMonthStart(), time.thisMonthEnd());
+            for(int j = 0; j < allUserBenefitTrading.size(); j++){
+                pointTotal += allUserBenefitTrading.get(j).getPoint();
+            }
+            pointList.add(FriendDTO.builder().friendNickname(friends.get(i).getFriendNickname()).friendPoint(pointTotal).build());
+        }
+
+        //높은 순서로 정렬
+        Collections.sort(pointList, new FriendComparator());
+
+/*
         //친구리스트 가져오기
         ArrayList<Friend> userFriendList = friendRepository.findByUserNickname(userNickname);
         ArrayList<FriendDTO> pointList = new ArrayList<>();
@@ -88,7 +114,7 @@ public class FriendService {
 
         //높은 순서로 정렬
         Collections.sort(pointList, new FriendComparator());
-
+*/
         return pointList;
     }
 }
