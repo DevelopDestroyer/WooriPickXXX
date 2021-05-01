@@ -11,7 +11,7 @@ const extractDate = (date: string): string => {
     const c = new Date(date);
     const week = ['일', '월', '화', '수', '목', '금', '토'];
 
-    return `${c.getMonth()}월 ${c.getDate()} (${week[c.getDay()]})`;
+    return `${c.getMonth() + 1}월 ${c.getDate()} (${week[c.getDay()]})`;
 };
 
 const BenefitList: React.FC<BenefitListProps> = ({

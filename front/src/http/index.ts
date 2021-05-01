@@ -2,7 +2,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 console.log(`Backend End point ${process.env.REACT_APP_BACKEND_ENDPOINT}`);
 const http = axios.create({
-    baseURL: 'http://18.139.13.34:8000', //process.env.REACT_APP_BACKEND_ENDPOINT,
+    baseURL:
+        /*'http://18.139.13.34:8000', */ process.env.REACT_APP_BACKEND_ENDPOINT,
 });
 
 http.interceptors.request.use(
