@@ -109,7 +109,7 @@ public class BlockService {
                 "말을하지그랬어", "퇴근하고싶다", "몽블랑", "크크", "비쥬",
                 "피카츄", "파이리", "꼬부기", "대왕슬라임", "별땅",
         };
-        for(int i = 0; i < 5000; i++){
+        for(int i = 0; i < 10; i++){
             data = "";
             data += nickNameSet[rand.nextInt(nickNameSet.length)] + ";";
             data += "우리핏베네핏 기부;";
