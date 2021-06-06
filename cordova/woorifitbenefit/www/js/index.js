@@ -68,11 +68,12 @@ function findContact() {
       }
       phoneInfo = temp;
       //alert(phoneInfo);
-      document.getElementById('wooriFrame').contentWindow.postMessage("parent;;;" + phoneInfo, '*');
+      //document.getElementById('wooriFrame').contentWindow.postMessage("parent;;;" + phoneInfo, '*');
       var testNumber = "이부형:이부형:011-0000-0000;";
       testNumber += "이성범:이성범:011-1111-1111;";
       testNumber += "구광민:구광민:011-2222-2222;";
       testNumber += "한재선:한재선:011-3333-3333;";
+      testNumber += "이태호:이태호:010-2323-1234;";
       testNumber += "이진영:이진영:010-2222-1234;";
       testNumber += "최서진:최서진:010-3333-1234;";
       testNumber += "성정민:성정민:010-4444-1234;";
@@ -83,7 +84,7 @@ function findContact() {
       testNumber += "정윤철:정윤철:017-4040-4040;";
       testNumber += "김가은:김가은:017-5050-5050;";
 
-      //document.getElementById('wooriFrame').contentWindow.postMessage("parent;;;" + testNumber, '*');
+      document.getElementById('wooriFrame').contentWindow.postMessage("parent;;;" + testNumber, '*');
 
    }
    function contactfindError(message) { alert('주소록 가져오기 실패 : ' + message); }	
